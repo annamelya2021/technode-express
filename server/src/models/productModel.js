@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
         enum : ["mobile","laptop"]
     },
     product_comment: {
-        type: String, required: true
+        type: String, 
     },
     product_amount: {
         type: Number,
