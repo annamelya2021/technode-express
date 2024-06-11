@@ -20,15 +20,16 @@ const productSchema = new mongoose.Schema({
         type:String,
         enum : ["mobile","laptop"]
     },
-    product_comment: {
+    product_comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-    },
+        ref: 'Comment'
+      }],
     product_amount: {
         type: Number,
         required: true,
       },
-    });
+    },
+    { timestamps: true });
     
     
 const productModel = mongoose.model("products", productSchema);

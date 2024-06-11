@@ -8,8 +8,8 @@ const commentSchema = new Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
+    ref: 'users',
+    required: false 
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
