@@ -14,12 +14,11 @@ const productSchema = new mongoose.Schema({
         type: String, required: true
     },
     product_price: {
-        type: Double, required: true
+        type: Number, required: true
     },
     product_type: {
         type:String,
-        enum : ["mobile","laptop"],
-        default: "mobile"
+        enum : ["mobile","laptop"]
     },
     product_comment: {
         type: String, required: true
