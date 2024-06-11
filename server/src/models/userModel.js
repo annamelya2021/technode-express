@@ -19,13 +19,7 @@ const userSchema  = new mongoose.Schema({
         type:String,
         enum : ["user","admin"],
         default: "user"
-    },
-    projects:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "projects"
-        }
-    ]
+    }
 })
 
 const userModel = mongoose.model("users",userSchema);
