@@ -1,19 +1,20 @@
 import Comment from '../../models/commentModel.js';
-import Post from '../../models/postModel.js';
+import Product from '../../models/productModel.js';
 // import RequestError from '../../helpers/errors/requestError.js';
 
 const createComment = async (req, res) => {
   try {
-    const  postId  = req.params.postId;
+    const  productId  = req.params.id;
     const { text} = req.body;
-    const author = req.user._id;  
+    // console.log("req.user:", req.user);  // Додайте цей рядок
+    const author = req.user ? req.user._id : null; 
     //console.log("req.body", req.body) 
     //console.log( "postId", postId);
 
-    const newComment = new Comment({ text, author, post: postId });
+    const newComment = new Comment({ text, author, product: productId });
     await newComment.save();
 
-    await Post.findByIdAndUpdate(postId, { $push: { comments: newComment._id } });
+    await Product.findByIdAndUpdate(productId, { $push: { comments: newComment._id } });
     
     res.status(201).json({ message: 'Comment created successfully' });
   } catch (error) {
@@ -24,8 +25,8 @@ const createComment = async (req, res) => {
 
 const getCommentsByPostId = async (req, res) => {
   try {
-    const { postId } = req.params;
-    const comments = await Comment.find({ post: postId });
+    const productId = req.params.id; // Ensure this matches the route parameter
+    const comments = await Comment.find({ product: productId });
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -34,17 +35,16 @@ const getCommentsByPostId = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const { postId, commentId } = req.params;
-    
+    const { id: productId, commentId } = req.params;
+
     const comment = await Comment.findById(commentId);
-    if (!comment || comment.post.toString() !== postId) {
+    if (!comment || comment.product.toString() !== productId) {
       return res.status(404).json({ message: 'Comment not found' });
     }
 
     await Comment.findByIdAndDelete(commentId);
-    
-    await Post.findByIdAndUpdate(postId, { $pull: { comments: commentId } });
-    
+    await Product.findByIdAndUpdate(productId, { $pull: { product_comments: commentId } });
+
     res.status(200).json({ message: 'Comment deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
