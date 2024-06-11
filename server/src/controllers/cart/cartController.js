@@ -34,7 +34,7 @@ async function closeCart(cartId){
 //
 async function getCartOpened(userId){
     try {
-    const openCarts = await cartModel.find({cartUser: userId, isOpened:true})
+    const openCarts = await cartModel.find({cartUser: userId, isOpened:true}).populate("cartProducts")
     if (openCarts.length===0){
         const cart = await createCart(userId);
         return cart
@@ -50,7 +50,7 @@ async function getCartOpened(userId){
 //Historial de carritos
 async function getCarts(userId){
     try {
-        const cartHistory = await cartModel.find({cartUser: userId, isOpened:false})
+        const cartHistory = await cartModel.find({cartUser: userId, isOpened:false}).populate("cartProducts")
         return cartHistory;
     } catch (error) {
         console.error(error);
@@ -61,10 +61,14 @@ async function getCarts(userId){
 async function addProductToCart(productId,cartId){
     try {
         const cart = await cartModel.findById(cartId)
+        if(!cart){
+            return createCart(userId)
+        }
         const product = await productModel.findById(productId)
         cart.products.push(product)
         await cart.save()
-        return cart
+        const populatedCart = await cartModel.findById(cartId).populate('products');
+        return populatedCart;
         
     } catch (error) {
         console.error(error);
@@ -77,7 +81,8 @@ async function removeProductFromCart(productId,cartId){
         const product = await productModel.findById(productId)
         cart.products.pull(product)
         await cart.save()
-        return cart
+        const populatedCart = await cartModel.findById(cartId).populate('products');
+        return populatedCart;
         
     } catch (error) {
         console.error(error);
@@ -85,10 +90,6 @@ async function removeProductFromCart(productId,cartId){
     }
 }
 //utilizar un find para borrar solo el primero que encuentre
-
-
-
-
 
 
 export const functions ={
