@@ -91,49 +91,11 @@ async function remove(id) {
         return { error };
     }
 }
-// Obtener todos los productos
-router.get("/products", async (req, res) => {
-    const result = await getAll();
-    if (result.error) {
-        return res.status(500).json(result);
-    }
-    return res.status(200).json(result);
-});
 
-// Obtener un producto por ID
-router.get("/products/:id", async (req, res) => {
-    const result = await getById(req.params.id);
-    if (result.error) {
-        return res.status(404).json(result);
-    }
-    return res.status(200).json(result);
-});
-
-// Crear un nuevo producto
-router.post("/products", async (req, res) => {
-    const result = await create(req.body);
-    if (result.error) {
-        return res.status(400).json(result);
-    }
-    return res.status(201).json(result);
-});
-
-// Actualizar un producto por ID
-router.put("/products/:id", async (req, res) => {
-    const result = await update(req.params.id, req.body);
-    if (result.error) {
-        return res.status(400).json(result);
-    }
-    return res.status(200).json(result);
-});
-
-// Eliminar un producto por ID
-router.delete("/products/:id", async (req, res) => {
-    const result = await remove(req.params.id);
-    if (result.error) {
-        return res.status(400).json(result);
-    }
-    return res.status(200).json(result);
-});
-
-export default router;
+export default {
+    getAll,
+    getById,
+    create,
+    update,
+    remove,
+}

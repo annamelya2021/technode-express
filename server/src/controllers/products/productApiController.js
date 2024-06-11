@@ -1,4 +1,4 @@
-import productController from "./productController.js";
+import productController from './productController.js';
 
 /**
  * @module controllers/product/productApiControllers
@@ -35,6 +35,7 @@ async function getById(req, res) {
  */
 async function create(req, res) {
     const productData = req.body;
+    console.log("natxolineras",req.body);
     const { error, data } = await productController.create(productData);
     res.json({ error, data });
 }
