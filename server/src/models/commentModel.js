@@ -11,9 +11,9 @@ const commentSchema = new Schema({
     ref: 'user',
     required: true,
   },
-  post: {
+  product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post',
+    ref: 'products',
     required: true,
   },
 }, { timestamps: true });

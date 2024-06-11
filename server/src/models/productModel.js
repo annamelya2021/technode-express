@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 
 
 const productSchema = new mongoose.Schema({
+    product_image:{
+        type: String
+    },
     product_name: {
         type: String, required: true
     },
@@ -21,7 +24,8 @@ const productSchema = new mongoose.Schema({
         enum : ["mobile","laptop"]
     },
     product_comment: {
-        type: String, required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
     },
     product_amount: {
         type: Number,
