@@ -1,5 +1,5 @@
-import cartModel from "../../models/cartModel";
-import productModel from "../../models/productModel";
+import cartModel from "../../models/cartModel.js";
+import productModel from "../../models/productModel.js";
 
 //crear carrito nuevo para un usuario coprobndo que no tenga ingun carrito abierto
 async function createCart(userId){
@@ -17,7 +17,7 @@ async function createCart(userId){
         return newCart
         
     } catch (error) {
-        console.error(error);
+        console.error(error);   
         return {error:"There was an error creating the cart"};
     }
 }
@@ -58,16 +58,13 @@ async function getCarts(userId){
     }
 }
 
-async function addProductToCart(productId,cartId){
+async function addProductToCart(productId,userId){
     try {
-        const cart = await cartModel.findById(cartId)
-        if(!cart){
-            return createCart(userId)
-        }
+        const cart = await getCartOpened(userId)
         const product = await productModel.findById(productId)
         cart.products.push(product)
         await cart.save()
-        const populatedCart = await cartModel.findById(cartId).populate('products');
+        const populatedCart = await cartModel.populate('products');
         return populatedCart;
         
     } catch (error) {
@@ -89,10 +86,10 @@ async function removeProductFromCart(productId,cartId){
         return {error:"There was an error removing product from cart"};
     }
 }
-//utilizar un find para borrar solo el primero que encuentre
 
 
-export const functions ={
+
+export const functions = {
     createCart,
     closeCart,
     getCartOpened,
@@ -101,3 +98,6 @@ export const functions ={
     removeProductFromCart
 
 }
+
+export default functions
+
