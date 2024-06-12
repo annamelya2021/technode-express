@@ -10,7 +10,7 @@ const router  =  Router();
 router.use("/",authRouter);
 router.use("/users", userRouter);
 router.use("/products",productRouter);
-router.use("/carts",cartRouter);
+router.use("/carts",isAuthenticated,cartRouter);
 
 
 

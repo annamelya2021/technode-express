@@ -1,5 +1,5 @@
-import cartModel from "../../models/cartModel";
-import productModel from "../../models/productModel";
+import cartModel from "../../models/cartModel.js";
+import productModel from "../../models/productModel.js";
 
 //crear carrito nuevo para un usuario coprobndo que no tenga ingun carrito abierto
 async function createCart(userId){
@@ -17,82 +17,90 @@ async function createCart(userId){
         return newCart
         
     } catch (error) {
-        console.error(error);
-        return {error:"There was an error creating the cart"};
+        console.error(error);   
+        return {error:"There was an error creating the cart",errorCode:500};
     }
 }
 //cambiar el booleano isOpened/ enviar correo al usuaurio
-async function closeCart(cartId){
+async function closeCart(cartId,userId){
     try {
-        const cart = await cartModel.findOneAndUpdate({_id:cartId},{isOpened:false})
-        return cart
+        const existingCart = await cartModel.findById(cartId);
+        if(!existingCart || !existingCart.cartUser.equals(userId)){
+            return {error:"Does not exist or not belong to user",errorCode:400}
+        }
+        existingCart.isOpened =false
+        await existingCart.save();
+        return existingCart;
     } catch (error) {
         console.error(error);
-        return {error:"There was an error closing the cart"};
+        return {error:"There was an error closing the cart",errorCode:500};
     }
 }
 //
 async function getCartOpened(userId){
     try {
-    const openCarts = await cartModel.find({cartUser: userId, isOpened:true}).populate("cartProducts")
+    const openCarts = await cartModel.find({cartUser: userId, isOpened:true})
     if (openCarts.length===0){
         const cart = await createCart(userId);
         return cart
     }
-    return openCarts[0]
+    const cart = openCarts[0];
+    await cart.populate("cartProducts")
+    return cart
     
 } catch (error) {
     console.error(error);
-        return {error:"There was an error getting the opened cart"};
+        return {error:"There was an error getting the opened cart",errorCode:500};
 }
 }
 //devolver array de carritos
 //Historial de carritos
 async function getCarts(userId){
     try {
-        const cartHistory = await cartModel.find({cartUser: userId, isOpened:false}).populate("cartProducts")
-        return cartHistory;
+        const cartHistory = await cartModel.find({cartUser: userId, isOpened:false})//.populate("cartProducts")
+        const carts = await Promise.all(cartHistory.map(async (cart)=>{
+            await cart.populate("cartProducts")
+            return cart
+        }))
+        return carts;
     } catch (error) {
         console.error(error);
-        return {error:"There was an error getting the cart history"};
+        return {error:"There was an error getting the cart history",errorCode:500};
     }
 }
 
-async function addProductToCart(productId,cartId){
+async function addProductToCart(productId,userId){
     try {
-        const cart = await cartModel.findById(cartId)
-        if(!cart){
-            return createCart(userId)
-        }
+        const cart = await getCartOpened(userId)
         const product = await productModel.findById(productId)
         cart.products.push(product)
         await cart.save()
-        const populatedCart = await cartModel.findById(cartId).populate('products');
+        const populatedCart = await cartModel.populate('products');
         return populatedCart;
         
     } catch (error) {
         console.error(error);
-        return {error:"There was an error adding product to cart"};
+        return {error:"There was an error adding product to cart",errorCode:500};
     }
 }
-async function removeProductFromCart(productId,cartId){
+async function removeProductFromCart(productId,userId){
     try {
-        const cart = await cartModel.findById(cartId)
+        const cart = await getCartOpened(userId)
         const product = await productModel.findById(productId)
-        cart.products.pull(product)
+        cart.products = cart.products.filter(product => !product.equals(productId))
         await cart.save()
-        const populatedCart = await cartModel.findById(cartId).populate('products');
+        const populatedCart = await cart.populate('products');
         return populatedCart;
         
     } catch (error) {
         console.error(error);
-        return {error:"There was an error removing product from cart"};
+        return {error:"There was an error removing product from cart",errorCode:500};
     }
 }
-//utilizar un find para borrar solo el primero que encuentre
 
 
-export const functions ={
+
+export const functions = {
     createCart,
     closeCart,
     getCartOpened,
@@ -101,3 +109,6 @@ export const functions ={
     removeProductFromCart
 
 }
+
+export default functions
+
