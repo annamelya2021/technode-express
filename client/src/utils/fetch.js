@@ -2,7 +2,7 @@ import { getToken } from "./local";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL
-console.log("Api url",API_URL);
+// console.log("Api url",API_URL);
 
 const fetchData = async (route, method, inputData = null) => {
     const url = new URL(API_URL + route);
@@ -10,7 +10,7 @@ const fetchData = async (route, method, inputData = null) => {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${getToken()}` // тимчасово закоментуйте для тестування
+        "Authorization": `Bearer ${getToken()}` 
       }
     };
     if (inputData) {
@@ -24,11 +24,15 @@ const fetchData = async (route, method, inputData = null) => {
     }
     console.log('Fetching:', url.toString(), fetchOptions);
     try {
+        
       const result = await fetch(url.toString(), fetchOptions);
+      console.log("result", result);
+
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const data = await result.json();
+      console.log("data", data);
       return data;
     } catch (error) {
       console.error('Fetch error:', error);
@@ -43,9 +47,14 @@ const register = async(userData)=>{
     return result;
 }
 const login = async(userData)=>{
-    const result = await fetchData("/login","post",userData);
-    console.log("login",result);
-    return result;
+    try {
+        const result = await fetchData("/login","post",userData);
+        console.log("login",result);
+        return result;
+    } catch (error) {
+        console.error("Error during login:",error);
+        return { error: error.message };
+    }
 }
 const getUserData = async()=>{
     const result = await fetchData("/users/bytoken","get");

@@ -3,7 +3,6 @@ import productApiController from "../controllers/products/productApiController.j
 import commentControllers from "../controllers/comments/apiCommentController.js";
 import { isAdmin, isAuthenticated } from "../middlewares/authMiddleware.js";
 
-
 const router = express.Router();
 
 // Definir las rutas y vincularlas con las funciones del controlador de la API
