@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json()); 
 connectDB();
 
-
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 app.get("/",(req,res)=>{
     res.json({message:"Hello World"});
 })

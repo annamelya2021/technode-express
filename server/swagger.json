@@ -5,6 +5,20 @@
       "version": "1.0.0",
       "description": "API Documentation using Swagger"
     },
+    "basePath": "/api",
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+
     "servers": [
       {
         "url": "http://localhost:3000/api"
@@ -124,6 +138,332 @@
           "responses": {
             "204": {
               "description": "User deleted"
+            }
+          }
+        }
+      },
+      "/products": {
+        "get": {
+          "summary": "Get all products",
+          "tags": ["Products"],
+          "responses": {
+            "200": {
+              "description": "List of products",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Product"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new product",
+          "tags": ["Products"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product created"
+            }
+          }
+        }
+      },
+      "/products/{id}": {
+        "get": {
+          "summary": "Get product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Product data",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Product updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Product deleted"
+            }
+          }
+        }
+      },
+      "/products/{id}/comments": {
+        "get": {
+          "summary": "Get comments for product",
+          "tags": ["Comments"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of comments",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new comment for product",
+          "tags": ["Comments"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Comment created"
+            }
+          }
+        }
+      },
+      "/products/{id}/comments/{commentId}": {
+        "delete": {
+          "summary": "Delete comment by ID",
+          "tags": ["Comments"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Product ID"
+            },
+            {
+              "name": "commentId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Comment ID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Comment deleted"
+            }
+          }
+        }
+      },
+      "/cart": {
+        "get": {
+          "summary": "Get all carts",
+          "tags": ["Carts"],
+          "responses": {
+            "200": {
+              "description": "List of carts",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new cart",
+          "tags": ["Carts"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Cart created"
+            }
+          }
+        }
+      },
+      "/cart/{id}": {
+        "get": {
+          "summary": "Get cart by ID",
+          "tags": ["Carts"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Cart ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cart data",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Cart"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update cart by ID",
+          "tags": ["Carts"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Cart ID"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Cart updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete cart by ID",
+          "tags": ["Carts"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Cart ID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Cart deleted"
             }
           }
         }
@@ -264,5 +604,4 @@
         }
       }
     }
-  }
-  
+}
