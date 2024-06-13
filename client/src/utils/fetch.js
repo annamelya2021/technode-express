@@ -44,24 +44,24 @@ const getUserData = async()=>{
     const result = await fetchData("/users/bytoken","get");
     return result;
 }
-const getProjects = async()=>{
-    const result = await fetchData("/projects","get");
+const getProducts = async()=>{
+    const result = await fetchData("/products","get");
     return result;
 }
-const getProject = async(id)=>{
-    const result = await fetchData("/projects/"+id,"get");
+const getProduct = async(id)=>{
+    const result = await fetchData("/products/"+id,"get");
     return result;
 }
-const createProject = async(projectData)=>{
-    const result = await fetchData("/projects","post",projectData);
+const createProduct = async(productData)=>{
+    const result = await fetchData("/products","post",productData);
     return result;
 }
 
 export {
     register,
     login,
-    getProjects,
-    getProject,
-    createProject,
+    getProducts,
+    getProduct,
+    createProduct,
     getUserData
 }

@@ -13,7 +13,7 @@ function App() {
  
   return (
     <>
-    <h1>Technode</h1>
+    <h1>Technode-Express</h1>
       <UserContext.Provider value={{ user, setUser }}>
         <RouterProvider router={router} />
       </UserContext.Provider>
