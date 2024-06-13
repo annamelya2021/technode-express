@@ -1,35 +1,42 @@
 import { getToken } from "./local";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL
 
-const fetchData = async(route,method,inputData=null)=>{
+const API_URL = import.meta.env.VITE_BACKEND_URL
+console.log("Api url",API_URL);
+
+const fetchData = async (route, method, inputData = null) => {
     const url = new URL(API_URL + route);
     const fetchOptions = {
-        method:method,
-        headers:{
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${getToken()}`
-        }
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        // "Authorization": `Bearer ${getToken()}` // тимчасово закоментуйте для тестування
+      }
+    };
+    if (inputData) {
+      if (method === "get") {
+        Object.keys(inputData).forEach(key => {
+          url.searchParams.append(key, inputData[key]);
+        });
+      } else if (method === "post" || method === "put" || method === "patch") {
+        fetchOptions.body = JSON.stringify(inputData);
+      }
     }
-    if(inputData){
-        if(method === "get"){
-            Object.keys(inputData).forEach(key=>{
-                url.searchParams.append(key,inputData[key]);
-            })
-        }
-        else if(method === "post" || method === "put" || method === "patch"){
-            fetchOptions.body = JSON.stringify(inputData);
-        }
-    }
+    console.log('Fetching:', url.toString(), fetchOptions);
     try {
-        const result = await fetch(url.toString(),fetchOptions);
-        const data  = await result.json();
-        return data;
+      const result = await fetch(url.toString(), fetchOptions);
+      if (!result.ok) {
+        throw new Error(`HTTP error! status: ${result.status}`);
+      }
+      const data = await result.json();
+      return data;
     } catch (error) {
-        console.error(error);
-        return ({error:error.message})
+      console.error('Fetch error:', error);
+      return { error: error.message };
     }
-}
+  };
+  
+  
 
 const register = async(userData)=>{
     const result = await fetchData("/register","post",userData);
