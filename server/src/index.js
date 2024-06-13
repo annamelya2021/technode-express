@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import connectDB from "./config/mongo.js";
 import router from "./routes/router.js";
 import cors from "cors";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "../swagger.json" assert { type: 'json' };
 dotenv.config();
 const CONTAINER_PORT = 3000;
 
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.json()); 
 connectDB();
 
-
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 app.get("/",(req,res)=>{
     res.json({message:"Hello World"});
 })
