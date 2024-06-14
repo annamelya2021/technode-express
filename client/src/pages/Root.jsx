@@ -49,7 +49,7 @@ const Root = () => {
                     </Link>
                 </div>
             </nav>
-            <h1>Hola {user?.username}</h1>
+            
             <Outlet />
         </div>
         
