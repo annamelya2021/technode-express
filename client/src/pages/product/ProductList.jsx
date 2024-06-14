@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
-import CreateProduct from "../../components/shelter/CreateProduct";
+import CreateProduct from "../../components/product/CreateProduct";
 
 const ProductsList = () => {
     const [products,setProducts] = useState(useLoaderData());
