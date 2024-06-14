@@ -29,7 +29,7 @@ const CreateProduct = ({onCreate})=>{
             <label htmlFor="model" >Model</label>
             <input type="text" name="model"/>
 
-            <label htmlFor="price" >Model</label>
+            <label htmlFor="price" >Price</label>
             <input type="number" name="price"/>
 
             <label htmlFor="type" >Type</label>

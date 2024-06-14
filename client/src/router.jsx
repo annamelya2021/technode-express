@@ -14,6 +14,13 @@ async function fetchProducts(){
     return result.data;
 }
 
+async function fetchProduct(_id){
+  const result = await getProduct(_id);
+  if(result.error){
+      return redirect("/register");
+  }
+  return result.data;
+}
 
 const router = createBrowserRouter([
     {
@@ -31,11 +38,11 @@ const router = createBrowserRouter([
           element: <ProductList />,
           loader: () => fetchProducts()
       },
-        // {
-        //     path: "/projects/:id",
-        //     element: <Project />,
-        //     loader: ({params}) => fetchProject(params.id)
-        // },
+        {
+            path: "/products/:id",
+            element: <Product />,
+            loader: ({params}) => fetchProduct(params.id)
+        },
       ]
     },
     {
