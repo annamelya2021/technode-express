@@ -1,47 +1,50 @@
+/* navbar.css */
+
 .navbar {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    background-color: #1e05f8; /* Color azul */
-    padding: 0.5rem 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar-content {
+    padding: 10px 20px;
+    background-color: #e20e0e;
+    color: white;
+}
+
+.navbar-content {
     display: flex;
     align-items: center;
-    flex: 1;
-    justify-content: center;
-  }
-  
-  .navbar-title {
-    font-family: 'Uncial Antiqua', sans-serif;
-    font-size: 2rem;
-    color: #fceb06; /* Color amarillo */
-    margin: 0;
-  }
-  
-  .shell-icon {
-    display: flex;
-    align-items: center;
-  }
-  
-  .shell-icon svg {
-    fill: #0206f3; /* Color azul */
-  }
-  
-  .navbar-icons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .icon {
-    font-size: 1.5rem;
-    color: #080808; /* Color negro*/
+}
+
+.navbar-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.navbar-search {
+    padding: 5px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.navbar-categories {
+    padding: 5px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    margin-right: 20px;
+}
+
+.navbar-icons .icon {
+    color: white;
+    font-size: 1.5em;
     cursor: pointer;
-    transition: color 0.3s;
-  }
-  
-  .icon:hover {
-    color: #faea0b; /* Color amarillo */
-  }
+    margin-left: 10px;
+}
+
+.navbar-icons .icon:hover {
+    color: #aaa; /* Cambia el color al pasar el cursor por encima */
+}
