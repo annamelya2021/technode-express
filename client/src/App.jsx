@@ -14,17 +14,10 @@ function App() {
 
   return (
     <>
-      <div>
-        <Navbar onViewChange={handleViewChange} />
-     
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Footer />
+    {/* <h1>Technode-Express</h1> */}
+      <UserContext.Provider value={{ user, setUser }}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </>
   )
 }
