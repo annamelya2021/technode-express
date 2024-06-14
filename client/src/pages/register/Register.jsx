@@ -47,7 +47,7 @@ const Register = ({ onLogin }) => {
                 setUser(result.user);
                 saveToken(result.token);
                 // navigate("/api-docs");
-                navigate("/");
+                navigate("/products");
 
                 
             } else {

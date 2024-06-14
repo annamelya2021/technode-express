@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react'
-import router from './router.jsx'
-import { RouterProvider } from 'react-router-dom'
+import { useState } from 'react'
 import './App.css'
+import Navbar from './components/navbar/navbar';
+import Footer from './components/footer/footer';
 import UserContext from './context/userContext';
+import { RouterProvider } from 'react-router-dom';
+import router from './router.jsx';
+import { createBrowserRouter } from 'react-router-dom';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState()
 
-  useEffect(()=>{
-    console.log("user",user);
-  },[user]);
  
+
   return (
     <>
     {/* <h1>Technode-Express</h1> */}
+
       <UserContext.Provider value={{ user, setUser }}>
         <RouterProvider router={router} />
       </UserContext.Provider>
+   
     </>
   )
 }
