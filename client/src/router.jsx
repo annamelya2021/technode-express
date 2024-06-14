@@ -48,6 +48,11 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />
     }
+      // {
+        //     path: "/projects/:id",
+        //     element: <Project />,
+        //     loader: ({params}) => fetchProject(params.id)
+        // },
     
   ]);
 
