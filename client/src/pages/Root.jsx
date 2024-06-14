@@ -30,7 +30,7 @@ const Root = () => {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/projects">Projects</Link>
+                        <Link to="/products">Produts</Link>
                     </li>
                     <li>
                         <Link to="/register">Login / Register </Link>
