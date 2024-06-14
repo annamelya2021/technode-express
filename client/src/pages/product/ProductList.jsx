@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import CreateProduct from "../../components/product/CreateProduct";
 
@@ -12,9 +12,10 @@ const ProductsList = () => {
             <article className="product-list-element" key={product._id}>
                 <img src={product.product_image} alt="Product" />
                 <h2>{product.product_name}</h2>
-                <p>{product.product_description}</p>
                 <p>{product.product_model}</p>
                 <p>{product.product_price}</p>
+                <p>{product.product_comments.length} Comments</p>
+                <Link to={`/products/${product._id}`}>More info</Link>
             </article>
             
         )
