@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
+import UserContext from './context/userContext';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState()
 
   const handleViewChange = (view) => {
     setCurrentView(view);
@@ -15,9 +14,11 @@ function App() {
   return (
     <>
     {/* <h1>Technode-Express</h1> */}
+    <Navbar onViewChange={handleViewChange} />
       <UserContext.Provider value={{ user, setUser }}>
         <RouterProvider router={router} />
       </UserContext.Provider>
+      <Footer />
     </>
   )
 }
