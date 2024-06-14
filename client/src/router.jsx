@@ -1,25 +1,19 @@
 import {createBrowserRouter,redirect} from "react-router-dom";
-// import { getProjects,getProject } from "./utils/fetch";
+import { getProducts,getProduct } from "./utils/fetch";
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Register from "./pages/register/Register";
-// import ProjectsList from "./pages/project/ProjectsList";
-// import Project from "./pages/project/Project";
+import ProductList from "./pages/product/ProductList";
+import Product from "./pages/product/Product";
 
-// async function fetchProjects(){
-//     const result = await getProjects();
-//     if(result.error){
-//         return redirect("/register");
-//     }
-//     return result.data;
-// }
-// async function fetchProject(id){
-//     const result = await getProject(id);
-//     if(result.error){
-//         return redirect("/register");
-//     }
-//     return result.data;
-// }
+async function fetchProducts(){
+    const result = await getProducts();
+    if(result.error){
+        return redirect("/register");
+    }
+    return result.data;
+}
+
 
 const router = createBrowserRouter([
     {
@@ -32,11 +26,11 @@ const router = createBrowserRouter([
             element: <h2>Hola Mundo</h2>
         },
         
-        // {
-        //     path: "/projects",
-        //     element: <ProjectsList />,
-        //     loader: () => fetchProjects()
-        // },
+        {
+          path: "/products",
+          element: <ProductList />,
+          loader: () => fetchProducts()
+      },
         // {
         //     path: "/projects/:id",
         //     element: <Project />,
