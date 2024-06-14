@@ -64,8 +64,8 @@ const getProducts = async()=>{
     const result = await fetchData("/products","get");
     return result;
 }
-const getProduct = async(id)=>{
-    const result = await fetchData("/products/"+id,"get");
+const getProduct = async(_id)=>{
+    const result = await fetchData("/products/"+_id,"get");
     return result;
 }
 const createProduct = async(productData)=>{
