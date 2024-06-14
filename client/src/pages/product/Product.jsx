@@ -12,6 +12,7 @@ const Product = () => {
                 <p>{product.product_model}</p>
                 <p>{product.product_description}</p>
                 <p>{product.product_price}</p>
+               
             </article>
     );
 }
