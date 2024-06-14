@@ -52,6 +52,7 @@ const getByProperty = async(property,value,isAdmin=false) =>{
 }
 
 const login = async(data) =>{
+    console.log("datalogin",data)
     const {email,username,password} = data;
     if((!email && !username ) || !password){
         return {error:"faltan datos",status:400};
@@ -91,6 +92,7 @@ const login = async(data) =>{
     }
 }
 const register = async(data) => {
+    console.log("dataregister",data)
     const {email,username,password,passwordRepeat} = data;
     if(!email || !username || !password || !passwordRepeat){
         return {error:"Falta alguno de los campos"};

@@ -12,7 +12,8 @@ const getById = async (req,res) =>{
     res.json({data:user});
 }
 const getByToken = async (req,res) =>{
-    const id = req.user._id;
+    // const id = req.user._id;
+    const id = req.params.id
     const user = await userController.getById(id);
     res.json({data:user});
 }
@@ -25,6 +26,7 @@ const getByProperty=async(req,res)=>{
 
 const register = async(req,res)=>{
     const user = await userController.register(req.body);
+    
     if(!user){
         return res.json({error:"No se ha podido registrar el usuario"});
     }
@@ -36,6 +38,7 @@ const register = async(req,res)=>{
 }
 const login = async(req,res) => {
     const data = await userController.login(req.body);
+    console.log('Login request body:', req.body);
     if(data.error){
         return res.status(data.status).json({error:data.error});
     }
