@@ -10,6 +10,7 @@ const ProductsList = () => {
         
         (
             <article className="product-list-element" key={product._id}>
+                <img src={product.product_image} alt="Product" />
                 <h2>{product.product_name}</h2>
                 <p>{product.product_description}</p>
                 <p>{product.product_model}</p>

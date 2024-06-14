@@ -36,8 +36,9 @@ const Root = () => {
                         <Link to="/register">Login / Register </Link>
                     </li>
                 </ul>
+                <h1>Hola {user?.user_name}</h1>
             </nav>
-            <h1>Hola {user?.username}</h1>
+            
             <Outlet />
         </div>
     )
