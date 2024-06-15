@@ -8,7 +8,7 @@ const router  = Router();
 
 router.get("/",isAuthenticated, isAdmin, userApiController.getAll);
 router.get("/byproperty",userApiController.getByProperty);
-router.get("/bytoken", userApiController.getByToken);
+router.get("/bytoken", isAuthenticated, userApiController.getByToken);
 router.get("/:id",userApiController.getById);
 router.post("/",isAdmin,userApiController.create);
 router.put("/:id",isAdmin, userApiController.update);

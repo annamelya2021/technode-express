@@ -2,21 +2,15 @@ import { createProduct } from "../../utils/fetch";
 import "./CreateProduct.css"
 const CreateProduct = ({onCreate})=>{
 
-    const handleSubmit =async (e)=>{
-        e.preventDefault();
-        const name = e.target.product_name.value;
-        const description = e.target.product_description.value;
-        const model = e.target.product_model.value;
-        const price = e.target.product_price.value;
-        const type = e.target.product_type.value;
-        const amount = e.target.product_amount.value;
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        const data = {name,description,model,price,type,amount };
-        console.log("name",data)
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
         const result = await createProduct(data);
-        console.log("result",result)
         onCreate(result);
-    }
+    };
     return (
         <form action="" className="create-project" onSubmit={handleSubmit}>
 

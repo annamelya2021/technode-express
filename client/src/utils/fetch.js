@@ -10,7 +10,7 @@ const fetchData = async (route, method, inputData = null) => {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}` 
+        "Authorization": `Bearer ${getToken()}`
       }
     };
     if (inputData) {
@@ -22,24 +22,26 @@ const fetchData = async (route, method, inputData = null) => {
         fetchOptions.body = JSON.stringify(inputData);
       }
     }
-    console.log('Fetching:', url.toString(), fetchOptions);
     try {
-        
       const result = await fetch(url.toString(), fetchOptions);
-      console.log("result", result);
-
+    //   console.log("result",result)
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const data = await result.json();
-      console.log("data", data);
       return data;
     } catch (error) {
       console.error('Fetch error:', error);
       return { error: error.message };
     }
-  };
-  
+};
+
+const getUserData = async () => {
+    const result = await fetchData("/users/bytoken", "get");
+    // console.log("userdata", result);
+    return result;
+};
+
   
 
 const register = async(userData)=>{
@@ -49,17 +51,18 @@ const register = async(userData)=>{
 const login = async(userData)=>{
     try {
         const result = await fetchData("/login","post",userData);
-        console.log("login",result);
+
         return result;
     } catch (error) {
         console.error("Error during login:",error);
         return { error: error.message };
     }
 }
-const getUserData = async()=>{
-    const result = await fetchData("/users/bytoken","get");
-    return result;
-}
+// const getUserData = async()=>{
+//     const result = await fetchData("/users/bytoken","get");
+//     console.log("userdata",result);
+//     return result;
+// }
 const getProducts = async()=>{
     const result = await fetchData("/products","get");
     return result;
@@ -72,6 +75,16 @@ const createProduct = async(productData)=>{
     const result = await fetchData("/products","post",productData);
     return result;
 }
+const getComments = async(id)=>{
+    const result = await fetchData(`/products/${id}/comments`,"get");
+    return result;}
+
+    const createComments = async(id, data)=>{
+
+        const result = await fetchData(`/products/${id}/comments`,"post", data);
+
+        return result;}
+    
 
 export {
     register,
@@ -79,5 +92,8 @@ export {
     getProducts,
     getProduct,
     createProduct,
-    getUserData
+    getUserData,
+    getComments,
+    createComments
+    
 }

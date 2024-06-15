@@ -1,59 +1,36 @@
-import "../App.css";
-import { Outlet, Link, useNavigate } from "react-router-dom";
-import { getToken } from "../utils/local";
-import { useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getToken, removeToken } from "../utils/local";
 import UserContext from "../context/userContext";
 import { getUserData } from "../utils/fetch";
-import { FaSignOutAlt } from "react-icons/fa";
+import NavBar from "../components/navbar/navbar";
+
 const Root = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!getToken()) {
-            navigate("/register");
+        const token = getToken();
+        if (token) {
+            fetchUserData();
         }
-        fetchUserData();
     }, []);
 
     async function fetchUserData() {
         const data = await getUserData();
         if (data.error) {
             navigate("/register");
+        } else {
+            setUser(data.data);
         }
-        setUser(data.data);
     }
+
     return (
         <div>
-            <nav className="navbar">
-                <div>
-                    <h1 className="navbar-title">Technode-Express</h1>
-                </div>
-                <div className="navbar-content">
-
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/products">Produts</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">Login / Register </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className="navbar-icons">
-                    <Link to="/register" className="icon" title="Logout">
-                        <FaSignOutAlt />
-                    </Link>
-                </div>
-            </nav>
-            
+            <NavBar />
             <Outlet />
         </div>
-        
-    )
+    );
 };
 
 export default Root;

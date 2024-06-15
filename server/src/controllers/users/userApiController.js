@@ -12,11 +12,28 @@ const getById = async (req,res) =>{
     res.json({data:user});
 }
 const getByToken = async (req,res) =>{
-    // const id = req.user._id;
-    const id = req.params.id
+    const id = req.user._id;
+    // const id = req.params.id
     const user = await userController.getById(id);
     res.json({data:user});
 }
+
+
+
+// const getByToken = async (req, res) => {
+//   try {
+//     const id = req.params.id; // отримуємо ID з токена
+//     const user = await userController.getById(id);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+//     console.log("User Data in getByToken:", user); // Додаємо лог для перевірки отриманих даних
+//     res.json({ data: user });
+//   } catch (error) {
+//     console.error("Error in getByToken:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 
 const getByProperty=async(req,res)=>{
     const {property,value}=req.query;

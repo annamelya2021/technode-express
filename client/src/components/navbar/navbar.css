@@ -1,50 +1,81 @@
-/* navbar.css */
+
 
 .navbar {
+    background-color: #ee1c1c;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #e20e0e;
+    justify-content: space-between; 
+  }
+  
+  .navbar li {
+    display: inline;
+  }
+  
+  .navbar li a {
+    display: block;
     color: white;
-}
-
-.navbar-content {
-    display: flex;
-    align-items: center;
-}
-
-.navbar-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-right: 20px;
-}
-
-.navbar-search {
-    padding: 5px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    margin-right: 20px;
-}
-
-.navbar-categories {
-    padding: 5px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    background-color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .navbar li a:hover {
+    background-color: #ddd;
     color: black;
-    margin-right: 20px;
-}
-
-.navbar-icons .icon {
+  }
+  
+  .navbar .nav-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .auth-buttons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .logout-button {
+    background-color: #f44336; 
+    border: none;
     color: white;
-    font-size: 1.5em;
-    cursor: pointer;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
     margin-left: 10px;
-}
-
-.navbar-icons .icon:hover {
-    color: #aaa; /* Cambia el color al pasar el cursor por encima */
-}
+    cursor: pointer;
+  }
+  
+  .navbar .logout-button:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .content {
+    padding-top: 60px; 
+  }
+  
+  .login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+  }
+  

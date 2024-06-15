@@ -1,36 +1,79 @@
-// Navbar.jsx
-import React from 'react';
-import { FaSignOutAlt } from 'react-icons/fa'; // Eliminamos FaSignInAlt si no se usa
-import './navbar.css';
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { getToken, removeToken } from "../../utils/local";
+import { getUserData } from "../../utils/fetch"; 
 
-const Navbar = ({ onViewChange }) => {
+import "./navbar.css";
+import Register from "../../pages/register/Register";
+
+const NavBar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [showLoginForm, setShowLoginForm] = useState(false); 
+  const navigate = useNavigate();
+  const token = getToken();
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+      fetchUserData();
+    }
+  }, [token]);
+
+  const fetchUserData = async () => {
+    const {data} = await getUserData();
+    console.log("data", data);
+    if (data && data.role) {
+      setUserRole(data.role);
+    }
+  };
+
+  const handleLogout = () => {
+    removeToken();
+    setIsLoggedIn(false);
+    setUserRole(null);
+    navigate('/products');
+  };
+
+  const handleLoginClick = () => {
+    setShowLoginForm(true); 
+  };
+
+  const handleLoginFormClose = () => {
+    setShowLoginForm(false); 
+  };
+
   return (
-    <nav className="navbar">
-      <div className="navbar-content">
-        <h1 className="navbar-title">Technode-Express</h1> {/* Título de la aplicación */}
-        
-        {/* Barra de búsqueda */}
-        <input 
-          type="text" 
-          className="navbar-search" 
-          placeholder="Buscar..." 
-          onChange={(e) => console.log(e.target.value)} // Puedes agregar lógica para manejar la búsqueda
-        />
-
-        {/* Selección de categorías */}
-        <select className="navbar-categories" onChange={(e) => onViewChange(e.target.value)}>
-          <option value="smarthphones">Smarthphones</option>
-          <option value="tablets">Tablets</option>
-          
-        </select>
-      </div>
-      
-      <div className="navbar-icons">
-        {/* Mantener el icono de logout */}
-        <FaSignOutAlt className="icon" title="Logout" onClick={() => onViewChange('logout')} />
-      </div>
-    </nav>
+    <div className="navbar">
+      <nav>
+        <ul>
+          <div className="nav-links">
+            <li><NavLink to="/products">Logo TechNode-express</NavLink></li>
+            <li><NavLink to="/products">Products</NavLink></li>
+            {isLoggedIn && (
+              <>
+                <li><NavLink to="/cart">Cart</NavLink></li>
+                <li><NavLink to="/favorites">Favorites</NavLink></li>
+              </>
+            )}
+            {userRole === "admin" && <li><NavLink to="/admin">Admin</NavLink></li>}
+          </div>
+          <div className="auth-buttons">
+            {isLoggedIn ? (
+              <li><button className="logout-button" onClick={handleLogout}>Logout</button></li>
+            ) : (
+              <li><button className="login-button" onClick={handleLoginClick}>Login</button></li>
+            )}
+          </div>
+        </ul>
+      </nav>
+      {showLoginForm && (
+        <div className="login-overlay">
+          <Register onLogin={fetchUserData} onClose={handleLoginFormClose} /> 
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Navbar;
+export default NavBar;

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { register, login } from "../../utils/fetch";
 import { saveToken } from "../../utils/local";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,9 @@ const initialUserData = {
     email: "",
     password: "",
     passwordRepeat: ""
-}
+};
 
-const Register = ({ onLogin }) => {
+const Register = ({ onLogin, onClose }) => { 
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState("");
     const [userData, setUserData] = useState(initialUserData);
@@ -27,7 +27,7 @@ const Register = ({ onLogin }) => {
             ...userData,
             [key]: data
         }));
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,42 +46,43 @@ const Register = ({ onLogin }) => {
                 setError("Login successful.");
                 setUser(result.user);
                 saveToken(result.token);
-                // navigate("/api-docs");
-                navigate("/products");
-
-                
+                onLogin(); 
+                onClose(); 
+                navigate("/products"); 
             } else {
                 setError(result.error);
             }
         }
-    }
+    };
 
     return (
-        <section className="register-login">
+        <div className="register-login">
             <h2>{isRegister ? "Register" : "Login"}</h2>
             {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
-                <input name="email" type="text" value={userData.email} onChange={handleUserData} required />
+                <input className="form-control" name="email" type="text" value={userData.email} onChange={handleUserData} required />
                 {isRegister && (
                     <>
                         <label htmlFor="username">Username</label>
-                        <input name="username" type="username" value={userData.username} onChange={handleUserData} required />
+                        <input className="form-control" name="username" type="username" value={userData.username} onChange={handleUserData} required />
                     </>
                 )}
                 <label htmlFor="password">Password</label>
-                <input name="password" type="password" value={userData.password} onChange={handleUserData} required />
+                <input className="form-control" name="password" type="password" value={userData.password} onChange={handleUserData} required />
                 {isRegister && (
                     <>
                         <label htmlFor="passwordRepeat">Repeat Password</label>
-                        <input name="passwordRepeat" type="password" value={userData.passwordRepeat} onChange={handleUserData} required />
+                        <input className="form-control" name="passwordRepeat" type="password" value={userData.passwordRepeat} onChange={handleUserData} required />
                     </>
                 )}
-                <button type="submit">{isRegister ? "Register" : "Login"}</button>
+                <button type="submit" className="btn btn-primary">{isRegister ? "Register" : "Login"}</button>
             </form>
-            <button onClick={() => setIsRegister(!isRegister)}>{isRegister ? "Go to Login" : "Go to Register"}</button>
-        </section>
-    )
-}
+            <div className="switch-button">
+                <button onClick={() => setIsRegister(!isRegister)} className="btn btn-link">{isRegister ? "Go to Login" : "Go to Register"}</button>
+            </div>
+        </div>
+    );
+};
 
 export default Register;

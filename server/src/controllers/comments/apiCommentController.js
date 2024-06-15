@@ -3,29 +3,32 @@ import Product from '../../models/productModel.js';
 // import RequestError from '../../helpers/errors/requestError.js';
 
 const createComment = async (req, res) => {
+  const { text } = req.body;
+  const author = req.user.username
+  const productId = req.params.id;
+ 
   try {
-    const  productId  = req.params.id;
-    const { text} = req.body;
-    // console.log("req.user:", req.user);  // Додайте цей рядок
-    const author = req.user ? req.user._id : null; 
-    //console.log("req.body", req.body) 
-    //console.log( "postId", postId);
+      const newComment = new Comment({ text, author, product: productId });
+      await newComment.save();
 
-    const newComment = new Comment({ text, author, product: productId });
-    await newComment.save();
+      const product = await Product.findById(productId);
+      if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+      }
+      product.product_comments.push(newComment._id);
+      await product.save();
 
-    await Product.findByIdAndUpdate(productId, { $push: { comments: newComment._id } });
-    
-    res.status(201).json({ message: 'Comment created successfully' });
+      res.status(201).json({ data: newComment });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
   }
 };
 
 
-const getCommentsByPostId = async (req, res) => {
+const getCommentsByProductId = async (req, res) => {
   try {
     const productId = req.params.id; // Ensure this matches the route parameter
+
     const comments = await Comment.find({ product: productId });
     res.status(200).json(comments);
   } catch (error) {
@@ -53,6 +56,6 @@ const deleteComment = async (req, res) => {
 
 export default {
   createComment,
-  getCommentsByPostId,
+  getCommentsByProductId,
   deleteComment
 };
