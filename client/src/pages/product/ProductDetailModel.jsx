@@ -36,7 +36,7 @@ const ProductDetailModal = ({ product, isOpen, onClose}) => {
 
 
   const handleOutsideClick = (e) => {
-    if (e.target.className === 'modal') {
+    if (e.currentTarget === e.target) { 
       onClose();
     }
   };

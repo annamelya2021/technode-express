@@ -1,6 +1,5 @@
 import Comment from '../../models/commentModel.js';
-import Product from '../../models/productModel.js';
-// import RequestError from '../../helpers/errors/requestError.js';
+import  { productModel as Product } from '../../models/productModel.js';
 
 const createComment = async (req, res) => {
   const { text } = req.body;
@@ -27,7 +26,7 @@ const createComment = async (req, res) => {
 
 const getCommentsByProductId = async (req, res) => {
   try {
-    const productId = req.params.id; // Ensure this matches the route parameter
+    const productId = req.params.id; 
 
     const comments = await Comment.find({ product: productId });
     res.status(200).json(comments);
