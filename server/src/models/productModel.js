@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const productSchema = new mongoose.Schema({
+export const productSchema = new mongoose.Schema({
     
     product_image:{
         type: String
@@ -32,6 +32,7 @@ const productSchema = new mongoose.Schema({
     { timestamps: true });
     
     
-const productModel = mongoose.model("products", productSchema);
+export const productModel = mongoose.model("products", productSchema);
 
-export default productModel;
+
+export default {productSchema, productModel};

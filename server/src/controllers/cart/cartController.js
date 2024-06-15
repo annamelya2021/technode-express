@@ -1,26 +1,23 @@
 import cartModel from "../../models/cartModel.js";
 import productModel from "../../models/productModel.js";
 
-//crear carrito nuevo para un usuario coprobndo que no tenga ingun carrito abierto
-async function createCart(userId){
+async function createCart(userId) {
     try {
-        const existingCart = await cartModel.findOne({user:userId, isOpened:true})
+        const existingCart = await cartModel.findOne({ userId: userId });
+        if (existingCart) {
+            return existingCart;
+        }
 
-        if(existingCart){
-            return existingCart
-        }
-        const cart = {
-            user:userId,
-            isOpened:true
-        }
-        const newCart = await cartModel.create(cart)
-        return newCart
-        
+        const newCart = await cartModel.create({ userId: userId });
+        return newCart;
     } catch (error) {
-        console.error(error);   
-        return {error:"There was an error creating the cart",errorCode:500};
+        console.error(error);
+        return { error: "There was an error creating the cart", errorCode: 500 };
     }
 }
+
+
+
 //cambiar el booleano isOpened/ enviar correo al usuaurio
 async function closeCart(cartId,userId){
     try {
@@ -100,15 +97,13 @@ async function removeProductFromCart(productId,userId){
 
 
 
-export const functions = {
-    createCart,
-    closeCart,
-    getCartOpened,
-    getCarts,
-    addProductToCart,
-    removeProductFromCart
+export default  {
+   createCart,
+   closeCart,
+   getCartOpened,
+   getCarts,
+   addProductToCart,
+   removeProductFromCart
 
 }
-
-export default functions
 

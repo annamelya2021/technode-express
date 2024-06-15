@@ -1,22 +1,23 @@
 import mongoose from "mongoose";
-
+import { productSchema } from "./productModel.js";
+const cartProductSchema = new mongoose.Schema({
+    product:productSchema,
+    quantity: {
+        type: Number,
+        min: 1
+    },
+});
 const cartSchema  = new mongoose.Schema({
-    cartProducts: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "products",
-    }],
-    cartUser: {
+    cartProducts: [cartProductSchema],
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
         required: true
     },
-    isOpened: {
-        type: Boolean,
-        default:true
-
-    }
    // calcular total price fuera
 })
+
+
 
 const cartModel = mongoose.model("carts",cartSchema);
 

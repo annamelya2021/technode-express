@@ -7,6 +7,7 @@ import Product from "./pages/product/ProductCard";
 import { getProducts, getProduct, getUserData } from "./utils/fetch";
 import { getToken } from "./utils/local";
 import ProtectedAdminRoute from "./routes/protectedAdminRoutes";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 async function fetchProducts() {
   const result = await getProducts();
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <h2>Admin</h2>,
+        element: <AdminPanel/>,
         loader: async () => {
           const token = getToken();
           if (!token) {
