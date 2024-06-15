@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './ProductDetailModel.css';
-import axios from 'axios';
 import {getComments, createComments} from '../../utils/fetch';
 import { getToken } from '../../utils/local';
 

@@ -22,7 +22,7 @@ const NavBar = () => {
 
   const fetchUserData = async () => {
     const {data} = await getUserData();
-    console.log("data", data);
+    // console.log("data", data);
     if (data && data.role) {
       setUserRole(data.role);
     }

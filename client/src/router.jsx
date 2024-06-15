@@ -29,11 +29,18 @@ const router = createBrowserRouter([
             path: "/",
             element: <h2>Welcome to</h2>
         },
-      {
+        {
         path: "/products",
-        element: <ProductList />,
-        loader: fetchProducts,
-      },
+        element: <ProductList/>,
+        },
+    //     loader: async () => {
+    //       const products = await fetchProducts();
+    //       if (!products) {
+    //         throw new Error('Failed to load products');
+    //       }
+    //       return products; // Повертаємо продукти
+    //     },
+    //   },
       {
         path: "/admin",
         element: <AdminPanel/>,
@@ -43,7 +50,7 @@ const router = createBrowserRouter([
             return redirect("/");
           }
           const { data } = await getUserData();
-          console.log("dataROLE", data);
+        //   console.log("dataROLE", data);
           if (data.role !== "admin") {
             return redirect("/products");
           }
