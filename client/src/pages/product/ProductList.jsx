@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import CreateProduct from "../../components/product/CreateProduct";
+import "./ProductList.css";
 
 const ProductsList = () => {
     const [products,setProducts] = useState(useLoaderData());
