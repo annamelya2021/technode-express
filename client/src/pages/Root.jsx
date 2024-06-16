@@ -7,7 +7,7 @@ import UserContext from "../context/userContext";
 import { getUserData } from "../utils/fetch";
 import { FaSignOutAlt } from "react-icons/fa";
 
-import imageAna from '../assets/ana.jpg';    
+import imageAna from '../assets/ana.jpg';
 import imageMikel from '../assets/mikelondrio.png';
 import imageNatxo from '../assets/natxo.png';
 
@@ -43,7 +43,8 @@ const Root = () => {
         setUser(data.data);
     }
     return (
-        <div>
+        <>
+
             <nav className="navbar">
                 <div className="navbar-title">
                     <h1>Technode-Express</h1>
@@ -67,10 +68,10 @@ const Root = () => {
                         <FaSignOutAlt />
                     </Link>
                 </div>
-
             </nav>
-
+            <div>
             <Outlet />
+            </div>
             <div>
                 <footer className="footer">
                     <button className="scroll-to-top" onClick={scrollToTop}>
@@ -89,7 +90,7 @@ const Root = () => {
                     </div>
                 </footer>
             </div>
-        </div>
+        </>
 
 
 
