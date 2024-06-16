@@ -79,12 +79,18 @@ const getComments = async(id)=>{
     const result = await fetchData(`/products/${id}/comments`,"get");
     return result;}
 
-    const createComments = async(id, data)=>{
-
-        const result = await fetchData(`/products/${id}/comments`,"post", data);
-
-        return result;}
-    
+ const createComments = async(id, data)=>{
+    const result = await fetchData(`/products/${id}/comments`,"post", data);
+    return result;}
+ 
+ const deleteComments = async(id, commentId)=>{
+    const result = await fetchData(`/products/${id}/comments/${commentId}`,"delete");
+    return result;
+ }   
+ const getCart = async()=>{
+    const result = await fetchData("/carts","get");
+    return result;
+ }
  
 export {
     register,
@@ -94,6 +100,8 @@ export {
     createProduct,
     getUserData,
     getComments,
-    createComments
+    createComments,
+    deleteComments,
+    getCart
     
 }

@@ -3,22 +3,17 @@ import cartModel from "../../models/cartModel.js";
 import { productModel } from "../../models/productModel.js";
 // import productModel from "../../models/productModel.js";
 
-// async function addProductToCart (req, res) {
-//     const userId = req.user._id;
-//     const productId = req.params.productId;
-    
-//     const cart = await cartController.createCart(userId);
+async function getCartData (req, res) {
+    const userId = req.user._id;
+   
+    const cart = await cartController.getCart(userId);
   
-//     // console.log('cart :>> ', cart);
-//         const product = await productModel.findById(productId);
-//         if(!product){
-//             res.status(409).json({error:"Product not found"})
-//         }
-        
-//     cart.cartProducts.push(product);
-//     await cart.save();
-//     res.json(cart);
-// }
+    if(cart.length===0 ){
+      return  res.json({message:"Cart is ampty"} );
+    }
+    
+    res.json(cart);
+}
 
 
 async function addProductToCart(req, res) {
@@ -47,19 +42,14 @@ async function addProductToCart(req, res) {
 
 
 
-
-
-// async function closeCart (req, res) {
-//     const cartId = req.params.cartId;
-//     const userId = req.user._id;
-//     const cart = await cartController.closeCart(cartId,userId);
-//     if(!cart || cart.error){
-//         const errorCode = cart?.errorCode || 500;
-//         const errorMessage = cart?.error || "Error closing cart";
-//         res.status(errorCode).json({error:errorMessage})
-//     }
-//     res.json(cart);
-// }
+async function updateQuantity (req, res) {
+    const productId = req.params.productId;
+    const userId = req.user._id;
+    const quantity =  req.body.quantity;
+    const cart = await cartController.updateQuantityController(userId, productId, quantity);
+   
+    res.json(cart);
+}
 
 // async function getCartOpened (req, res) {
 //     const userId = req.user._id;
@@ -112,5 +102,7 @@ export default {
     // getCartOpened,
     // getCarts,
     addProductToCart,
+    getCartData,
+    updateQuantity
     // removeProductFromCart
 };

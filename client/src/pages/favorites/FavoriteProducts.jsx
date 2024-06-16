@@ -15,11 +15,9 @@ const FavoriteProducts = () => {
         const products = await Promise.all(
           favorites.map(async productId => {
             const response = await getProduct(productId);
-            return response.data; // assuming the API response structure is { data: { ...productData } }
+            return response.data;
           })
         );
-        console.log('Products fetched:', products);
-
         setFavoriteProducts(products);
       } catch (error) {
         console.error('Failed to load favorite products:', error);
@@ -29,12 +27,18 @@ const FavoriteProducts = () => {
     fetchFavoriteProducts();
   }, []);
 
+  const removeFavorite = (productId) => {
+    const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
+    setFavoriteProducts(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
+  };
+
   return (
     <div className="favorite-products">
       <h2>Favorite Products</h2>
       <div className="product-list">
         {favoriteProducts.map(product => (
-          <ProductCard key={product._id} product={product} />
+          <ProductCard key={product._id} product={product} onRemove={() => removeFavorite(product._id)} />
         ))}
       </div>
     </div>

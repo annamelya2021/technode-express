@@ -9,6 +9,7 @@ import { getToken } from "./utils/local";
 import ProtectedAdminRoute from "./routes/protectedAdminRoutes";
 import AdminPanel from "./pages/admin/AdminPanel";
 import FavoriteProducts from "./pages/favorites/FavoriteProducts";
+import Cart from "./pages/cart/Cart";
 
 
 async function fetchProducts() {
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <h2>Cart</h2>,
+        element: <Cart/>,
         loader: async () => {
             const token = getToken();
           if (!token) {

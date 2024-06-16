@@ -19,13 +19,13 @@ async function createCart(userId) {
 
 
 //cambiar el booleano isOpened/ enviar correo al usuaurio
-async function closeCart(cartId,userId){
+async function updateQuantityController(userId, productId, quantity){
     try {
         const existingCart = await cartModel.findById(cartId);
         if(!existingCart || !existingCart.cartUser.equals(userId)){
             return {error:"Does not exist or not belong to user",errorCode:400}
         }
-        existingCart.isOpened =false
+        existingCart.updateOne({$pull:{quantity:{product:productId}}});
         await existingCart.save();
         return existingCart;
     } catch (error) {
@@ -52,14 +52,11 @@ async function getCartOpened(userId){
 }
 //devolver array de carritos
 //Historial de carritos
-async function getCarts(userId){
+async function getCart(userId){
     try {
-        const cartHistory = await cartModel.find({cartUser: userId, isOpened:false})//.populate("cartProducts")
-        const carts = await Promise.all(cartHistory.map(async (cart)=>{
-            await cart.populate("cartProducts")
-            return cart
-        }))
-        return carts;
+        const cart = await cartModel.find({userId: userId})
+     
+        return cart[0];
     } catch (error) {
         console.error(error);
         return {error:"There was an error getting the cart history",errorCode:500};
@@ -101,9 +98,10 @@ export default  {
    createCart,
    closeCart,
    getCartOpened,
-   getCarts,
+   getCart,
    addProductToCart,
-   removeProductFromCart
+   removeProductFromCart,
+   updateQuantityController
 
 }
 
