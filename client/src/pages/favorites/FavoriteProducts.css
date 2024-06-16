@@ -1,0 +1,33 @@
+/* FavoriteProducts.css
+
+.favorite-products {
+    padding: 20px;
+  }
+  
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .product-list .product-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .product-list .product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .product-list .product-card h3 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  
+  .product-list .product-card p {
+    margin-top: 5px;
+  }
+   */

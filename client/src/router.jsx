@@ -8,6 +8,8 @@ import { getProducts, getProduct, getUserData } from "./utils/fetch";
 import { getToken } from "./utils/local";
 import ProtectedAdminRoute from "./routes/protectedAdminRoutes";
 import AdminPanel from "./pages/admin/AdminPanel";
+import FavoriteProducts from "./pages/favorites/FavoriteProducts";
+
 
 async function fetchProducts() {
   const result = await getProducts();
@@ -70,14 +72,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/favorites",
-        element: <h2>Favorites</h2>,
-        loader: async () => {
-            const token = getToken();
-          if (!token) {
-            return redirect("/products");
-          }
-          return null;
-        },
+        element: <FavoriteProducts/>,
+        // loader: async () => {
+        //     const token = getToken();
+        //   if (!token) {
+        //     return redirect("/products");
+        //   }
+        //   return null;
+        // },
       },
     ],
   },
