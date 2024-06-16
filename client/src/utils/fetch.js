@@ -72,6 +72,20 @@ const createProduct = async(productData)=>{
     const result = await fetchData("/products","post",productData);
     return result;
 }
+const getCartOpened = async () => {
+  const result = await fetchData("/cart/opened", "get");
+  return result;
+}
+
+const addProductToCart = async (productId) => {
+  const result = await fetchData(`/cart/products/${productId}`, "post");
+  return result;
+}
+
+const removeProductFromCart = async (productId) => {
+  const result = await fetchData(`/cart/products/${productId}`, "delete");
+  return result;
+}
 
 export {
     register,
@@ -79,5 +93,8 @@ export {
     getProducts,
     getProduct,
     createProduct,
-    getUserData
+    getUserData,
+    getCartOpened,
+    addProductToCart,
+    removeProductFromCart
 }
