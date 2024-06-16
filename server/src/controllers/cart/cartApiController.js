@@ -15,94 +15,75 @@ async function getCartData (req, res) {
     res.json(cart);
 }
 
-
 async function addProductToCart(req, res) {
     const userId = req.user._id;
     const productId = req.params.productId;
 
-    const cart = await cartController.createCart(userId);
-
     try {
+        const cart = await cartController.createCart(userId);
         const product = await productModel.findById(productId);
+
         if (!product) {
             return res.status(404).json({ error: "Product not found" });
         }
-        cart.cartProducts.push({
-            product: product,
-            quantity: 1 
-        });
+
+        const productIndex = cart.cartProducts.findIndex(item => item.product._id.toString() === productId);
+
+        if (productIndex === -1) {
+            cart.cartProducts.push({ product, quantity: 1 });
+        } else {
+            cart.cartProducts[productIndex].quantity += 1;
+        }
 
         await cart.save();
-        return res.json(cart);
+        res.json(cart);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error" });
     }
 }
 
-
-
-async function updateQuantity (req, res) {
-    const productId = req.params.productId;
+async function updateQuantity(req, res) {
     const userId = req.user._id;
-    const quantity =  req.body.quantity;
-    const cart = await cartController.updateQuantityController(userId, productId, quantity);
-   
-    res.json(cart);
+    const productId = req.params.productId;
+    const quantity = req.body.quantity;
+
+    try {
+        const cart = await cartController.updateQuantityController(userId, productId, quantity);
+        res.json(cart);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
 }
 
-// async function getCartOpened (req, res) {
-//     const userId = req.user._id;
-//     const cart = await cartController.getCartOpened(userId);
-//     if(!cart || cart.error){
-//         const errorCode = cart?.errorCode || 500;
-//         const errorMessage = cart?.error || "Error getting opened carts";
-//         res.status(errorCode).json({error:errorMessage})
-//     }
-//     res.json(cart);
-// }
+async function removeProduct(req, res) {
+    const userId = req.user._id;
+    const productId = req.params.productId;
 
-// async function getCarts (req, res) {
-//     const userId = req.user._id;
-//     const carts = await cartController.getCarts(userId);
-//     if(!carts || carts.error){
-//         const errorCode = carts?.errorCode || 500;
-//         const errorMessage = carts?.error || "Error getting closed carts";
-//         res.status(errorCode).json({error:errorMessage})
-//     }
-//     res.json(carts);
-// }
+    try {
+        const cart = await cartController.removeProductFromCart(userId, productId);
+        res.json(cart);
+    } catch (error) {
+        console.error('Error removing product from cart:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+async function clearCart(req, res) {
+    const userId = req.user._id;
 
-// async function addProductToCart (req, res) {
-//     const productId = req.params.productId;
-//     const userId = req.user._id;
-//     const cart = await cartController.addProductToCart(productId, userId);
-//     if(!cart || cart.error){
-//         const errorCode = cart?.errorCode || 500;
-//         const errorMessage = cart?.error || "Error adding product to cart";
-//         res.status(errorCode).json({error:errorMessage})
-//     }
-//     res.json(cart);
-// }
-
-// async function removeProductFromCart (req, res) {
-//     const productId = req.params.productId;
-//     const userId = req.user._id;
-//     const cart = await cartController.removeProductFromCart(productId, userId);
-//     if(!cart || cart.error){
-//         const errorCode = cart?.errorCode || 500;
-//         const errorMessage = cart?.error || "Error removing product from cart";
-//         res.status(errorCode).json({error:errorMessage})
-//     }
-//     res.json(cart);
-// }
-
+    try {
+        const cart = await cartController.clearCart(userId);
+        res.json(cart);
+    } catch (error) {
+        console.error('Error clearing cart:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
 export default {
-    // closeCart,
-    // getCartOpened,
-    // getCarts,
     addProductToCart,
     getCartData,
-    updateQuantity
-    // removeProductFromCart
+    updateQuantity,
+    removeProduct,
+    clearCart
 };

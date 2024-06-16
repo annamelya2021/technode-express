@@ -16,42 +16,26 @@ async function createCart(userId) {
     }
 }
 
+const updateQuantityController = async (userId, productId, quantity) => {
+    const cart = await cartModel.findOne({ userId });
 
+    if (!cart) {
+        throw new Error('Cart not found');
+    }
 
-//cambiar el booleano isOpened/ enviar correo al usuaurio
-async function updateQuantityController(userId, productId, quantity){
-    try {
-        const existingCart = await cartModel.findById(cartId);
-        if(!existingCart || !existingCart.cartUser.equals(userId)){
-            return {error:"Does not exist or not belong to user",errorCode:400}
-        }
-        existingCart.updateOne({$pull:{quantity:{product:productId}}});
-        await existingCart.save();
-        return existingCart;
-    } catch (error) {
-        console.error(error);
-        return {error:"There was an error closing the cart",errorCode:500};
+    const productIndex = cart.cartProducts.findIndex(item => item.product._id.toString() === productId);
+
+    if (productIndex === -1) {
+        throw new Error('Product not found in cart');
     }
-}
-//
-async function getCartOpened(userId){
-    try {
-    const openCarts = await cartModel.find({cartUser: userId, isOpened:true})
-    if (openCarts.length===0){
-        const cart = await createCart(userId);
-        return cart
-    }
-    const cart = openCarts[0];
-    await cart.populate("cartProducts")
-    return cart
+
+    cart.cartProducts[productIndex].quantity = quantity;
     
-} catch (error) {
-    console.error(error);
-        return {error:"There was an error getting the opened cart",errorCode:500};
-}
-}
-//devolver array de carritos
-//Historial de carritos
+
+    await cart.save();
+    return cart;
+};
+
 async function getCart(userId){
     try {
         const cart = await cartModel.find({userId: userId})
@@ -77,31 +61,53 @@ async function addProductToCart(productId,userId){
         return {error:"There was an error adding product to cart",errorCode:500};
     }
 }
-async function removeProductFromCart(productId,userId){
+async function removeProductFromCart(userId, productId) {
     try {
-        const cart = await getCartOpened(userId)
-        const product = await productModel.findById(productId)
-        cart.products = cart.products.filter(product => !product.equals(productId))
-        await cart.save()
-        const populatedCart = await cart.populate('products');
-        return populatedCart;
-        
+        const cart = await cartModel.findOne({ userId });
+        if (!cart) {
+            throw new Error('Cart not found');
+        }
+
+        const productIndex = cart.cartProducts.findIndex(item => item.product._id.toString() === productId);
+        if (productIndex === -1) {
+            throw new Error('Product not found in cart');
+        }
+
+        cart.cartProducts.splice(productIndex, 1);
+
+        await cart.save();
+        return cart;
     } catch (error) {
-        console.error(error);
-        return {error:"There was an error removing product from cart",errorCode:500};
+        throw new Error(error.message);
     }
 }
 
 
 
+async function clearCart(userId) {
+    try {
+        const cart = await cartModel.findOne({ userId });
+        if (!cart) {
+            throw new Error('Cart not found');
+        }
+
+        cart.cartProducts = [];
+
+        await cart.save();
+        return cart;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+
 export default  {
    createCart,
-   closeCart,
-   getCartOpened,
    getCart,
    addProductToCart,
    removeProductFromCart,
-   updateQuantityController
+   updateQuantityController,
+   clearCart
 
 }
 
