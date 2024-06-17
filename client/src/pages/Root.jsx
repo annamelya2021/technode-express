@@ -1,23 +1,20 @@
-
 import "./Root.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/local";
 import { useEffect, useContext, useState } from "react";
 import UserContext from "../context/userContext";
-import { getUserData, getCartOpened } from "../utils/fetch"; // Asegúrate de importar getCartOpened
-import { FaSignOutAlt } from "react-icons/fa";
+import { getUserData, getCartOpened } from "../utils/fetch";
+import { FaSignOutAlt, FaSignInAlt } from "react-icons/fa"; // Importamos el icono de login
 
 import imageAna from '../assets/ana.jpg';
 import imageMikel from '../assets/mikelondrio.png';
 import imageNatxo from '../assets/natxo.png';
-
 
 const year = new Date().getFullYear();
 const creators = [
     { id: 1, name: 'Anna', avatar: imageAna, url: 'https://github.com/annamelya2021' },
     { id: 2, name: 'Mikel', avatar: imageMikel, url: 'https://github.com/Mikelondrio' },
     { id: 3, name: 'Natxo', avatar: imageNatxo, url: 'https://github.com/ignaciochagar' },
-
 ];
 
 const scrollToTop = () => {
@@ -27,12 +24,15 @@ const scrollToTop = () => {
 const Root = () => {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (!getToken()) {
-            navigate("/register");
+        if (getToken()) {
+            fetchUserData();
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
         }
-        fetchUserData();
     }, []);
 
     async function fetchUserData() {
@@ -43,18 +43,27 @@ const Root = () => {
         setUser(data.data);
     }
 
- 
+    const handleAuthClick = () => {
+        if (isLoggedIn) {
+            // Handle logout logic
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
+            navigate("/register");
+        } else {
+            // Navigate to login/register page
+            navigate("/register");
+        }
+    };
 
     return (
         <>
-
+       
             <nav className="navbar">
                 <div className="navbar-title">
                     <h1>Technode-Express</h1>
                 </div>
                 <div className="navbar-content">
-
-                    <ul >
+                    <ul>
                         <li>
                             <Link to="/">Home</Link>
                         </li>
@@ -62,19 +71,17 @@ const Root = () => {
                             <Link to="/products">Products</Link>
                         </li>
                         <li>
-                            <Link to="/register">Login / Register</Link>
-                        </li>
-                        <li>
                             <Link to="/carts">Cart</Link>
                         </li>
                     </ul>
                 </div>
                 <div className="navbar-icons">
-                    <Link to="/register" className="icon" title="Logout">
-                        <FaSignOutAlt />
-                    </Link>
+                    <button onClick={handleAuthClick} className="auth-button" title={isLoggedIn ? "Logout" : "Login"}>
+                        {isLoggedIn ? <FaSignOutAlt /> : <FaSignInAlt />}
+                    </button>
                 </div>
             </nav>
+            
             <div>
                 <Outlet />
             </div>
@@ -95,12 +102,9 @@ const Root = () => {
                     ))}
                 </div>
             </footer>
-
         </>
-
-
-
-    )
+    );
 };
 
-export default Root
+export default Root;
+
