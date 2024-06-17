@@ -12,8 +12,8 @@ const getById = async (req,res) =>{
     res.json({data:user});
 }
 const getByToken = async (req,res) =>{
-    // const id = req.user._id;
-    const id = req.params.id
+    const id = req.user._id;
+    // const id = req.params.id
     const user = await userController.getById(id);
     res.json({data:user});
 }

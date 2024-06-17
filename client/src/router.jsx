@@ -6,6 +6,8 @@ import Register from "./pages/register/Register";
 import ProductList from "./pages/product/ProductList";
 import Product from "./pages/product/Product";
 import Cart from "./pages/cart/Cart"
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import Profile from "./pages/Profile/Profile";
 
 async function fetchProducts(){
     const result = await getProducts();
@@ -56,7 +58,17 @@ const router = createBrowserRouter([
           path: "/carts",
           element: <Cart />,
           loader: () => fetchCartOpened()
-        }
+        },
+        {
+            path: "/admin",
+            element: <AdminPanel/>,
+            // loader: () => fetchCartOpened()
+          },
+          {
+            path: "/profile",
+            element: <Profile/>,
+            // loader: () => fetchCartOpened()
+          }
       ]
     },
     {
