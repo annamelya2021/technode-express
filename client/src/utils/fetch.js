@@ -2,7 +2,6 @@ import { getToken } from "./local";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL
-// console.log("Api url",API_URL);
 
 const fetchData = async (route, method, inputData = null) => {
     const url = new URL(API_URL + route);
@@ -32,7 +31,6 @@ const fetchData = async (route, method, inputData = null) => {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const data = await result.json();
-      console.log("data", data);
       return data;
     } catch (error) {
       console.error('Fetch error:', error);
