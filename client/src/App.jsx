@@ -9,16 +9,15 @@ import { createBrowserRouter } from 'react-router-dom';
 function App() {
   const [user, setUser] = useState()
 
- 
+
 
   return (
     <>
-    {/* <h1>Technode-Express</h1> */}
 
       <UserContext.Provider value={{ user, setUser }}>
         <RouterProvider router={router} />
       </UserContext.Provider>
-   
+
     </>
   )
 }
