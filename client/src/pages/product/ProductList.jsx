@@ -13,7 +13,7 @@ const ProductsList = () => {
             <article className="product-list-element" key={product._id}>
                 <img src={product.product_image} alt="Product" />
                 <h2>{product.product_name}</h2>
-                <p>{product.product_model}</p>
+                
                 <p>{product.product_price}</p>
                 <p>{product.product_comments.length} Comments</p>
                 <Link to={`/products/${product._id}`}>More info</Link>
@@ -23,8 +23,8 @@ const ProductsList = () => {
     )
     return (
         <>
-        <h1>Checkout our products</h1>
         
+        <h1 className="page-title">Checkout our products</h1>
             <section className="product-list">
                 {productsHtml}
             </section>
@@ -33,7 +33,7 @@ const ProductsList = () => {
                 <CreateProduct onCreate={()=>setCreatingProduct(false)}/>
             </Modal>
             :
-            <button onClick={()=>setCreatingProduct(true)}>New Product</button>
+            <button className="btn-crearProducto" onClick={()=>setCreatingProduct(true)}>New Product</button>
         }
         </>
     )
