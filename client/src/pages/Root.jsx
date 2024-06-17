@@ -67,6 +67,9 @@ const Root = () => {
                         <li>
                             <Link to="/carts">Cart</Link>
                         </li>
+                        <li>
+                            <Link to="/userinfo">User</Link>
+                        </li>
                     </ul>
                 </div>
                 <div className="navbar-icons">
