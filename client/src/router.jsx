@@ -1,5 +1,6 @@
 import {createBrowserRouter,redirect} from "react-router-dom";
-import { getProducts,getProduct, getCartOpened } from "./utils/fetch";
+import { getProducts,getProduct, getCartOpened, getUserData } from "./utils/fetch";
+import { getToken } from "./utils/local"; 
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Register from "./pages/register/Register";
@@ -77,7 +78,17 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <Profile/>,
-            // loader: () => fetchCartOpened()
+            loader: async () => {
+                const token = getToken();
+              if (!token) {
+                return redirect("/products");
+              }
+              const { data } = await getUserData();
+              if (data.role !== "user") {
+                return redirect("/products");
+              }
+              return null;
+            },
           }
       ]
     },
