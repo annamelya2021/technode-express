@@ -1,9 +1,6 @@
 import { getToken } from "./local";
 
-
 const API_URL = import.meta.env.VITE_BACKEND_URL
-// console.log("Api url",API_URL);
-
 const fetchData = async (route, method, inputData = null) => {
     const url = new URL(API_URL + route);
     const fetchOptions = {
@@ -24,7 +21,6 @@ const fetchData = async (route, method, inputData = null) => {
     }
     try {
       const result = await fetch(url.toString(), fetchOptions);
-    //   console.log("result",result)
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
@@ -38,7 +34,6 @@ const fetchData = async (route, method, inputData = null) => {
 
 const getUserData = async () => {
     const result = await fetchData("/users/bytoken", "get");
-    // console.log("userdata", result);
     return result;
 };
 
@@ -58,11 +53,7 @@ const login = async(userData)=>{
         return { error: error.message };
     }
 }
-// const getUserData = async()=>{
-//     const result = await fetchData("/users/bytoken","get");
-//     console.log("userdata",result);
-//     return result;
-// }
+
 const getProducts = async()=>{
     const result = await fetchData("/products","get");
     return result;
@@ -87,10 +78,28 @@ const getComments = async(id)=>{
     const result = await fetchData(`/products/${id}/comments/${commentId}`,"delete");
     return result;
  }   
- const getCart = async()=>{
-    const result = await fetchData("/carts","get");
-    return result;
- }
+ const getCart = async () => {
+    return await fetchData("/carts", "get");
+};
+
+const addProductToCart = async (productId) => {
+    return await fetchData(`/carts/${productId}`, "post");
+};
+
+const updateQuantityInCart = async (productId, quantity) => {
+    const result = await fetchData(`/carts/${productId}`, "patch", { quantity });
+    return  result
+};
+
+const removeProductFromCart = async (productId) => {
+    const result =  await fetchData(`/carts/${productId}`, "delete");
+    return result
+};
+
+const clearCart = async () => {
+    return await fetchData("/carts", "delete");
+};
+
  
 export {
     register,
@@ -102,6 +111,9 @@ export {
     getComments,
     createComments,
     deleteComments,
-    getCart
-    
+    getCart,
+    addProductToCart,
+    updateQuantityInCart,
+    removeProductFromCart,
+    clearCart
 }

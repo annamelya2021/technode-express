@@ -4,7 +4,6 @@ import { productModel as Product } from '../../models/productModel.js';
 const getAll = async () => {
     try {
       const products = await Product.find();
-      console.log('products :>> ', products);
       return { error: null, data: products };
     } catch (error) {
       return { error: error.message, data: null };
