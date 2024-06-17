@@ -62,7 +62,17 @@ const router = createBrowserRouter([
         {
             path: "/admin",
             element: <AdminPanel/>,
-            // loader: () => fetchCartOpened()
+            loader: async () => {
+                const token = getToken();
+                if (!token) {
+                  return redirect("/");
+                }
+                const { data } = await getUserData();
+                if (data.role !== "admin") {
+                  return redirect("/products");
+                }
+                return null;
+              },
           },
           {
             path: "/profile",
