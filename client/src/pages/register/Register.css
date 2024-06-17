@@ -1,6 +1,6 @@
 /* Register.css */
 .register-login {
-    background-color: #976767;
+    background-color: #c9d4df;
     border-radius: 8px;
     padding: 20px;
   }
@@ -28,7 +28,7 @@
   
   .register-login button {
     margin: 10px 0;
-    background-color: #007bff;
+    background-color: #355272;
     color: #fff;
     border: none;
     padding: 10px 20px;
