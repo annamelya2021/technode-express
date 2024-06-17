@@ -1,0 +1,80 @@
+/* Estilos básicos para la tarjeta del producto */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin: 16px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    text-align: center;
+    max-width: 300px;
+}
+
+/* Efecto hover para la tarjeta */
+.product-card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+}
+
+/* Estilo para la imagen del producto */
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+/* Estilo para el nombre del producto */
+.product-card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 8px 0;
+}
+
+/* Estilo para el modelo del producto */
+.product-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 4px 0;
+}
+
+/* Estilo para la descripción del producto */
+.product-card p:nth-of-type(2) {
+    font-size: 0.875rem;
+    color: #999;
+    margin: 8px 0;
+}
+
+/* Estilo para el precio del producto */
+.product-card p:nth-of-type(3) {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #007BFF;
+    margin: 8px 0;
+}
+
+/* Estilos adicionales para adaptarse a diferentes tamaños de pantalla */
+@media (max-width: 600px) {
+    .product-card {
+        margin: 8px;
+        padding: 12px;
+        max-width: 100%;
+    }
+
+    .product-card h2 {
+        font-size: 1.25rem;
+    }
+
+    .product-card p {
+        font-size: 0.875rem;
+    }
+
+    .product-card p:nth-of-type(3) {
+        font-size: 1rem;
+    }
+}
