@@ -15,7 +15,7 @@ const fetchData = async (route, method, inputData = null) => {
         Object.keys(inputData).forEach(key => {
           url.searchParams.append(key, inputData[key]);
         });
-      } else if (method === "post" || method === "put" || method === "patch") {
+      } else if (method === "post" || method === "put" || method === "PATCH") {
         fetchOptions.body = JSON.stringify(inputData);
       }
     }
@@ -86,9 +86,12 @@ const addProductToCart = async (productId) => {
     return await fetchData(`/carts/${productId}`, "post");
 };
 
+
 const updateQuantityInCart = async (productId, quantity) => {
-    const result = await fetchData(`/carts/${productId}`, "patch", { quantity });
-    return  result
+    console.log(`Updating quantity for productId: ${productId} to quantity: ${quantity}`);
+    const result = await fetchData(`/carts/${productId}`, "PATCH", { quantity });
+    console.log("Update quantity result:", result);
+    return result;
 };
 
 const removeProductFromCart = async (productId) => {

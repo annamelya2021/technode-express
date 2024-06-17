@@ -30,19 +30,22 @@ const Cart = () => {
     setTotalQuantity(totalQuantity);
   };
 
-  const handleQuantityChange = async (productId, quantity) => {
-    if (quantity < 1) return;
-    try {
-      const response = await updateQuantityInCart(productId, quantity);
-      if (response.error) {
-        throw new Error(response.error);
-      }
-      setCartData(response.cartProducts);
-      calculateTotals(response.cartProducts);
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-    }
-  };
+    const handleQuantityChange = async (productId, quantity) => {
+        if (quantity < 1) return;
+        console.log(`Attempting to update product ${productId} to quantity ${quantity}`);
+        try {
+            const response = await updateQuantityInCart(productId, quantity);
+            if (response.error) {
+                throw new Error(response.error);
+            }
+            console.log('Quantity updated successfully', response.cartProducts);
+            setCartData(response.cartProducts);
+            calculateTotals(response.cartProducts);
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+        }
+    };
+    
 
   const handleRemoveProduct = async (productId) => {
     try {

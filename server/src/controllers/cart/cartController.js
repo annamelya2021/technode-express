@@ -16,7 +16,30 @@ async function createCart(userId) {
     }
 }
 
-const updateQuantityController = async (userId, productId, quantity) => {
+// const updateQuantityController = async (userId, productId, quantity) => {
+//     const cart = await cartModel.findOne({ userId });
+
+//     if (!cart) {
+//         throw new Error('Cart not found');
+//     }
+
+//     const productIndex = cart.cartProducts.findIndex(item => item.product._id.toString() === productId);
+
+//     if (productIndex === -1) {
+//         throw new Error('Product not found in cart');
+//     }
+
+//     cart.cartProducts[productIndex].quantity = quantity;
+    
+
+//     await cart.save();
+//     return cart;
+// };
+
+
+// cartController.js
+export const updateQuantityController = async (userId, productId, quantity) => {
+    console.log(`User ID: ${userId}, Product ID: ${productId}, Quantity: ${quantity}`);
     const cart = await cartModel.findOne({ userId });
 
     if (!cart) {
@@ -24,17 +47,17 @@ const updateQuantityController = async (userId, productId, quantity) => {
     }
 
     const productIndex = cart.cartProducts.findIndex(item => item.product._id.toString() === productId);
-
     if (productIndex === -1) {
         throw new Error('Product not found in cart');
     }
 
     cart.cartProducts[productIndex].quantity = quantity;
-    
-
     await cart.save();
     return cart;
 };
+
+
+
 
 async function getCart(userId){
     try {

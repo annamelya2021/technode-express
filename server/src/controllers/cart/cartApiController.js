@@ -43,19 +43,33 @@ async function addProductToCart(req, res) {
     }
 }
 
-async function updateQuantity(req, res) {
+// async function updateQuantity(req, res) {
+//     const userId = req.user._id;
+//     const productId = req.params.productId;
+//     const quantity = req.body.quantity;
+
+//     try {
+//         const cart = await cartController.updateQuantityController(userId, productId, quantity);
+//         res.json(cart);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: error.message });
+//     }
+// }
+
+export const updateQuantity = async (req, res) => {
     const userId = req.user._id;
     const productId = req.params.productId;
     const quantity = req.body.quantity;
-
     try {
+        console.log(`Request received: userId=${userId}, productId=${productId}, quantity=${quantity}`);
         const cart = await cartController.updateQuantityController(userId, productId, quantity);
         res.json(cart);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 async function removeProduct(req, res) {
     const userId = req.user._id;
