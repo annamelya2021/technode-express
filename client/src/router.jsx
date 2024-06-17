@@ -7,6 +7,7 @@ import Register from "./pages/register/Register";
 import ProductList from "./pages/product/ProductList";
 import Product from "./pages/product/Product";
 import Cart from "./pages/cart/Cart"
+// import UserInfo from "./pages/user/User"
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import Profile from "./pages/Profile/Profile";
 
@@ -60,6 +61,7 @@ const router = createBrowserRouter([
           element: <Cart />,
           loader: () => fetchCartOpened()
         },
+
         {
             path: "/admin",
             element: <AdminPanel/>,

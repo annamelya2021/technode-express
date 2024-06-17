@@ -92,7 +92,7 @@ async function removeProductFromCart(productId, userId) {
             cart.cartProducts.splice(index, 1);
         }
         if (cart.cartProducts.length === 0) {
-            await cartModel.deleteOne({_id:cart._id});
+            await cartModel.deleteOne();
             return null;
         } else {
             await cart.save();
