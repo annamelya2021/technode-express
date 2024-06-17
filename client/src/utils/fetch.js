@@ -72,6 +72,33 @@ const createProduct = async(productData)=>{
     const result = await fetchData("/products","post",productData);
     return result;
 }
+const createCart = async()=>{
+    const result = await fetchData("/carts","post");
+    return result;
+}
+const getCarts = async()=>{
+    const result = await fetchData("/carts/history","get");
+    return result;
+}
+const getCartOpened = async () => {
+  const result = await fetchData("/carts/opened", "get");
+  return result;
+}
+
+const addProductToCart = async (productId) => {
+  const result = await fetchData(`/carts/products/${productId}`, "post");
+  return result;
+}
+
+const removeProductFromCart = async (productId) => {
+  const result = await fetchData(`/carts/products/${productId}`, "delete");
+  return result;
+}
+
+const closeCart = async () => {
+  const result = await fetchData("/carts/close", "post");
+  return result;
+} 
 
 export {
     register,
@@ -79,5 +106,11 @@ export {
     getProducts,
     getProduct,
     createProduct,
-    getUserData
+    getUserData,
+    createCart,
+    getCarts,
+    closeCart,
+    getCartOpened,
+    addProductToCart,
+    removeProductFromCart
 }

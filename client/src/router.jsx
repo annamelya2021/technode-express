@@ -1,10 +1,11 @@
 import {createBrowserRouter,redirect} from "react-router-dom";
-import { getProducts,getProduct } from "./utils/fetch";
+import { getProducts,getProduct, getCartOpened } from "./utils/fetch";
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Register from "./pages/register/Register";
 import ProductList from "./pages/product/ProductList";
 import Product from "./pages/product/Product";
+import Cart from "./pages/cart/Cart"
 
 async function fetchProducts(){
     const result = await getProducts();
@@ -20,6 +21,14 @@ async function fetchProduct(_id){
       return redirect("/register");
   }
   return result.data;
+}
+async function fetchCartOpened(){
+  const result = await getCartOpened();
+  console.log("carrito",result)
+  if(result.error){
+      return redirect("/products");
+  }
+  return result;
 }
 
 const router = createBrowserRouter([
@@ -43,6 +52,11 @@ const router = createBrowserRouter([
             element: <Product />,
             loader: ({params}) => fetchProduct(params.id)
         },
+        {
+          path: "/carts",
+          element: <Cart />,
+          loader: () => fetchCartOpened()
+        }
       ]
     },
     {
