@@ -1,48 +1,84 @@
-import { createProduct } from "../../utils/fetch";
-import "./CreateProduct.css"
-const CreateProduct = ({onCreate})=>{
+import React, { useState } from "react";
+import "./CreateProduct.css";
 
-    const handleSubmit =async (e)=>{
+const CreateProduct = ({ onCreate }) => {
+    const [formData, setFormData] = useState({
+        name: "",
+        model: "",
+        description: "",
+        price: "",
+        image: null
+    });
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        setFormData({
+            ...formData,
+            [name]: files ? files[0] : value
+        });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const name = e.target.product_name.value;
-        const description = e.target.product_description.value;
-        const model = e.target.product_model.value;
-        const price = e.target.product_price.value;
-        const type = e.target.product_type.value;
-        const amount = e.target.product_amount.value;
+        // Lógica para manejar la creación del producto.
+        console.log("Producto creado:", formData);
+        if (onCreate) onCreate();
+    };
 
-        const data = {name,description,model,price,type,amount };
-        console.log("name",data)
-        const result = await createProduct(data);
-        console.log("result",result)
-        onCreate(result);
-    }
     return (
-        <form action="" className="create-project" onSubmit={handleSubmit}>
+        <div className="modal">
+            <div className="modal-body">
+                <form className="create-product-form" onSubmit={handleSubmit}>
+                    <h2>Create New Product</h2>
+                    <label htmlFor="name">Product Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label htmlFor="model">Model</label>
+                    <input
+                        type="text"
+                        id="model"
+                        name="model"
+                        value={formData.model}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label htmlFor="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label htmlFor="price">Price</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label htmlFor="image">Product Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleChange}
+                    />
+                    <button type="submit">Create Product</button>
+                    <button type="button" className="cancel-button" onClick={onCreate}>Cancel</button>
+                </form>
+            </div>
+        </div>
+    );
+};
 
-            <label htmlFor="name" >Name</label>
-            <input type="text" name="name"/>
-
-            <label htmlFor="description" >Description</label>
-            <textarea name="description"></textarea>
-
-            <label htmlFor="model" >Model</label>
-            <input type="text" name="model"/>
-
-            <label htmlFor="price" >Price</label>
-            <input type="number" name="price"/>
-
-            <label htmlFor="type" >Type</label>
-            <select name="type" >
-                <option value="mobile">Mobile</option>
-                <option value="laptop">Laptop</option>
-            </select>
-
-            <label htmlFor="amount" >Stock</label>
-            <input type="number" name="amount"/>
-
-            <button type="submit">Create</button>
-        </form>
-    )
-}
 export default CreateProduct;

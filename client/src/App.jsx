@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import Navbar from './components/navbar/navbar';
-import Footer from './components/footer/footer';
+
 import UserContext from './context/userContext';
 import { RouterProvider } from 'react-router-dom';
 import router from './router.jsx';
