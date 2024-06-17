@@ -19,12 +19,15 @@ const Product = () => {
 
     return (
         <article className="product-card" key={product._id}>
-            <img src={product.product_image} alt="Producto" />
-            <h2>{product.product_name}</h2>
-            <p>{product.product_model}</p>
-            <p>{product.product_description}</p>
-            <p>{product.product_price}</p>
-            <button onClick={handleAddToCart}>Add to Cart</button>
+            <img src={product.product_image} alt={product.product_name} />
+            <div className="product-card-content">
+                <h2>{product.product_name}</h2>
+                <p>{product.product_description}</p>
+                <div className="product-card-price-action">
+                    <p className="price">{`$${product.product_price}`}</p>
+                    <button onClick={handleAddToCart}>Add to Cart</button>
+                </div>
+            </div>
         </article>
     );
 }

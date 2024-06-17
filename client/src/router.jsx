@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       children: [
         {
             path: "/",
-            element: <h2>Hola Mundo</h2>
+            element: <h1>WELLCOME TO TECHNODE-EXPRESS</h1>
         },
         
         {
