@@ -61,10 +61,13 @@ async function removeProductFromCart (req, res) {
     const productId = req.params.productId;
     const userId = req.user._id;
     const cart = await cartController.removeProductFromCart(productId, userId);
-    if(!cart || cart.error){
+    if(!cart){
+        return res.json(null)
+    }
+    if( cart.error){
         const errorCode = cart?.errorCode || 500;
         const errorMessage = cart?.error || "Error removing product from cart";
-        res.status(errorCode).json({error:errorMessage})
+        return res.status(errorCode).json({error:errorMessage})
     }
     res.json(cart);
 }

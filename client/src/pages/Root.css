@@ -1,50 +1,178 @@
-/* navbar.css */
+/* Estilos globales */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Estilos para la barra de navegación */
 .navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #e20e0e;
-    color: white;
-}
-
-.navbar-content {
-    display: flex;
     align-items: center;
+    padding: 16px 32px;
+    background-color: #007BFF;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-title {
-    font-size: 1.5em;
+.navbar-title h1 {
+    margin: 0;
+    font-size: 1.75rem;
     font-weight: bold;
-    margin-right: 20px;
+    color: #fff;
 }
 
-.navbar-search {
-    padding: 5px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    margin-right: 20px;
+.navbar-content ul {
+    display: flex;
+    gap: 16px;
 }
 
-.navbar-categories {
-    padding: 5px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    background-color: white;
-    color: black;
-    margin-right: 20px;
+.navbar-content ul li {
+    font-size: 1rem;
+}
+
+.navbar-content ul li a {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #0056b3;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-content ul li a:hover {
+    background-color: #003d80;
+    transform: translateY(-2px);
 }
 
 .navbar-icons .icon {
-    color: white;
-    font-size: 1.5em;
-    cursor: pointer;
-    margin-left: 10px;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: color 0.3s ease;
 }
 
 .navbar-icons .icon:hover {
-    color: #aaa; /* Cambia el color al pasar el cursor por encima */
+    color: #f0f0f0;
+}
+
+/* Estilos para el contenido principal */
+main {
+    padding: 32px;
+}
+
+
+
+/* Estilos para el botón de nuevo producto */
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el pie de página */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: #333;
+    color: #fff;
+}
+
+.footer .scroll-to-top {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.footer .scroll-to-top:hover {
+    background-color: #0056b3;
+}
+
+.footer .copyright {
+    font-size: 1rem;
+}
+
+.footer .creators {
+    display: flex;
+    gap: 16px;
+    margin-right: 20px; /* esto ajusta el margen derecho para móviles */
+
+}
+
+.footer .creator-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.footer .creator-link:hover {
+    color: #007BFF;
+}
+
+.footer .creator-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.footer .creator-name {
+    font-size: 1rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .navbar-content ul {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .footer .creators {
+        justify-content: center;
+    }
 }
