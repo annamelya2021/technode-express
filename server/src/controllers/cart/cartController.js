@@ -10,7 +10,7 @@ async function createCart(userId){
             return existingCart
         }
         const cart = {
-            user:userId,
+            cartUser:userId,
             isOpened:true
         }
         const newCart = await cartModel.create(cart)
@@ -73,9 +73,9 @@ async function addProductToCart(productId,userId){
     try {
         const cart = await getCartOpened(userId)
         const product = await productModel.findById(productId)
-        cart.products.push(product)
+        cart.cartProducts.push(product)
         await cart.save()
-        const populatedCart = await cartModel.populate('products');
+        const populatedCart = await cart.populate('cartProducts');
         return populatedCart;
         
     } catch (error) {
@@ -83,18 +83,26 @@ async function addProductToCart(productId,userId){
         return {error:"There was an error adding product to cart",errorCode:500};
     }
 }
-async function removeProductFromCart(productId,userId){
+async function removeProductFromCart(productId, userId) {
     try {
-        const cart = await getCartOpened(userId)
-        const product = await productModel.findById(productId)
-        cart.products = cart.products.filter(product => !product.equals(productId))
-        await cart.save()
-        const populatedCart = await cart.populate('products');
-        return populatedCart;
+
+        const cart = await getCartOpened(userId);
+        const index = cart.cartProducts.findIndex(product => product.equals(productId));
+        if (index !== -1) {
+            cart.cartProducts.splice(index, 1);
+        }
+        if (cart.cartProducts.length === 0) {
+            await cartModel.deleteOne({_id:cart._id});
+            return null;
+        } else {
+            await cart.save();
+            const populatedCart = await cart.populate('cartProducts');
+            return populatedCart;
+        }
         
     } catch (error) {
         console.error(error);
-        return {error:"There was an error removing product from cart",errorCode:500};
+        return { error: "There was an error removing product from cart", errorCode: 500 };
     }
 }
 
