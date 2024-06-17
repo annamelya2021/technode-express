@@ -70,26 +70,26 @@ const Root = () => {
                 </div>
             </nav>
             <div>
-            <Outlet />
+                <Outlet />
             </div>
-            <div>
-                <footer className="footer">
-                    <button className="scroll-to-top" onClick={scrollToTop}>
-                        ↑
-                    </button>
-                    <div className="copyright">&copy; {year} Technode - Express</div>
-                    <div className="creators">
-                        {creators.map(creator => (
-                            <a key={creator.id} href={creator.url} target="_blank" rel="noopener noreferrer" className="creator-link">
-                                <div className="creator">
-                                    <img src={creator.avatar} alt={creator.name} className="creator-avatar" />
-                                    <span className="creator-name">{creator.name}</span>
-                                </div>
-                            </a>
-                        ))}
-                    </div>
-                </footer>
-            </div>
+
+            <footer className="footer">
+                <button className="scroll-to-top" onClick={scrollToTop}>
+                    ↑
+                </button>
+                <div className="copyright">&copy; {year} Technode - Express</div>
+                <div className="creators">
+                    {creators.map(creator => (
+                        <a key={creator.id} href={creator.url} target="_blank" rel="noopener noreferrer" className="creator-link">
+                            <div className="creator">
+                                <img src={creator.avatar} alt={creator.name} className="creator-avatar" />
+                                <span className="creator-name">{creator.name}</span>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </footer>
+
         </>
 
 
