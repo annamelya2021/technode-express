@@ -22,6 +22,10 @@ const Product = () => {
         }
     };
 
+    const handleAddToFavorites = () => {
+        alert('Product added to favorites');
+    };
+
     return (
         <article className="product-card" key={product._id}>
             <img src={product.product_image} alt={product.product_name} />
@@ -30,15 +34,22 @@ const Product = () => {
                 <p>{product.product_description}</p>
                 <div className="product-card-price-action">
                     <p className="price">{`$${product.product_price}`}</p>
-                    {user ? (
-                        user.role !== 'admin' && (
-                            <button onClick={handleAddToCart}>Add to Cart</button>
+                    {product.product_amount > 0 ? (
+                        user ? (
+                            user.role !== 'admin' && (
+                                <>
+                                <button onClick={handleAddToCart}>Add to Cart</button>
+                                <button onClick={handleAddToFavorites}>Add to Favorites</button>
+                                </>
+                            )
+                        ) : (
+                            <div className="register-login-message">
+                                <p>Please log in to add to cart.</p>
+                                <Link to="/register" className="register-link">Login</Link>
+                            </div>
                         )
                     ) : (
-                        <div className="register-login-message">
-                            <p>Please log in to add to cart.</p>
-                            <Link to="/register" className="register-link">Login</Link>
-                        </div>
+                        <p className="out-of-stock">Out of Stock</p>
                     )}
                 </div>
             </div>

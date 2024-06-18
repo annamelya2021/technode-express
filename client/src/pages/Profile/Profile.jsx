@@ -1,12 +1,15 @@
 import { useLoaderData } from 'react-router-dom';
 
+import './Profile.css'
+
 const Profile = () => {
-    const user = useLoaderData();
+    // const user = useLoaderData();
     
     return (
         <>
+        <h1 className="profile-title">Profile</h1>
         {/* informacion de usuario */}
-        <article className="user-card" key={user._id}>
+        {/* <article className="user-card" key={user._id}>
     
             <h2>{user.username}</h2>
             <p>{user.lastname}</p>
@@ -17,16 +20,17 @@ const Profile = () => {
         </article>
         
         {/* informacion dirección */}
-        <article>
+        {/* <article>
         <p>{user.user_direction}</p>
     
         </article>
     
         {/* informacion Favoritos y CarritosComprados */}
-        <article>
+        {/* <article>
             <div></div>
             <div></div>
-        </article>
+        </article>  */}
+  
         </>
     );
 };
