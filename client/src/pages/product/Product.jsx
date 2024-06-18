@@ -1,8 +1,12 @@
-import React, { useContext } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useLoaderData, Link, useSearchParams } from 'react-router-dom';
 import { addProductToCart } from '../../utils/fetch';
+import { addToFavorites, removeFromFavorites } from '../../utils/local';
 import './Product.css';
 import UserContext from '../../context/userContext';
+
+
+// const [isFavorite, setIsFavorite] = useState();
 
 const Product = () => {
     const product = useLoaderData();
@@ -26,6 +30,18 @@ const Product = () => {
         alert('Product added to favorites');
     };
 
+    const handleToggleFavorite = () => {
+        if (product && isFavorite) {
+          removeFromFavorites(product._id);
+          if (onRemove) onRemove(product._id);
+        } else if (product) {
+          addToFavorites(product._id);
+          handleAddToFavorites()
+        }
+        setIsFavorite(!isFavorite);
+      };
+    
+
     return (
         <article className="product-card" key={product._id}>
             <img src={product.product_image} alt={product.product_name} />
@@ -39,7 +55,9 @@ const Product = () => {
                             user.role !== 'admin' && (
                                 <>
                                 <button onClick={handleAddToCart}>Add to Cart</button>
-                                <button onClick={handleAddToFavorites}>Add to Favorites</button>
+                                <button onClick={handleToggleFavorite}>
+        {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+      </button>
                                 </>
                             )
                         ) : (

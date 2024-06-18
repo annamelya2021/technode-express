@@ -1,6 +1,8 @@
 import { useLoaderData } from 'react-router-dom';
 
 import './Profile.css'
+// import FavoriteProducts from '../../components/favoriteProducts/favoriteProducts';
+
 
 const Profile = () => {
     // const user = useLoaderData();
@@ -8,6 +10,7 @@ const Profile = () => {
     return (
         <>
         <h1 className="profile-title">Profile</h1>
+        {/* <FavoriteProducts/> */}
         {/* informacion de usuario */}
         {/* <article className="user-card" key={user._id}>
     
