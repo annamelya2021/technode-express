@@ -1,7 +1,10 @@
 .cart {
+    
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px ;
+    display: flex;
+    justify-content: space-between;
   }
   
   .cart h2 {

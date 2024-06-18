@@ -10,6 +10,8 @@ import ProtectedAdminRoute from "./routes/protectedAdminRoutes";
 import AdminPanel from "./pages/admin/AdminPanel";
 import FavoriteProducts from "./pages/favorites/FavoriteProducts";
 import Cart from "./pages/cart/Cart";
+import AddNewProduct from "./pages/admin/addNewProduct/AddNewProduct";
+import Orders from "./pages/admin/orders/Orders";
 
 
 async function fetchProducts() {
@@ -59,6 +61,17 @@ const router = createBrowserRouter([
           }
           return null;
         },
+        children: [
+          {
+            path: "/admin",
+            element: <AddNewProduct/>,
+          },
+          {
+            path: "/admin/orders",
+            element: <Orders/>,
+          },
+
+        ],
       },
       {
         path: "/cart",

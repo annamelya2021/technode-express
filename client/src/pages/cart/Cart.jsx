@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getCart, updateQuantityInCart, removeProductFromCart, clearCart } from '../../utils/fetch';
 import './Cart.css';
+import CartProduct from './CartProduct/CartProduct';
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
@@ -16,6 +17,7 @@ const Cart = () => {
         }
         setCartData(response.cartProducts);
         calculateTotals(response.cartProducts);
+
       } catch (error) {
         console.error('Error fetching cart:', error);
       }
@@ -24,6 +26,7 @@ const Cart = () => {
   }, []);
 
   const calculateTotals = (cartProducts) => {
+
     const totalPrice = cartProducts.reduce((sum, item) => sum + item.product.product_price * item.quantity, 0);
     const totalQuantity = cartProducts.reduce((sum, item) => sum + item.quantity, 0);
     setTotalPrice(totalPrice);
@@ -32,13 +35,11 @@ const Cart = () => {
 
     const handleQuantityChange = async (productId, quantity) => {
         if (quantity < 1) return;
-        console.log(`Attempting to update product ${productId} to quantity ${quantity}`);
         try {
             const response = await updateQuantityInCart(productId, quantity);
             if (response.error) {
                 throw new Error(response.error);
             }
-            console.log('Quantity updated successfully', response.cartProducts);
             setCartData(response.cartProducts);
             calculateTotals(response.cartProducts);
         } catch (error) {
@@ -75,8 +76,10 @@ const Cart = () => {
   };
 
   const handlePlaceOrder = async () => {
+    console.log('cartData :>> ', cartData);
     try {
       const response = await fetchData('/orders', 'post', { cart: cartData });
+
       if (response.error) {
         throw new Error(response.error);
       }
@@ -89,6 +92,8 @@ const Cart = () => {
 
   return (
     <div className="cart">
+      <div>
+
       <h2>Shopping Cart</h2>
       <button onClick={handleClearCart}>Clear Cart</button>
       {cartData.length === 0 ? (
@@ -96,28 +101,20 @@ const Cart = () => {
       ) : (
         <div>
           {cartData.map(item => (
-            <div key={item.product._id} className="cart-item">
-              <img src={item.product.product_image} alt={item.product.product_name} className="cart-item-image" />
-              <div className="cart-item-details">
-                <h3>{item.product.product_name}</h3>
-                <p>Price: ${item.product.product_price}</p>
-                <p>
-                  Quantity: 
-                  <button onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}>-</button>
-                  {item.quantity}
-                  <button onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}>+</button>
-                </p>
-                <button onClick={() => handleRemoveProduct(item.product._id)}>Remove</button>
-              </div>
-            </div>
+            <CartProduct key={item.product._id} item={item} handleQuantityChange={handleQuantityChange}/>
           ))}
           <div className="cart-summary">
             <p>Total Quantity: {totalQuantity}</p>
             <p>Total Price: ${totalPrice.toFixed(2)}</p>
           </div>
+
           <button onClick={handlePlaceOrder}>Place Order</button>
         </div>
-      )}
+      )} 
+      </div>
+      <div >
+data
+      </div>
     </div>
   );
 };
