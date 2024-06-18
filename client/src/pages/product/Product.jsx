@@ -1,17 +1,22 @@
-// Product.jsx
-import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useLoaderData, Link } from 'react-router-dom';
 import { addProductToCart } from '../../utils/fetch';
-import "./Product.css";
+import './Product.css';
+import UserContext from '../../context/userContext';
 
 const Product = () => {
     const product = useLoaderData();
+    const { user } = useContext(UserContext);
 
     const handleAddToCart = async () => {
         try {
-            const updatedCart = await addProductToCart(product._id);
-            console.log('Product added to cart:', updatedCart);
-            alert('Product added to cart');
+            if (user) {
+                const updatedCart = await addProductToCart(product._id);
+                console.log('Product added to cart:', updatedCart);
+                alert('Product added to cart');
+            } else {
+                alert('Please register or log in to add to cart.');
+            }
         } catch (error) {
             console.error('Error adding product to cart:', error);
         }
@@ -25,11 +30,20 @@ const Product = () => {
                 <p>{product.product_description}</p>
                 <div className="product-card-price-action">
                     <p className="price">{`$${product.product_price}`}</p>
-                    <button onClick={handleAddToCart}>Add to Cart</button>
+                    {user ? (
+                        user.role !== 'admin' && (
+                            <button onClick={handleAddToCart}>Add to Cart</button>
+                        )
+                    ) : (
+                        <div className="register-login-message">
+                            <p>Please log in to add to cart.</p>
+                            <Link to="/register" className="register-link">Login</Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </article>
     );
-}
+};
 
 export default Product;

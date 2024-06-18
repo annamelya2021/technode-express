@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/local";
 import { useEffect, useContext, useState } from "react";
 import UserContext from "../context/userContext";
-import { getUserData, getCartOpened } from "../utils/fetch";
+import { getUserData } from "../utils/fetch";
 import { FaSignOutAlt, FaSignInAlt } from "react-icons/fa"; // Importamos el icono de login
 
 import imageAna from '../assets/ana.jpg';
@@ -25,6 +25,7 @@ const Root = () => {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
         if (getToken()) {
@@ -41,6 +42,7 @@ const Root = () => {
             navigate("/register");
         }
         setUser(data.data);
+        setRole(data.data.role);
     }
 
     const handleAuthClick = () => {
@@ -48,7 +50,9 @@ const Root = () => {
             // Handle logout logic
             localStorage.removeItem("token");
             setIsLoggedIn(false);
-            navigate("/register");
+            setUser(null);
+            setRole(null);
+            navigate("/products");
         } else {
             // Navigate to login/register page
             navigate("/register");
@@ -57,7 +61,6 @@ const Root = () => {
 
     return (
         <>
-       
             <nav className="navbar">
                 <div className="navbar-title">
                     <h1>Technode-Express</h1>
@@ -70,17 +73,26 @@ const Root = () => {
                         <li>
                             <Link to="/products">Products</Link>
                         </li>
-                        <li>
-                            <Link to="/carts">Cart</Link>
-                        </li>
-                        <li>
-                            <Link to="/userinfo">User</Link>
-                        </li>
+                        {role === "user" && (
+                            <>
+                                <li>
+                                    <Link to="/carts">Cart</Link>
+                                </li>
+                                <li>
+                                    <Link to="/profile">Profile</Link>
+                                </li>
+                            </>
+                        )}
+                        {role === "admin" && (
+                            <li>
+                                <Link to="/admin">Admin Panel</Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className="navbar-icons">
                     <button onClick={handleAuthClick} className="auth-button" title={isLoggedIn ? "Logout" : "Login"}>
-                        {isLoggedIn ? <FaSignOutAlt /> : <FaSignInAlt />}
+                        {isLoggedIn ? <p>LogOut <FaSignOutAlt /></p> : <p>LogIn <FaSignInAlt /></p>}
                     </button>
                 </div>
             </nav>
@@ -110,4 +122,3 @@ const Root = () => {
 };
 
 export default Root;
-

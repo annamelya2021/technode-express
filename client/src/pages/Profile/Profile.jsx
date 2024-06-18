@@ -1,9 +1,6 @@
-
-import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
-
-const userInfo = () => {
+const Profile = () => {
     const user = useLoaderData();
     
     return (
@@ -35,5 +32,4 @@ const userInfo = () => {
 };
    
 
-
-export default userInfo;
+export default Profile

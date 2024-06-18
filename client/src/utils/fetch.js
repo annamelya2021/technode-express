@@ -2,7 +2,6 @@ import { getToken } from "./local";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL
-// console.log("Api url",API_URL);
 
 const fetchData = async (route, method, inputData = null) => {
     const url = new URL(API_URL + route);
@@ -32,7 +31,6 @@ const fetchData = async (route, method, inputData = null) => {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
       const data = await result.json();
-      console.log("data", data);
       return data;
     } catch (error) {
       console.error('Fetch error:', error);
@@ -60,6 +58,10 @@ const getUserData = async()=>{
     const result = await fetchData("/users/bytoken","get");
     return result;
 }
+const allUsers = async()=>{
+    const result = await fetchData("/users","get");
+    return result;
+}
 const getProducts = async()=>{
     const result = await fetchData("/products","get");
     return result;
@@ -70,6 +72,10 @@ const getProduct = async(_id)=>{
 }
 const createProduct = async(productData)=>{
     const result = await fetchData("/products","post",productData);
+    return result;
+}
+const updateProduct = async(_id,productData)=>{
+    const result = await fetchData("/products/"+_id,"put",productData);
     return result;
 }
 const createCart = async()=>{
@@ -106,11 +112,13 @@ export {
     getProducts,
     getProduct,
     createProduct,
+    updateProduct,
     getUserData,
     createCart,
     getCarts,
     closeCart,
     getCartOpened,
     addProductToCart,
-    removeProductFromCart
+    removeProductFromCart,
+    allUsers
 }

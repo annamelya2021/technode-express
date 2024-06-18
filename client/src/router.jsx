@@ -1,12 +1,15 @@
 import {createBrowserRouter,redirect} from "react-router-dom";
-import { getProducts,getProduct, getCartOpened } from "./utils/fetch";
+import { getProducts,getProduct, getCartOpened, getUserData } from "./utils/fetch";
+import { getToken } from "./utils/local"; 
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Register from "./pages/register/Register";
 import ProductList from "./pages/product/ProductList";
 import Product from "./pages/product/Product";
 import Cart from "./pages/cart/Cart"
-import UserInfo from "./pages/user/User"
+// import UserInfo from "./pages/user/User"
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import Profile from "./pages/Profile/Profile";
 
 async function fetchProducts(){
     const result = await getProducts();
@@ -58,10 +61,37 @@ const router = createBrowserRouter([
           element: <Cart />,
           loader: () => fetchCartOpened()
         },
+
         {
-          path: "/userinfo",
-          element: <UserInfo />
-        }
+            path: "/admin",
+            element: <AdminPanel/>,
+            loader: async () => {
+                const token = getToken();
+                if (!token) {
+                  return redirect("/");
+                }
+                const { data } = await getUserData();
+                if (data.role !== "admin") {
+                  return redirect("/products");
+                }
+                return null;
+              },
+          },
+          {
+            path: "/profile",
+            element: <Profile/>,
+            loader: async () => {
+                const token = getToken();
+              if (!token) {
+                return redirect("/products");
+              }
+              const { data } = await getUserData();
+              if (data.role !== "user") {
+                return redirect("/products");
+              }
+              return null;
+            },
+          }
       ]
     },
     {

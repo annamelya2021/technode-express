@@ -12,6 +12,7 @@ import productController from './productController.js';
  */
 async function getAll(req, res) {
     const { error, data } = await productController.getAll();
+    
     res.json({ error, data });
 }
 /**
