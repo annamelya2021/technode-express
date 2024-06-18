@@ -80,6 +80,7 @@ const ProductsList = () => {
     const productsHtml = products.map((product) => (
         <article className="product-list-element" key={product._id}>
             <img src={product.product_image} alt="Product" />
+            <div className="product-info">
             <h2>{product.product_name}</h2>
             <p>${product.product_price}</p>
             <p>{product.product_comments.length} Comments</p>
@@ -90,6 +91,7 @@ const ProductsList = () => {
                     Edit Product
                 </button>
             )}
+            </div>
         </article>
     ));
 
