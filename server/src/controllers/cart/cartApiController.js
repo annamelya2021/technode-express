@@ -7,10 +7,11 @@ async function getCartData (req, res) {
     const userId = req.user._id;
  
     const cart = await cartController.getCart(userId);
-    console.log(cart)
-    // if(cart.length===0 ){
-    //   return  res.json({message:"Cart is ampty"} );
-    // }
+    console.log("cart2",cart)
+
+    if(!cart ){
+      return  res.json({message:"Cart is ampty"} );
+    }
     
     res.json(cart);
 }
@@ -18,11 +19,9 @@ async function getCartData (req, res) {
 async function addProductToCart(req, res) {
     const userId = req.user._id;
     const productId = req.params.productId;
-    console.log('userId :>> ', userId);
-    console.log('productId :>> ', productId);
     try {
         const cart = await cartController.createCart(userId);
-        console.log('cart :>> ', cart);
+     
         const product = await productModel.findById(productId);
 
         if (!product) {

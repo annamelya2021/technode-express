@@ -12,11 +12,16 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         const response = await getCart();
+
+        console.log('response :>> ', response);
         if (response.error) {
           throw new Error(response.error);
         }
-        setCartData(response.cartProducts);
-        calculateTotals(response.cartProducts);
+        if(response.length>0){
+            setCartData(response.cartProducts);
+            calculateTotals(response.cartProducts);
+        }
+       
 
       } catch (error) {
         console.error('Error fetching cart:', error);
@@ -76,7 +81,6 @@ const Cart = () => {
   };
 
   const handlePlaceOrder = async () => {
-    console.log('cartData :>> ', cartData);
     try {
       const response = await fetchData('/orders', 'post', { cart: cartData });
 
@@ -93,7 +97,6 @@ const Cart = () => {
   return (
     <div className="cart">
       <div>
-
       <h2>Shopping Cart</h2>
       <button onClick={handleClearCart}>Clear Cart</button>
       {cartData.length === 0 ? (

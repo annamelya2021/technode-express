@@ -62,8 +62,12 @@ export const updateQuantityController = async (userId, productId, quantity) => {
 async function getCart(userId){
     try {
         const cart = await cartModel.find({userId: userId})
-     
+     console.log('cart :>> ', cart);
+     if (cart.length>0) {
         return cart[0];
+     }
+     return cart
+        
     } catch (error) {
         console.error(error);
         return {error:"There was an error getting the cart history",errorCode:500};
