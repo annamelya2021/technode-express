@@ -7,9 +7,8 @@ const commentSchema = new Schema({
     required: true,
   },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
-    required: false 
+    type: String,
+    required: true, 
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
