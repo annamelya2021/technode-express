@@ -1,48 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import ProductCard from '../product/ProductCard';
-import { getProduct } from '../../utils/fetch';
-import './FavoriteProducts.css';
+// ProfileFavoriteProducts.jsx
+import React, { useContext } from 'react';
+import { useProductActions } from './ProductUtils';
+import UserContext from '../../context/userContext';
 
-const FavoriteProducts = () => {
-  const [favoriteProducts, setFavoriteProducts] = useState([]);
+const ProfileFavoriteProducts = ({ product }) => {
+    const { user } = useContext(UserContext);
+    const { isFavorite, handleToggleFavorite } = useProductActions(product, user);
 
-  useEffect(() => {
-    const fetchFavoriteProducts = async () => {
-      try {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        console.log('Favorites from localStorage:', favorites);
+    if (!product) {
+        return <p>Loading...</p>;
+    }
 
-        const products = await Promise.all(
-          favorites.map(async productId => {
-            const response = await getProduct(productId);
-            return response.data;
-          })
-        );
-        setFavoriteProducts(products);
-      } catch (error) {
-        console.error('Failed to load favorite products:', error);
-      }
-    };
-
-    fetchFavoriteProducts();
-  }, []);
-
-  const removeFavorite = (productId) => {
-    const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
-    setFavoriteProducts(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
-  };
-
-  return (
-    <div className="favorite-products">
-      <h2>Favorite Products</h2>
-      <div className="product-list">
-        {favoriteProducts.map(product => (
-          <ProductCard key={product._id} product={product} onRemove={() => removeFavorite(product._id)} />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div className="favorite-product">
+            <img src={product.product_image} alt={product.product_name} />
+            <div className="favorite-product-details">
+                <h3>{product.product_name}</h3>
+                <p>{product.product_description}</p>
+                <button onClick={handleToggleFavorite}>
+                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                </button>
+            </div>
+        </div>
+    );
 };
 
-export default FavoriteProducts;
+export default ProfileFavoriteProducts;
+
