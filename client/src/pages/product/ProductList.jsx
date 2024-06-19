@@ -3,6 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import './ProductList.css';
 import UserContext from '../../context/userContext';
 import { updateProduct, addComment, deleteComment, getComments } from '../../utils/fetch';
+import { getToken } from '../../utils/local';
 
 const initialData = {
     product_image: '',
@@ -23,6 +24,8 @@ const ProductsList = () => {
     const [selectedProductComments, setSelectedProductComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [selectedProductId, setSelectedProductId] = useState(null);
+    const token = getToken();
+    console.log("token", token)
 
     const handleEditOpen = (productId) => {
         const productToEdit = products.find((product) => product._id === productId);
@@ -195,7 +198,7 @@ const ProductsList = () => {
                                 type="text"
                                 name="product_amount"
                                 value={editFormData.product_amount}
-                                onChange={(e) => setEditFormData({ ...editFormData, product_amount: e.target.value })}
+                                onChange={(e)=> setEditFormData({ ...editFormData, product_amount: e.target.value })}
                             />
 
                             <button type="submit">Save Changes</button>
@@ -209,18 +212,7 @@ const ProductsList = () => {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <span className="close" onClick={() => setShowCommentsModal(false)}>&times;</span>
                         <h2>Comments</h2>
-                        <div className="comments-section">
-                            {selectedProductComments.map((comment) => (
-                                <div key={comment._id} className="comment">
-                                    <p>{comment.text}</p>
-                                    <p>Posted by: {comment.author}</p>
-                                    <p>Date: {new Date(comment.date).toLocaleString()}</p>
-                                    {user && user.role === 'admin' && (
-                                        <button onClick={() => handleDeleteComment(comment._id)}>Remove Comment</button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+
                         {user && user.role === 'user' && (
                             <div className="add-comment-section">
                                 <textarea
@@ -231,6 +223,20 @@ const ProductsList = () => {
                                 <button onClick={handleAddComment}>Add Comment</button>
                             </div>
                         )}
+                        <div className="comments-section">
+                            {selectedProductComments.map((comment) => (
+                                <div key={comment._id} className="comment">
+                                    <p>{comment.text}</p>
+                                    <p>Posted by: {comment.author}</p>
+                                    <p>Date: {new Date(comment.date).toLocaleString()}</p>
+                                    {user && user.role === 'admin' && (
+                                        <button onClick={() => handleDeleteComment(comment._id)}>Remove Comment</button>
+                                    )}
+
+                       
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
