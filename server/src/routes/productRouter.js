@@ -12,7 +12,7 @@ router.post("/",isAuthenticated,isAdmin, productApiController.create);
 router.put("/:id",isAuthenticated,isAdmin, productApiController.update);
 router.delete("/:id",isAuthenticated,isAdmin, productApiController.remove);
 router.post('/:id/comments', isAuthenticated, commentControllers.createComment);
-router.get('/:id/comments', isAuthenticated, commentControllers.getCommentsByPostId);
+router.get('/:id/comments', commentControllers.getCommentsByProductId);
 router.delete('/:id/comments/:commentId', isAuthenticated, isAdmin,commentControllers.deleteComment);
 
 export default router;
