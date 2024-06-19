@@ -26,9 +26,9 @@ const userSchema  = new mongoose.Schema({
         enum : ["user","admin"],
         default: "user"
     },
-    user_direction : [{
+    user_direction : {
         type: String
-    }],
+    },
     user_favorites : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'products'
