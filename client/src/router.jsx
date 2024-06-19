@@ -89,7 +89,7 @@ const router = createBrowserRouter([
               if (data.role !== "user") {
                 return redirect("/products");
               }
-              return null;
+              return data;
             },
           }
       ]
