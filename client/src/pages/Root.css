@@ -1,4 +1,29 @@
-/* Estilos generales para el Navbar */
+#root {
+    max-width: 100vh;
+  
+    margin: 0 auto;
+    
+    text-align: center;
+    flex-direction: column;
+    /* Asegura que el contenido se coloque verticalmente */
+    align-items: center;
+    /* Centra el carrusel horizontalmente */
+    justify-content: center;
+    /* Centra el carrusel verticalmente */
+    min-height: 100vh;
+    /* Ocupa al menos la altura de la ventana */
+    padding-top: 80px;
+    /* Espacio para el navbar fijo */
+  }
+.react-multi-carousel-list {
+    display: flex;
+    
+    align-items: center;
+    
+    position: relative;
+    
+    
+}
 .navbar {
     width: 100%;
     height: 64px;
@@ -13,46 +38,66 @@
     left: 0;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-title h1 {
+  }
+  
+  /* Estilo para el título */
+  .navbar-title {
+    display: flex; /* Asegura la alineación horizontal si hay más de un elemento */
+    align-items: center;
+  }
+  
+  .navbar-title h1 {
     font-size: 1.8rem;
     margin: 0;
     color: #007BFF;
     font-weight: bold;
-}
-
-.navbar-content ul {
+  }
+  
+  /* Estilo para el contenido principal (navegación) */
+  .navbar-content {
+    display: flex; /* Asegura que el contenedor se alinee horizontalmente */
+    align-items: center;
+  }
+  
+  .navbar-content ul {
     list-style: none;
     display: flex;
     gap: 24px;
     margin: 0;
     padding: 0;
-}
-
-.navbar-content ul li a {
+  }
+  
+  .navbar-content ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 1.2rem;
     transition: color 0.3s ease;
-}
-
-.navbar-content ul li a:hover {
-    color: #007BFF;
-}
-
-.navbar-icons .auth-button {
+  }
+  
+  .navbar-content ul li a:hover {
+    color: #007BFF; /* Cambio de color en hover */
+  }
+  
+  /* Estilo para los íconos (botones de autenticación u otros) */
+  .navbar-icons {
+    display: flex; /* Asegura que los íconos estén en línea horizontal */
+    align-items: center;
+    gap: 16px; /* Espacio entre los íconos */
+  }
+  
+  .navbar-icons .auth-button {
     background: none;
     border: none;
     font-size: 1.5rem;
     color: #fff;
     cursor: pointer;
     transition: color 0.3s ease;
-}
-
-.navbar-icons .auth-button:hover {
-    color: #007BFF;
-}
+  }
+  
+  .navbar-icons .auth-button:hover {
+    color: #007BFF; /* Cambio de color en hover */
+  }
+  
 
 .footer {
     width: 100%;

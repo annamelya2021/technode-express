@@ -101,6 +101,7 @@ const Root = () => {
             
             <div>
                 <Outlet />
+                
             </div>
 
             <footer className="footer">
