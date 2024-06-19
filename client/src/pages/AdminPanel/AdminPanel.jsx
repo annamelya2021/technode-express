@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createProduct, allUsers } from "../../utils/fetch";
+import "./AdminPanel.css";
 
 const initialState = {
     product_image: "",

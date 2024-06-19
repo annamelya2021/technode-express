@@ -6,6 +6,8 @@ import UserContext from "../context/userContext";
 import { getUserData } from "../utils/fetch";
 import { FaSignOutAlt, FaSignInAlt } from "react-icons/fa"; // Importamos el icono de login
 
+import Home from "./Home/Home";
+
 import imageAna from '../assets/ana.jpg';
 import imageMikel from '../assets/mikelondrio.png';
 import imageNatxo from '../assets/natxo.png';
