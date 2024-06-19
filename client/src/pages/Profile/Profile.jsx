@@ -65,12 +65,12 @@ const Profile = () => {
 
     return (
         <>
-            User Information
+            {/* User Information */}
             <article className="user-card" key={user._id}>
-                {/* <h2>{user.username}</h2> */}
-                {/* <p>{user.lastname}</p> */}
-                {/* <p>{user.email}</p> */}
-                {/* <p>{user.phone}</p> */}
+                <h2>{user.username}</h2>
+                <p>{user.lastname}</p>
+                <p>{user.email}</p>
+                <p>{user.phone}</p>
                 <button onClick={() => handleUpdateUser(user)}>Edit Profile</button>
             </article>
 
@@ -119,3 +119,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+
+
