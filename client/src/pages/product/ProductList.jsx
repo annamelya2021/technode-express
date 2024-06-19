@@ -4,7 +4,7 @@ import './ProductList.css';
 import UserContext from '../../context/userContext';
 import { updateProduct, addComment, deleteComment, getComments } from '../../utils/fetch';
 import { getToken } from '../../utils/local';
-
+import moment from 'moment';
 const initialData = {
     product_image: '',
     product_name: '',
@@ -58,6 +58,14 @@ const ProductsList = () => {
             console.error('Error fetching comments:', error);
         }
     };
+
+    const handleModalClick = (e) => {
+        if (e.target.classList.contains('modal-comments')) {
+            setShowCommentsModal(false); 
+        }
+    };
+    
+    
 
     const handleAddComment = async () => {
         if (!newComment.trim()) return;
@@ -137,10 +145,9 @@ const ProductsList = () => {
             <section className="product-list">
                 {productsHtml}
             </section>
-
             {editingProductId && (
-                <div className="modal">
-                    <div className="modal-content">
+                <div className="modal-edit" onClick={handleEditClose}>
+                    <div className="modal-edit-content" onClick={(e) => e.stopPropagation()}>
                         <span className="close" onClick={handleEditClose}>&times;</span>
                         <h2>Edit Product</h2>
                         <form onSubmit={handleEditSave}>
@@ -178,29 +185,26 @@ const ProductsList = () => {
 
                             <label htmlFor="product_price">Product Price</label>
                             <input
-                                type="text"
+                                type="number"
                                 name="product_price"
                                 value={editFormData.product_price}
-                                onChange={(e) => setEditFormData({ ...editFormData, product_price: e.target.value })}
+                                onChange={(e) => setEditFormData({ ...editFormData, product_price: parseFloat(e.target.value) })}
                             />
 
                             <label htmlFor="product_type">Product Type</label>
-                            <select
+                            <input
+                                type="text"
                                 name="product_type"
                                 value={editFormData.product_type}
                                 onChange={(e) => setEditFormData({ ...editFormData, product_type: e.target.value })}
-                            >
-                                <option value="">Choose Type</option>
-                                <option value="mobile">Mobile</option>
-                                <option value="laptop">Laptop</option>
-                            </select>
+                            />
 
                             <label htmlFor="product_amount">Product Amount</label>
                             <input
-                                type="text"
+                                type="number"
                                 name="product_amount"
                                 value={editFormData.product_amount}
-                                onChange={(e)=> setEditFormData({ ...editFormData, product_amount: e.target.value })}
+                                onChange={(e) => setEditFormData({ ...editFormData, product_amount: parseInt(e.target.value, 10) })}
                             />
 
                             <button type="submit">Save Changes</button>
@@ -210,35 +214,32 @@ const ProductsList = () => {
             )}
 
             {showCommentsModal && (
-                <div className="modal" onClick={() => setShowCommentsModal(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <span className="close" onClick={() => setShowCommentsModal(false)}>&times;</span>
+                <div className="modal-comments" onClick={handleModalClick}>
+                    <div className="modal-comments-content">
+                        <span className="close" onClick={handleEditClose}>&times;</span>
                         <h2>Comments</h2>
-
-                        {user && user.role === 'user' && (
-                            <div className="add-comment-section">
-                                <textarea
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                    placeholder="Add a comment"
-                                />
-                                <button onClick={handleAddComment}>Add Comment</button>
-                            </div>
-                        )}
                         <div className="comments-section">
                             {selectedProductComments.map((comment) => (
-                                <div key={comment._id} className="comment">
+                                <div className="comment" key={comment._id}>
                                     <p>{comment.text}</p>
-                                    <p>Posted by: {comment.author}</p>
-                                    <p>Date: {new Date(comment.date).toLocaleString()}</p>
+                                    <p className="comment-author">Author: {comment.author}</p>
+                                    <p className="comment-date">Date: {moment(comment.date).format('MMMM Do YYYY, h:mm:ss a')}</p>
                                     {user && user.role === 'admin' && (
-                                        <button onClick={() => handleDeleteComment(comment._id)}>Remove Comment</button>
+                                        <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
                                     )}
-
-                       
                                 </div>
                             ))}
                         </div>
+                        {user && user.role === 'user' &&
+                        <div className="add-comment-section">
+                            <textarea
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder="Add a comment"
+                            ></textarea>
+                            <button onClick={handleAddComment}>Submit</button>
+                        </div>
+}
                     </div>
                 </div>
             )}
