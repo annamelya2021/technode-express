@@ -54,6 +54,11 @@ const login = async(userData)=>{
         return { error: error.message };
     }
 }
+const update = async(userData)=>{
+    const result = await fetchData("/users/"+userData._id,"put",userData);
+    return result;
+}
+
 const getUserData = async()=>{
     const result = await fetchData("/users/bytoken","get");
     return result;
@@ -101,14 +106,15 @@ const removeProductFromCart = async (productId) => {
   return result;
 }
 
-const closeCart = async () => {
-  const result = await fetchData("/carts/close", "post");
+const closeCart = async (cartId) => {
+  const result = await fetchData("/carts/" + cartId + "/close", "post");
   return result;
 } 
 
 export {
     register,
     login,
+    update,
     getProducts,
     getProduct,
     createProduct,

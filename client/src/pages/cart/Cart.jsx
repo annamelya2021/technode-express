@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect} from "react";
-import { removeProductFromCart } from '../../utils/fetch';
+import { closeCart, removeProductFromCart , addProductToCart} from '../../utils/fetch';
 import "./Cart.css";
 
 const Cart = () => {
@@ -13,10 +13,20 @@ const Cart = () => {
         if(!cart.cartProducts){
             return
         }
-        const newTotal = cart.cartProducts.reduce((sum, product) => sum + product.product_price, 0);
+        const newTotal = cart.cartProducts.reduce((sum, product) => sum + product.product_price*product.quantity, 0);
         setTotal(newTotal);
     }, [cart]);
 
+    const handleCloseCart = async (cartId) => {
+        try {
+            const closedCart = await closeCart(cartId);
+            console.log('Cart closed:', closedCart);
+            setCart(closedCart);
+            alert('You buy it, thanks for shopping');
+        } catch (error) {
+            console.error('Error closing cart:', error);
+        }
+    }
     const handleRemoveProduct = async (productId) => {
         try {
             const updatedCart = await removeProductFromCart(productId);
@@ -30,6 +40,23 @@ const Cart = () => {
             setCart(updatedCart);
         } catch (error) {
             console.error('Error removing product from cart:', error);
+        }
+    };
+    const handleAddToCart = async (productId) => {
+        try {
+        
+                const updatedCart = await addProductToCart(productId);
+                console.log('Product added to cart:', updatedCart);
+                
+                if(!updatedCart) {
+                    return navigate('/products');
+                
+            } else {
+                alert('Product added to cart');
+            }
+            setCart(updatedCart);
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
         }
     };
     
@@ -51,13 +78,18 @@ const Cart = () => {
                         <h2>{product.product_name}</h2>
                         <p>{product.product_model}</p>
                         <p>{product.product_price}</p>
-                        <button onClick={() => handleRemoveProduct(product._id)}>Remove</button>
+                        <button onClick={() => handleRemoveProduct(product._id)}> - </button>
+                        <p>Cantidad: {product.quantity}</p>
+                        <button onClick={() => handleAddToCart(product._id)}> + </button>
+                        
                     </article>
                 ))}
                 <h3>Total:  { total}</h3>
+                <button onClick={() => handleCloseCart(cart._id)}>Buy</button>
             </section>
         </>
     );
 }
 
 export default Cart;
+
