@@ -106,6 +106,18 @@ const closeCart = async () => {
   return result;
 } 
 
+const getComments = async () => {
+  const result = await fetchData("/comments", "get");
+  return result;}
+ const addComment = async (commentData) => {
+   const result = await fetchData("/comments", "post", commentData);
+   return result;
+ }
+
+const deleteComment = async (commentData) => {
+  const result = await fetchData("/comments", "delete", commentData);
+  return result;}
+
 export {
     register,
     login,
@@ -120,5 +132,9 @@ export {
     getCartOpened,
     addProductToCart,
     removeProductFromCart,
-    allUsers
+    allUsers,
+    addComment,deleteComment,
+    getComments
+
+
 }
