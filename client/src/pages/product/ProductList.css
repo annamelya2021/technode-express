@@ -108,6 +108,8 @@ button:hover {
 
 
 .modal {
+    margin-top: 70px;
+    margin-bottom: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,7 +147,9 @@ button:hover {
 }
 
 .comments-section {
-    margin-top: 20px;
+    margin-top: 80px;
+    margin-bottom: 140px;
+
 }
 
 .comment {

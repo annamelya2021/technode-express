@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import './ProductList.css';
 import UserContext from '../../context/userContext';
-import { updateProduct, addComment, getComments, deleteComment } from '../../utils/fetch';
+import { updateProduct, addComment, deleteComment, getComments } from '../../utils/fetch';
 
 const initialData = {
     product_image: '',
@@ -30,48 +30,77 @@ const ProductsList = () => {
         setEditingProductId(productId);
     };
 
-    const handleEditClose = () => {
-        setEditingProductId(null);
-        setEditFormData(initialData);
-    };
-
     const handleEditSave = async (e) => {
         e.preventDefault();
         const result = await updateProduct(editingProductId, editFormData);
         if (result) {
             alert('Product updated successfully!');
-            // Update the product in the state
-            setProducts(products.map(product => product._id === editingProductId ? { ...product, ...editFormData } : product));
+            const updatedProducts = products.map(product =>
+                product._id === editingProductId ? { ...product, ...editFormData } : product
+            );
+            setProducts(updatedProducts);
         } else {
             alert('Error updating product.');
         }
         handleEditClose();
     };
 
-    const handleOpenComments = (productId) => {
-        const product = products.find((product) => product._id === productId);
-        setSelectedProductComments(product.product_comments);
-        setSelectedProductId(productId);
-        setShowCommentsModal(true);
+    const handleOpenComments = async (productId) => {
+        try {
+            const comments = await getComments(productId);
+            setSelectedProductComments(Array.isArray(comments) ? comments : []);
+            setSelectedProductId(productId);
+            setShowCommentsModal(true);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
     };
 
     const handleAddComment = async () => {
         if (!newComment.trim()) return;
         try {
-            const updatedComments = await addComment(selectedProductId, newComment);
-            setSelectedProductComments(updatedComments);
-            setProducts(products.map(product => product._id === selectedProductId ? { ...product, product_comments: updatedComments } : product));
+            const updatedComments = await addComment(selectedProductId, { text: newComment });
+
+            setProducts(products.map(product => {
+                if (product._id === selectedProductId) {
+                    return { ...product, product_comments: updatedComments, product_comments_count: updatedComments.length };
+                }
+                return product;
+            }));
+
             setNewComment('');
+            alert('Comment added successfully!');    
+            setShowCommentsModal(false);
+
         } catch (error) {
             console.error('Error adding comment:', error);
         }
     };
 
+    const handleEditClose = () => {
+        setEditingProductId(null);
+        setEditFormData(initialData);
+
+        setProducts(products.map(product => {
+            if (product._id === selectedProductId) {
+                return { ...product, product_comments: selectedProductComments };
+            }
+            return product;
+        }));
+        setShowCommentsModal(false); 
+    };
+
     const handleDeleteComment = async (commentId) => {
+        if (!window.confirm('Are you sure you want to delete this comment?')) {
+            return;
+        }
         try {
             const updatedComments = await deleteComment(selectedProductId, commentId);
-            setSelectedProductComments(updatedComments);
-            setProducts(products.map(product => product._id === selectedProductId ? { ...product, product_comments: updatedComments } : product));
+            setSelectedProductComments(Array.isArray(updatedComments) ? updatedComments : []);
+            setProducts(products.map(product =>
+                product._id === selectedProductId ? { ...product, product_comments: updatedComments } : product
+            ));
+            setShowCommentsModal(false);
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
@@ -84,7 +113,7 @@ const ProductsList = () => {
             <p>${product.product_price}</p>
             {product.product_comments.length !== 0 && (
                 <p onClick={() => handleOpenComments(product._id)} className="comments-link">
-                    {product.product_comments.length} Comments
+                    Show comments
                 </p>
             )}
             <p>{product.product_amount > 0 ? 'In Stock' : 'Out of Stock'}</p>
@@ -104,7 +133,6 @@ const ProductsList = () => {
                 {productsHtml}
             </section>
 
-            {/* Modal or Form for Editing Product */}
             {editingProductId && (
                 <div className="modal">
                     <div className="modal-content">
@@ -176,10 +204,9 @@ const ProductsList = () => {
                 </div>
             )}
 
-            {/* Comments Modal */}
             {showCommentsModal && (
-                <div className="modal">
-                    <div className="modal-content">
+                <div className="modal" onClick={() => setShowCommentsModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <span className="close" onClick={() => setShowCommentsModal(false)}>&times;</span>
                         <h2>Comments</h2>
                         <div className="comments-section">
@@ -194,7 +221,7 @@ const ProductsList = () => {
                                 </div>
                             ))}
                         </div>
-                        {user ? (
+                        {user && user.role === 'user' && (
                             <div className="add-comment-section">
                                 <textarea
                                     value={newComment}
@@ -203,8 +230,6 @@ const ProductsList = () => {
                                 />
                                 <button onClick={handleAddComment}>Add Comment</button>
                             </div>
-                        ) : (
-                            <p>Please log in to add a comment.</p>
                         )}
                     </div>
                 </div>

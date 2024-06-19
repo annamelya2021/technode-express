@@ -106,17 +106,19 @@ const closeCart = async () => {
   return result;
 } 
 
-const getComments = async () => {
-  const result = await fetchData("/comments", "get");
-  return result;}
- const addComment = async (commentData) => {
-   const result = await fetchData("/comments", "post", commentData);
-   return result;
- }
+  const getComments = async(id)=>{
+    const result = await fetchData(`/products/${id}/comments`,"get");
+    return result;}
 
-const deleteComment = async (commentData) => {
-  const result = await fetchData("/comments", "delete", commentData);
-  return result;}
+ const addComment = async(id, data)=>{
+    const result = await fetchData(`/products/${id}/comments`,"post", data);
+    return result;}
+ 
+ const deleteComment = async(id, commentId)=>{
+    const result = await fetchData(`/products/${id}/comments/${commentId}`,"delete");
+    return result;
+ }   
+
 
 export {
     register,

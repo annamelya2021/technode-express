@@ -26,6 +26,7 @@ const Root = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(null);
+    
 
     useEffect(() => {
         if (getToken()) {
@@ -44,17 +45,16 @@ const Root = () => {
         setUser(data.data);
         setRole(data.data.role);
     }
-
     const handleAuthClick = () => {
         if (isLoggedIn) {
-            // Handle logout logic
+          
             localStorage.removeItem("token");
             setIsLoggedIn(false);
             setUser(null);
             setRole(null);
-            navigate("/products");
+            navigate("/products"); 
         } else {
-            // Navigate to login/register page
+           
             navigate("/register");
         }
     };
