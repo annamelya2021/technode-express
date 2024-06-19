@@ -1,6 +1,7 @@
-import { useLoaderData } from 'react-router-dom';
-import { getCarts, update, getProduct } from '../../utils/fetch';
 import React, { useState, useEffect } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import Popup from 'reactjs-popup';
+import { getCarts, update, getProduct } from '../../utils/fetch';
 import { removeFromFavorites } from '../../utils/local';
 import Product from '../product/Product';
 import './Profile.css';
@@ -10,6 +11,7 @@ const Profile = () => {
     const [carts, setCarts] = useState([]);
     const [favoriteProducts, setFavoriteProducts] = useState([]);
 
+    // Fetch bought carts history
     useEffect(() => {
         const fetchCarts = async () => {
             try {
@@ -27,11 +29,11 @@ const Profile = () => {
         fetchCarts();
     }, [user]);
 
+    // Fetch favorite products
     useEffect(() => {
         const fetchFavoriteProducts = async () => {
             try {
                 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-                console.log('Favorites from localStorage:', favorites);
 
                 const products = await Promise.all(
                     favorites.map(async productId => {
@@ -63,25 +65,59 @@ const Profile = () => {
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const userData = {
+            _id: user._id,
+            username: e.target.username.value,
+            lastname: e.target.lastname.value,
+            phone: e.target.phone.value,
+            user_direction: e.target.user_direction.value
+        };
+        handleUpdateUser(userData);
+    };
+
     return (
         <>
-            {/* User Information */}
+        {user && ( 
             <article className="user-card" key={user._id}>
                 <h2>{user.username}</h2>
                 <p>{user.lastname}</p>
                 <p>{user.email}</p>
                 <p>{user.phone}</p>
-                <button onClick={() => handleUpdateUser(user)}>Edit Profile</button>
+                <Popup 
+                    trigger={<button>Update user</button>} 
+                    modal 
+                    nested
+                >
+                    {close => (
+                        <div className='updateUser-modal'>
+                            <form onSubmit={handleSubmit}>
+                                <label htmlFor="username">User Name</label>
+                                <input type="text" name="username" defaultValue={user.username} />
+                                
+                                <label htmlFor="lastname">Last Name</label>
+                                <input type="text" name="lastname" defaultValue={user.lastname} />
+                                
+                                <label htmlFor="phone">Phone</label>
+                                <input type="number" name="phone" defaultValue={user.phone} />
+                                
+                                <label htmlFor="user_direction">Address</label>
+                                <input type="text" name="user_direction" defaultValue={user.user_direction} />
+                                
+                                <button>Update</button>
+                            </form>
+                        </div>
+                    )}
+                </Popup>
             </article>
-
-            {/* User Address */}
-            <article>
-                <p>{user.user_direction}</p>
-            </article>
+        )}
+    
 
             {/* Bought Carts History */}
             <article>
-                <div><h3>Bought Carts History</h3>
+                <div>
+                    <h3>Bought Carts History</h3>
                     {carts.length > 0 ? (
                         carts.map(cart => (
                             <div key={cart._id} className="cart-card">
@@ -119,7 +155,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-
-
-
