@@ -1,0 +1,11 @@
+.user-card{
+margin-top: 100px;
+}
+
+.updateUser-modal{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(20, 20, 117, 0.89);
+    color: aliceblue;
+    border-radius: 5px;
+}
