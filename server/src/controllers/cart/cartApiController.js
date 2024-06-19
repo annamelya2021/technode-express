@@ -25,7 +25,7 @@ async function closeCart (req, res) {
 
 async function getCartOpened (req, res) {
     const userId = req.user._id;
-    const cart = await cartController.getCartOpened(userId);
+    const cart = await cartController.getCartOpened(userId,true);
     if(!cart || cart.error){
         const errorCode = cart?.errorCode || 500;
         const errorMessage = cart?.error || "Error getting opened carts";
