@@ -25,6 +25,7 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
     if (!newComment.trim()) return;
     try {
       const addedComment = await onAddComment({ text: newComment });
+      console.log("added comment",addedComment)
       setComments([...comments, addedComment]);
       setNewComment('');
       alert('Comment added successfully!');
