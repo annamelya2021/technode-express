@@ -3,8 +3,9 @@ import { useLoaderData } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
 import { removeFromFavorites } from '../../utils/local';
-import Product from '../product/Product';
+
 import './Profile.css';
+import OneProduct from '../../components/product/Product';
 
 const Profile = () => {
     const user = useLoaderData();
@@ -41,6 +42,7 @@ const Profile = () => {
                         return response.data;
                     })
                 );
+                console.log('products :>> ', products);
                 setFavoriteProducts(products);
             } catch (error) {
                 console.error('Failed to load favorite products:', error);
@@ -143,7 +145,15 @@ const Profile = () => {
                 <div className="product-list">
                     {favoriteProducts.length > 0 ? (
                         favoriteProducts.map(product => (
-                            <Product key={product._id} product={product} onRemove={() => removeFavorite(product._id)} />
+                            <div key={product._id} className="product-card">
+                                <img src={product.product_image} alt={product.product_name} />
+                                <p>{product.product_name}</p>
+                                <p>${product.product_price}</p>
+                                <p>{product.product_description}</p>
+                                <p>{product.product_model}</p> 
+                                <button onClick={() => removeFavorite(product._id)}>Remove</button> 
+
+                            </div>
                         ))
                     ) : (
                         <p>No favorite products found.</p>

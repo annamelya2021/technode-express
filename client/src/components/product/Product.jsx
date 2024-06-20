@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { addProductToCart } from '../../utils/fetch';
 import { addToFavorites, removeFromFavorites } from '../../utils/local';
 import './Product.css';
 import UserContext from '../../context/userContext';
 
-const Product = ({ onRemove }) => {
-    const product = useLoaderData();
+const Product = ({  onRemove }) => {
     const [isFavorite, setIsFavorite] = useState(false);
+    const product=useLoaderData()
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -31,17 +31,14 @@ const Product = ({ onRemove }) => {
         }
     };
 
-    const handleAddToFavorites = () => {
-        alert('Product added to favorites');
-    };
-
     const handleToggleFavorite = () => {
-        if (product && isFavorite) {
+        if (!product) return;
+
+        if (isFavorite) {
             removeFromFavorites(product._id);
             if (onRemove) onRemove(product._id);
-        } else if (product) {
+        } else {
             addToFavorites(product._id);
-            handleAddToFavorites();
         }
         setIsFavorite(!isFavorite);
     };
@@ -78,12 +75,14 @@ const Product = ({ onRemove }) => {
                         <p className="out-of-stock">Out of Stock</p>
                     )}
                 </div>
+                <p>{isFavorite ? 'This product is in your favorites.' : 'This product is not in your favorites.'}</p>
             </div>
         </article>
     );
 };
 
 export default Product;
+
 
 
 
