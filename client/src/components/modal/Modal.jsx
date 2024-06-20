@@ -1,6 +1,6 @@
 
 import "./Modal.css"
-const Modal = ({children,onClose}) =>{
+const Modal = ({children,onClose, user}) =>{
     
     const handleStopPropagation = (e)=>{
         e.stopPropagation();

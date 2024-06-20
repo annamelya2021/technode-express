@@ -11,6 +11,7 @@ const Profile = () => {
     const [carts, setCarts] = useState([]);
     const [favoriteProducts, setFavoriteProducts] = useState([]);
 
+    // Fetch bought carts history
     useEffect(() => {
         const fetchCarts = async () => {
             try {
@@ -28,13 +29,10 @@ const Profile = () => {
         fetchCarts();
     }, [user]);
 
-
-
     useEffect(() => {
         const fetchFavoriteProducts = async () => {
             try {
                 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-                console.log('Favorites from localStorage:', favorites);
 
                 const products = await Promise.all(
                     favorites.map(async productId => {
@@ -42,6 +40,7 @@ const Profile = () => {
                         return response.data;
                     })
                 );
+                console.log('products :>> ', products);
                 setFavoriteProducts(products);
             } catch (error) {
                 console.error('Failed to load favorite products:', error);
@@ -87,7 +86,7 @@ const Profile = () => {
 
     return (
         <>
-            {/* Información de usuario */}
+            {/* User Information */}
             <article className="user-card" key={user._id}>
                 <h2>{user.email}</h2>
                 <p>Name: {user.username}</p>
@@ -153,7 +152,15 @@ const Profile = () => {
                 <div className="product-list">
                     {favoriteProducts.length > 0 ? (
                         favoriteProducts.map(product => (
-                            <Product key={product._id} product={product} onRemove={() => removeFavorite(product._id)} />
+                            <div key={product._id} className="product-card">
+                                <img src={product.product_image} alt={product.product_name} />
+                                <p>{product.product_name}</p>
+                                <p>${product.product_price}</p>
+                                <p>{product.product_description}</p>
+                                <p>{product.product_model}</p> 
+                                <button onClick={() => removeFavorite(product._id)}>Remove</button> 
+
+                            </div>
                         ))
                     ) : (
                         <p>No favorite products found.</p>

@@ -33,7 +33,7 @@ const fetchData = async (route, method, inputData = null) => {
       const data = await result.json();
       return data;
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.log('Fetch error:', error);
       return { error: error.message };
     }
   };
@@ -141,7 +141,8 @@ export {
     addProductToCart,
     removeProductFromCart,
     allUsers,
-    addComment,deleteComment,
+    addComment,
+    deleteComment,
     getComments
 
 
