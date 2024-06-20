@@ -1,58 +1,31 @@
-// import { useState, useContext } from "react";
-// import { Link, useLoaderData } from "react-router-dom";
-// import "./ProductList.css";
-// import UserContext from "../../context/userContext"; 
-// import {updateProduct} from "../../utils/fetch";
-
-// const ProductsList = () => {
-//     const [products, setProducts] = useState(useLoaderData());
-//     const { user } = useContext(UserContext); 
-
-//     const productsHtml = products.map(product => (
-//         <article className="product-list-element" key={product._id}>
-//             <img src={product.product_image} alt="Product" />
-//             <h2>{product.product_name}</h2>
-//             <p>${product.product_price}</p>
-//             <p>{product.product_comments.length} Comments</p>
-//             <p>{product.product_amount > 0 ? "In Stock" : "Out of Stock"}</p> 
-//             <Link to={`/products/${product._id}`}>More info</Link>
-//             {user && user.role === "admin" && ( 
-//                 <Link to={`/products/edit/${product._id}`} className="edit-button">Edit Product</Link>
-//             )}
-//         </article>
-//     ));
-
-//     return (
-//         <>
-//             <h1 className="page-title">Checkout our products</h1>
-//             <section className="product-list">
-//                 {productsHtml}
-//             </section>
-//         </>
-//     );
-// };
-
-// export default ProductsList;
-
-
 import React, { useState, useContext } from 'react';
-import { Link, Navigate, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import './ProductList.css';
 import UserContext from '../../context/userContext';
-import { updateProduct } from '../../utils/fetch';
+import { updateProduct, addComment, deleteComment, getComments } from '../../utils/fetch';
+import { getToken } from '../../utils/local';
 
-const initialData = {  product_image: '',
+const initialData = {
+    product_image: '',
     product_name: '',
     product_description: '',
     product_model: '',
     product_price: '',
     product_type: '',
-    product_amount: '',}
+    product_amount: ''
+};
+
 const ProductsList = () => {
     const [products, setProducts] = useState(useLoaderData());
     const { user } = useContext(UserContext);
     const [editingProductId, setEditingProductId] = useState(null);
     const [editFormData, setEditFormData] = useState(initialData);
+    const [showCommentsModal, setShowCommentsModal] = useState(false);
+    const [selectedProductComments, setSelectedProductComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const token = getToken();
+    console.log("token", token)
 
     const handleEditOpen = (productId) => {
         const productToEdit = products.find((product) => product._id === productId);
@@ -60,29 +33,93 @@ const ProductsList = () => {
         setEditingProductId(productId);
     };
 
-    const handleEditClose = () => {
-        setEditingProductId(null);
-        setEditFormData(initialData);
-    };
-
     const handleEditSave = async (e) => {
         e.preventDefault();
         const result = await updateProduct(editingProductId, editFormData);
         if (result) {
             alert('Product updated successfully!');
+            const updatedProducts = products.map(product =>
+                product._id === editingProductId ? { ...product, ...editFormData } : product
+            );
+            setProducts(updatedProducts);
         } else {
             alert('Error updating product.');
         }
         handleEditClose();
-       
+    };
+
+    const handleOpenComments = async (productId) => {
+        try {
+            const comments = await getComments(productId);
+            setSelectedProductComments(Array.isArray(comments) ? comments : []);
+            setSelectedProductId(productId);
+            setShowCommentsModal(true);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    };
+
+    const handleAddComment = async () => {
+        if (!newComment.trim()) return;
+        try {
+            const updatedComments = await addComment(selectedProductId, { text: newComment });
+
+            setProducts(products.map(product => {
+                if (product._id === selectedProductId) {
+                    return { ...product, product_comments: updatedComments, product_comments_count: updatedComments.length };
+                }
+                return product;
+            }));
+
+            setNewComment('');
+            alert('Comment added successfully!');    
+            setShowCommentsModal(false);
+
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
+
+    const handleEditClose = () => {
+        setEditingProductId(null);
+        setEditFormData(initialData);
+
+        setProducts(products.map(product => {
+            if (product._id === selectedProductId) {
+                return { ...product, product_comments: selectedProductComments };
+            }
+            return product;
+        }));
+        setShowCommentsModal(false); 
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        if (!window.confirm('Are you sure you want to delete this comment?')) {
+            return;
+        }
+        try {
+            const updatedComments = await deleteComment(selectedProductId, commentId);
+            setSelectedProductComments(Array.isArray(updatedComments) ? updatedComments : []);
+            setProducts(products.map(product =>
+                product._id === selectedProductId ? { ...product, product_comments: updatedComments } : product
+            ));
+            setShowCommentsModal(false);
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+        }
     };
 
     const productsHtml = products.map((product) => (
         <article className="product-list-element" key={product._id}>
             <img src={product.product_image} alt="Product" />
+            <div className="product-info">
             <h2>{product.product_name}</h2>
             <p>${product.product_price}</p>
-            <p>{product.product_comments.length} Comments</p>
+            {product.product_comments.length !== 0 && (
+                <p onClick={() => handleOpenComments(product._id)} className="comments-link">
+                    Show comments
+                </p>
+            )}
             <p>{product.product_amount > 0 ? 'In Stock' : 'Out of Stock'}</p>
             <Link to={`/products/${product._id}`}>More info</Link>
             {user && user.role === 'admin' && (
@@ -90,6 +127,7 @@ const ProductsList = () => {
                     Edit Product
                 </button>
             )}
+            </div>
         </article>
     ));
 
@@ -100,7 +138,6 @@ const ProductsList = () => {
                 {productsHtml}
             </section>
 
-            {/* Modal or Form for Editing Product */}
             {editingProductId && (
                 <div className="modal">
                     <div className="modal-content">
@@ -163,11 +200,45 @@ const ProductsList = () => {
                                 type="text"
                                 name="product_amount"
                                 value={editFormData.product_amount}
-                                onChange={(e) => setEditFormData({ ...editFormData, product_amount: e.target.value })}
+                                onChange={(e)=> setEditFormData({ ...editFormData, product_amount: e.target.value })}
                             />
 
                             <button type="submit">Save Changes</button>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {showCommentsModal && (
+                <div className="modal" onClick={() => setShowCommentsModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <span className="close" onClick={() => setShowCommentsModal(false)}>&times;</span>
+                        <h2>Comments</h2>
+
+                        {user && user.role === 'user' && (
+                            <div className="add-comment-section">
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    placeholder="Add a comment"
+                                />
+                                <button onClick={handleAddComment}>Add Comment</button>
+                            </div>
+                        )}
+                        <div className="comments-section">
+                            {selectedProductComments.map((comment) => (
+                                <div key={comment._id} className="comment">
+                                    <p>{comment.text}</p>
+                                    <p>Posted by: {comment.author}</p>
+                                    <p>Date: {new Date(comment.date).toLocaleString()}</p>
+                                    {user && user.role === 'admin' && (
+                                        <button onClick={() => handleDeleteComment(comment._id)}>Remove Comment</button>
+                                    )}
+
+                       
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

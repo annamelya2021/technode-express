@@ -1,0 +1,106 @@
+/* AdminPanel.css */
+
+/* Contenedor principal */
+.admin-panel-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Estilos para el título */
+.admin-panel-container h1 {
+    font-size: 2rem;
+    color: #007BFF;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Estilos para el formulario */
+.admin-panel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Estilos para las etiquetas y entradas del formulario */
+.admin-panel-form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.admin-panel-form input[type="text"],
+.admin-panel-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-panel-form input[type="text"]:focus,
+.admin-panel-form select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Estilos para el botón de envío */
+.admin-panel-form button[type="submit"] {
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-panel-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para las estadísticas */
+.admin-panel-stats {
+    font-size: 1.1rem;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .admin-panel-container {
+        padding: 15px;
+    }
+
+    .admin-panel-form {
+        gap: 10px;
+    }
+
+    .admin-panel-form button[type="submit"] {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+}
