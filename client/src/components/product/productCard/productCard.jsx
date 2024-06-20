@@ -94,7 +94,8 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
   const handleAddComment = async (comment) => {
     try {
       console.log('Adding comment:', comment);
-      const updatedComments = await addComment(selectedProductId, comment);
+      const updatedComment = await addComment(selectedProductId, comment);
+      return updatedComment.data;
     } catch (error) {
       console.error('Error adding comment:', error);
     }
@@ -109,7 +110,7 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
           <p>{product.product_description}</p>
           <p>{product.product_model}</p>
 
-          {product.product_comments.length !== 0 && (
+          { (
             <p onClick={() => handleOpenComments(product._id)} className="comments-link">
               Show comments
             </p>
