@@ -74,18 +74,24 @@ const Cart = () => {
             <section className="cart">
                 {cart.cartProducts?.map(product => (
                     <article className="cart-card" key={product._id}>
-                        <img src={product.product_image} alt="Product" />
+                        <img src={product.product_image} alt="Product" className="cart-img"/>
+                        <div className="cart-info">
                         <h2>{product.product_name}</h2>
                         <p>{product.product_model}</p>
-                        <p>{product.product_price}</p>
-                        <button onClick={() => handleRemoveProduct(product._id)}> - </button>
-                        <p>Cantidad: {product.quantity}</p>
-                        <button onClick={() => handleAddToCart(product._id)}> + </button>
+                        <p>{product.product_price}$</p>
+                        </div>
+                        <div className="cart-quantity">
+                        <button className="button-quantity" onClick={() => handleRemoveProduct(product._id)}> - </button>
+                        <p className="button-number">Cantidad: {product.quantity}</p>
+                        <button className="button-quantity" onClick={() => handleAddToCart(product._id)}> + </button>
+                        </div>
                         
                     </article>
                 ))}
-                <h3>Total:  { total}</h3>
+                <div className="cart-total">
+                <h3>Total:  { total}$</h3>
                 <button onClick={() => handleCloseCart(cart._id)}>Buy</button>
+                </div>
             </section>
         </>
     );

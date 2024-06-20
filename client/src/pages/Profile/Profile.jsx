@@ -134,7 +134,7 @@ const Profile = () => {
                 <div>
                     <h3>Bought Carts History</h3>
                     {carts.map(cart => (
-                        <div key={cart._id} className="cart-card">
+                        <div key={cart._id} className="cart-card-history">
                             <h4>Cart ID: {cart._id}</h4>
                             <ul>
                                 {cart.cartProducts.map(product => (
