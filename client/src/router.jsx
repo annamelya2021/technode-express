@@ -5,7 +5,7 @@ import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Register from "./pages/register/Register";
 import ProductList from "./pages/product/ProductList";
-import Product from "./pages/product/Product";
+import ProductView from "./pages/product/ProductView";
 import Cart from "./pages/cart/Cart"
 // import UserInfo from "./pages/user/User"
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/products/:id",
-        element: <Product />,
+        element: <ProductView />,
         loader: ({ params }) => fetchProduct(params.id)
       },
       {

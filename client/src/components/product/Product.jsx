@@ -5,8 +5,8 @@ import { addToFavorites, removeFromFavorites } from '../../utils/local';
 import './Product.css';
 import UserContext from '../../context/userContext';
 
-const Product = ({ onRemove }) => {
-    const product = useLoaderData();
+const Product = ({ onRemove,product }) => {
+    //const product = useLoaderData();
     const [isFavorite, setIsFavorite] = useState(false);
     const { user } = useContext(UserContext);
 

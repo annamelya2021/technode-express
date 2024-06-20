@@ -31,6 +31,7 @@ const Root = () => {
     
 
     useEffect(() => {
+        console.log("ejecutamos esto")
         if (getToken()) {
             fetchUserData();
             setIsLoggedIn(true);

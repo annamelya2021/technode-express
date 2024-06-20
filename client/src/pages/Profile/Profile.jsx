@@ -1,15 +1,14 @@
-import { useLoaderData } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect,useContext } from 'react';
 import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
 import './Profile.css';
-import Product from '../product/Product';
+import Product from '../../components/product/Product';
 import { removeFromFavorites } from '../../utils/local';
+import UserContext from '../../context/userContext';
 const Profile = () => {
-    const [user, setUser] = useState( useLoaderData());
+    const {user, setUser} = useContext(UserContext);
     const [carts, setCarts] = useState([]);
-    console.log("carts", carts);
-    const user = useLoaderData();
     const [favoriteProducts, setFavoriteProducts] = useState([]);
 
     useEffect(() => {
@@ -52,7 +51,11 @@ const Profile = () => {
         fetchFavoriteProducts();
     }, []);
 
-
+    const removeFavorite = (productId) => {
+        const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
+        setFavoriteProducts(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
+    };
     const handleUpdateUser = async (userData) => {
         const result = await update( userData);
         if (result) {
@@ -77,6 +80,9 @@ const Profile = () => {
             user_direction:e.target.user_direction.value
         }
         handleUpdateUser(userData);
+    }
+    if(!user){
+        return (<p>Loading...</p>)
     }
 
     return (
@@ -141,52 +147,6 @@ const Profile = () => {
                     ))}
                 </div>
             </article>
-=======
-
-    const removeFavorite = (productId) => {
-        const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
-        setFavoriteProducts(updatedFavorites);
-        localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
-    };
-
-    return (
-        <>
-            {/* User Information */}
-            <article className="user-card" key={user._id}>
-                <h2>{user.username}</h2>
-                <p>{user.lastname}</p>
-                <p>{user.email}</p>
-                <p>{user.phone}</p>
-                <button onClick={() => handleUpdateUser(user)}>Edit Profile</button>
-            </article>
-
-            {/* User Address */}
-            <article>
-                <p>{user.user_direction}</p>
-            </article>
-
-            {/* Bought Carts History */}
-            <article>
-                <div><h3>Bought Carts History</h3>
-                    {carts.length > 0 ? (
-                        carts.map(cart => (
-                            <div key={cart._id} className="cart-card">
-                                <h4>Cart ID: {cart._id}</h4>
-                                <ul>
-                                    {cart.cartProducts.map(product => (
-                                        <li key={product._id}>
-                                            {product.product_name} - ${product.product_price}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No bought carts found.</p>
-                    )}
-                </div>
-            </article>
-
             {/* Favorite Products */}
             <div className="favorite-products">
                 <h2>Favorite Products</h2>
@@ -200,8 +160,11 @@ const Profile = () => {
                     )}
                 </div>
             </div>
+</>
 
-        </>
+    
+
+    
     );
 };
 
