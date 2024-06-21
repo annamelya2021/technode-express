@@ -9,7 +9,7 @@ const Modal = ({children,onClose, user}) =>{
         <div className="modal" onClick={onClose}>
             <div className="modal-body" onClick={handleStopPropagation}>
                 <div className="modal-header">
-                    <button onClick={onClose}>Close</button>
+                    <button className="close" onClick={onClose}>Close</button>
                 </div>
                 {children}
             </div>

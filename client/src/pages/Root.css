@@ -1,29 +1,4 @@
-#root {
-    max-width: 100vh;
-  
-    margin: 0 auto;
-    
-    text-align: center;
-    flex-direction: column;
-    /* Asegura que el contenido se coloque verticalmente */
-    align-items: center;
-    /* Centra el carrusel horizontalmente */
-    justify-content: center;
-    /* Centra el carrusel verticalmente */
-    min-height: 100vh;
-    /* Ocupa al menos la altura de la ventana */
-    padding-top: 80px;
-    /* Espacio para el navbar fijo */
-  }
-.react-multi-carousel-list {
-    display: flex;
-    
-    align-items: center;
-    
-    position: relative;
-    
-    
-}
+
 .navbar {
     width: 100%;
     height: 64px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Modal from './Modal'; // Імпорт вашого Modal компонента
-import './EditProductModal.css'; // Стилі для EditProductModal
+import Modal from './Modal'; 
+import './EditProductModal.css'; 
 
 const EditProductModal = ({ product, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -45,7 +45,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     <Modal onClose={onClose}>
       <div className="edit-product-modal">
         <div className="edit-product-content">
-          <span className="close" onClick={onClose}>&times;</span>
+          {/* <span className="close" onClick={onClose}>&times;</span> */}
           <h2>Edit Product</h2>
           <div className="form-group">
             <label htmlFor="product_image">Product Image:</label>

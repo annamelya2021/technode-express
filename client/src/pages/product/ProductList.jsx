@@ -44,8 +44,6 @@ const [reFetch, setReFetch] = useState(false);
   };
 
   const handleOpenDetails = (product) => {
-    // console.log('Opening details for:', product);
-    // Додайте код для відкриття деталей продукта
   };
 
   return (

@@ -1,95 +1,19 @@
-.page-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-top: 100px;
-}
 
-/* Estilos para el contenedor de la lista de productos */
 .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-    /* padding: 16px; */
-    background-color: #f9f9f9;
-    margin-top: 2rem;
-    margin-bottom: 6rem;
+  padding: 20px;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Estilos básicos para cada tarjeta de producto en la lista */
-.product-list-element {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    text-align: center;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-.product-list-element:hover {
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-4px);
-}
-
-/* Estilo para la imagen del producto */
-.product-list-element img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 16px;
-}
-
-/* Estilo para el nombre del producto */
-.product-list-element h2 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #333;
-    margin: 8px 0;
-}
-
-/* Estilo para el modelo del producto */
-.product-list-element p {
-    font-size: 1rem;
-    color: #666;
-    margin: 4px 0;
-}
-
-/* Estilo para el precio del producto */
-.product-list-element p:nth-of-type(2) {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #007BFF;
-    margin: 8px 0;
-}
-
-/* Estilo para el enlace a más información */
-.product-list-element a {
-    text-decoration: none;
-    color: #007BFF;
-    font-weight: bold;
-    margin-top: 8px;
-    transition: color 0.3s ease;
-}
-
-.product-list-element a:hover {
-    color: #0056b3;
-}
-
-/* Estilo para el número de comentarios */
-.product-list-element p:nth-of-type(3) {
-    font-size: 0.875rem;
-    color: #999;
-    margin-top: 8px;
-}
-
-.product-info {
-
-    margin-top: auto;
-}
 
 /* Estilos para el botón de nuevo producto */
 button {
@@ -109,115 +33,3 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-
-/* Загальні стилі для модалок */
-.modal-edit, .modal-comments {
-    display: block;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  
-  /* Стилі для модалки редагування продукту */
-  .modal-edit-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    position: relative;
-  }
-  
-  .modal-edit-content h2 {
-    color: #333;
-  }
-  
-  .modal-edit-content form label {
-    display: block;
-    margin: 10px 0 5px;
-  }
-  
-  .modal-edit-content form input,
-  .modal-edit-content form select {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .modal-edit-content form button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .modal-edit-content form button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Стилі для модалки коментарів */
-  .modal-comments-content {
-    background-color: #f9f9f9;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 60%;
-    position: relative;
-  }
-  
-  .modal-comments-content h2 {
-    color: #444;
-    text-align: center;
-  }
-  
-  .comments-section .comment {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-  }
-  
-  .add-comment-section textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .add-comment-section button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .add-comment-section button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Кнопка закриття для обох модалок */
-  .modal-edit .close, .modal-comments .close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .modal-edit .close:hover,
-  .modal-edit .close:focus,
-  .modal-comments .close:hover,
-  .modal-comments .close:focus {
-    color: black;
-    text-decoration: none;
-  }
-  
