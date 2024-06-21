@@ -9,7 +9,7 @@ const userSchema  = new mongoose.Schema({
     username : {
         type: String,
         required: true,
-        unique: true
+        // unique: true
     },
     lastname : {
         type: String,
@@ -18,9 +18,8 @@ const userSchema  = new mongoose.Schema({
         type: String,
         required: true
     },
-    passwordRepeat : {
+    passwordRepeat: {
         type: String,
-        required: true
     },
     phone:{
         type: Number,
