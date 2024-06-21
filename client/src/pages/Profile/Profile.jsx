@@ -93,7 +93,7 @@ const Profile = () => {
         <>
         <div className="profile-container">
             {/* User Information */}
-            <article className="user-card" key={user._id}>
+            <article className="section-container user-card" key={user._id}>
                 <h2>{user.email}</h2>
                 <p>Name: {user.username}</p>
                 <p>Last Name: {user.lastname}</p>
@@ -101,7 +101,7 @@ const Profile = () => {
                 <p>Address: {user.user_direction}</p>
                 <div>
                     <Popup
-                        trigger={<button>Update user</button>}
+                        trigger={<button className="">Update user</button>}
                         modal
                         nested
                     >
@@ -125,7 +125,7 @@ const Profile = () => {
             </article>
 
             {/* Bought Carts History */}
-            <article>
+            <article section-container cart-history>
                 <div>
                     <h3>Bought Carts History</h3>
                     {carts.map(cart => (
