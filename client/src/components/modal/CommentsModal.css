@@ -1,0 +1,94 @@
+.modal-edit, .modal-comments {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Дозволити вертикальну прокрутку */
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px; /* Додатковий відступ для забезпечення видимості верхньої частини */
+}
+
+.modal-comments-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 60%;
+    position: relative;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    animation: fadeIn 0.5s;
+    max-height: 80vh; 
+    overflow-y: auto; 
+}
+
+.modal-comments-content h2 {
+    color: #444;
+    text-align: center;
+}
+
+.comments-section .comment {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.add-comment-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-comment-section button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.add-comment-section button:hover {
+    background-color: #0056b3;
+}
+
+.modal-edit .close, .modal-comments .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-edit .close:hover,
+.modal-edit .close:focus,
+.modal-comments .close:hover,
+.modal-comments .close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comments-section {
+    margin-top: 20px;
+}

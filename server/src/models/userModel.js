@@ -9,7 +9,7 @@ const userSchema  = new mongoose.Schema({
     username : {
         type: String,
         required: true,
-        unique: true
+        // unique: true
     },
     lastname : {
         type: String,
@@ -17,6 +17,9 @@ const userSchema  = new mongoose.Schema({
     password:{
         type: String,
         required: true
+    },
+    passwordRepeat: {
+        type: String,
     },
     phone:{
         type: Number,
@@ -26,9 +29,9 @@ const userSchema  = new mongoose.Schema({
         enum : ["user","admin"],
         default: "user"
     },
-    user_direction : [{
+    user_direction : {
         type: String
-    }],
+    },
     user_favorites : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'products'

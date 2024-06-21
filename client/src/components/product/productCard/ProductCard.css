@@ -1,0 +1,119 @@
+
+.one-product-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    width: 100%; /* Фіксована ширина */
+    max-width: 300px; /* Максимальна ширина, можна змінити на потрібну */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.one-product-card img {
+    width: 70%;
+    margin: 20px auto;
+    height: 200px;
+    object-fit: fill;
+}
+
+.one-product-details {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.one-product-name {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.one-product-description {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.one-product-model {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.one-product-amount {
+    font-size: 1em;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+.one-product-amount.out-of-stock {
+    color: #dc3545; 
+}
+
+.one-product-price {
+    font-size: 1.2em;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.details-button,
+.edit-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.details-button:hover,
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #28a745; 
+}
+
+.edit-button:hover {
+    background-color: #218838; 
+}
+
+.comments-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.comments-link:hover {
+    color: #0056b3;
+}
+
+.register-login-message {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #777;
+}
+
+.register-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}

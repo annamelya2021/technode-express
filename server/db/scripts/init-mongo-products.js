@@ -113,6 +113,6 @@ db.products.insertMany([
         product_type: "laptop",
         product_comments: [],
         product_amount: 18,
-    }
+    },
 ]);
 

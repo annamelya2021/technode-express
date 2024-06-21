@@ -43,7 +43,7 @@ const AdminPanel = () => {
     };
 
     return (
-        <div>
+        <div className="admin-panel-container">
             <h1>Welcome Administrator</h1>
             <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
                 <label htmlFor="product_image">Product Image</label>

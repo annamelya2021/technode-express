@@ -1,6 +1,162 @@
-.profile-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-top: 100px;
+.profile-container {
+    text-align: center;
+    margin-top: 70px ;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    margin-bottom: 70px ;
 }
+
+ul {
+    list-style-type: none;
+}
+.section-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+.cart-history {
+    width: 100%;
+    max-width: 600px;
+}
+
+.cart-history h4 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cart-history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cart-history li {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.favorite-products {
+    width: 100%;
+    text-align: center;
+ 
+}
+
+.favorite-product-list {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.favorite-product-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    width: calc(20% - 20px);
+    max-width: 300px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.favorite-product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: fill;
+    border-bottom: 1px solid #ccc;
+}
+
+.favorite-product-card p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+
+
+.favorite-product-card {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.favorite-product-card {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.favorite-product-card {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.favorite-product-card  {
+    font-size: 1.2em;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+.updateUser-modal {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;  /* Займає всю ширину контейнера */
+    max-width: 600px;  /* Збільшено максимальну ширину */
+    position: relative;
+    margin: auto;
+}
+
+.updateUser-modal form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.updateUser-modal label {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.updateUser-modal input {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.updateUser-modal button {
+    background-color: #007BFF;
+ 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+

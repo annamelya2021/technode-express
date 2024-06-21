@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import Modal from './Modal'; // Імпорт вашого Modal компонента
-import './CommentsModal.css'; // Стилі для CommentsModal
+import './CommentsModal.css';
 
 const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, onAddComment, productId, productName, user }) => {
   const [newComment, setNewComment] = useState('');
@@ -14,7 +13,6 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
     }
     try {
       await onDeleteComment(commentId);
-      // Видаляємо коментар зі стану після успішного видалення
       setComments(comments.filter(comment => comment._id !== commentId));
     } catch (error) {
       console.error('Error deleting comment:', error);
@@ -25,6 +23,7 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
     if (!newComment.trim()) return;
     try {
       const addedComment = await onAddComment({ text: newComment });
+      console.log("added comment",addedComment)
       setComments([...comments, addedComment]);
       setNewComment('');
       alert('Comment added successfully!');
@@ -33,9 +32,13 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
     }
   };
 
+  const handleClickOutside = (e) => {
+    if (e.target.classList.contains('modal-comments')) {
+      onClose();
+    }
+  };
   return (
-    <Modal onClose={onClose}>
-      <div className="modal-comments">
+      <div className="modal-comments" onClick={handleClickOutside}>
         <div className="modal-comments-content">
           <span className="close" onClick={onClose}>&times;</span>
           <h2>{`Comments for ${productName}`}</h2>
@@ -51,7 +54,7 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
               </div>
             ))}
           </div>
-          {user?.data?.role === 'user' ? (
+          {(user?.data?.role === 'user' || user?.data?.role === 'admin') ? (
             <div className="add-comment-section">
               <textarea
                 value={newComment}
@@ -65,7 +68,6 @@ const CommentsModal = ({ comments: initialComments, onClose, onDeleteComment, on
           )}
         </div>
       </div>
-    </Modal>
   );
 };
 

@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
-import { removeFromFavorites } from '../../utils/local';
-
 import './Profile.css';
-import OneProduct from '../../components/product/Product';
+import UserContext from '../../context/userContext';
 
 const Profile = () => {
-    const user = useLoaderData();
+    const { user, setUser } = useContext(UserContext);
     const [carts, setCarts] = useState([]);
     const [favoriteProducts, setFavoriteProducts] = useState([]);
+    const [loading, setLoading] = useState(true); // Доданий стейт для відображення загрузки
 
     // Fetch bought carts history
     useEffect(() => {
@@ -27,39 +25,32 @@ const Profile = () => {
                 console.error("Error fetching carts:", error);
             }
         };
-        fetchCarts();
+        
+        if (user) {
+            fetchCarts();
+        }
     }, [user]);
 
-    // Fetch favorite products
     useEffect(() => {
         const fetchFavoriteProducts = async () => {
             try {
                 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
                 const products = await Promise.all(
                     favorites.map(async productId => {
                         const response = await getProduct(productId);
                         return response.data;
                     })
                 );
-                console.log('products :>> ', products);
                 setFavoriteProducts(products);
+                setLoading(false); // Відключаємо загрузку після завершення запиту
             } catch (error) {
                 console.error('Failed to load favorite products:', error);
+                setLoading(false); // Обробка помилок загрузки
             }
         };
 
         fetchFavoriteProducts();
     }, []);
-
-    const handleUpdateUser = async (userData) => {
-        const result = await update(userData);
-        if (result) {
-            alert('User updated successfully!');
-        } else {
-            alert('Error updating user.');
-        }
-    };
 
     const removeFavorite = (productId) => {
         const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
@@ -67,7 +58,22 @@ const Profile = () => {
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites.map(product => product._id)));
     };
 
-    const handleSubmit = async (e) => {
+    const handleUpdateUser = async (userData) => {
+        try {
+            const result = await update(userData);
+            if (result && result.data) {
+                setUser(result.data);
+                alert('User updated successfully!');
+            } else {
+                alert('Error updating user.');
+            }
+        } catch (error) {
+            console.error('Error updating user:', error);
+            alert('Error updating user.');
+        }
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
             _id: user._id,
@@ -79,86 +85,85 @@ const Profile = () => {
         handleUpdateUser(userData);
     };
 
+    if (!user || loading) { // Відображення загрузки, поки не завантажаться дані
+        return <p>Loading...</p>;
+    }
+
     return (
         <>
-        {user && ( 
-            <article className="user-card" key={user._id}>
-                <h2>{user.username}</h2>
-                <p>{user.lastname}</p>
-                <p>{user.email}</p>
-                <p>{user.phone}</p>
-                <Popup 
-                    trigger={<button>Update user</button>} 
-                    modal 
-                    nested
-                >
-                    {close => (
-                        <div className='updateUser-modal'>
-                            <form onSubmit={handleSubmit}>
-                                <label htmlFor="username">User Name</label>
-                                <input type="text" name="username" defaultValue={user.username} />
-                                
-                                <label htmlFor="lastname">Last Name</label>
-                                <input type="text" name="lastname" defaultValue={user.lastname} />
-                                
-                                <label htmlFor="phone">Phone</label>
-                                <input type="number" name="phone" defaultValue={user.phone} />
-                                
-                                <label htmlFor="user_direction">Address</label>
-                                <input type="text" name="user_direction" defaultValue={user.user_direction} />
-                                
-                                <button>Update</button>
-                            </form>
-                        </div>
-                    )}
-                </Popup>
+        <div className="profile-container">
+            {/* User Information */}
+            <article className="section-container user-card" key={user._id}>
+                <h2>{user.email}</h2>
+                <p>Name: {user.username}</p>
+                <p>Last Name: {user.lastname}</p>
+                <p>Phone: {user.phone}</p>
+                <p>Address: {user.user_direction}</p>
+                <div>
+                    <Popup
+                        trigger={<button className="">Update user</button>}
+                        modal
+                        nested
+                    >
+                        {close => (
+                            <div className='updateUser-modal'>
+                                <form onSubmit={handleSubmit}>
+                                    <label htmlFor="username">User Name</label>
+                                    <input type="text" name="username" defaultValue={user.username} />
+                                    <label htmlFor="lastname">Last Name</label>
+                                    <input type="text" name="lastname" defaultValue={user.lastname} />
+                                    <label htmlFor="phone">Phone</label>
+                                    <input type="number" name="phone" defaultValue={user.phone} />
+                                    <label htmlFor="user_direction">Address</label>
+                                    <input type="text" name="user_direction" defaultValue={user.user_direction} />
+                                    <button type="submit">Update</button>
+                                </form>
+                            </div>
+                        )}
+                    </Popup>
+                </div>
             </article>
-        )}
-    
 
             {/* Bought Carts History */}
-            <article>
+            <article section-container cart-history>
                 <div>
                     <h3>Bought Carts History</h3>
-                    {carts.length > 0 ? (
-                        carts.map(cart => (
-                            <div key={cart._id} className="cart-card">
-                                <h4>Cart ID: {cart._id}</h4>
-                                <ul>
-                                    {cart.cartProducts.map(product => (
-                                        <li key={product._id}>
-                                            {product.product_name} - ${product.product_price}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No bought carts found.</p>
-                    )}
+                    {carts.map(cart => (
+                        <div key={cart._id} className="cart-card-history">
+                            <h4>Cart ID: {cart._id}</h4>
+                            <ul>
+                                {cart.cartProducts.map(product => (
+                                    <li key={product._id}>
+                                        {product.product_name} - {product.product_price} - {product.quantity} Units
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
             </article>
 
             {/* Favorite Products */}
             <div className="favorite-products">
-                <h2>Favorite Products</h2>
-                <div className="product-list">
+                <h2 className="favorite-products-title" >Favorite Products</h2>
+                <div className="favorite-product-list">
                     {favoriteProducts.length > 0 ? (
                         favoriteProducts.map(product => (
-                            <div key={product._id} className="product-card">
+                            <div  key={product._id} className="favorite-product-card">
+                                 <button onClick={() => removeFavorite(product._id)}>Remove</button>
                                 <img src={product.product_image} alt={product.product_name} />
                                 <p>{product.product_name}</p>
                                 <p>${product.product_price}</p>
                                 <p>{product.product_description}</p>
-                                <p>{product.product_model}</p> 
-                                <button onClick={() => removeFavorite(product._id)}>Remove</button> 
-
+                                <p>{product.product_model}</p>
+                               
                             </div>
                         ))
                     ) : (
                         <p>No favorite products found.</p>
                     )}
                 </div>
+            </div>
             </div>
         </>
     );

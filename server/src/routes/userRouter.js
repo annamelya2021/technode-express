@@ -11,7 +11,7 @@ router.get("/byproperty",isAuthenticated,userApiController.getByProperty);
 router.get("/bytoken",isAuthenticated, userApiController.getByToken);
 router.get("/:id",userApiController.getById);
 router.post("/",isAdmin,userApiController.create);
-router.put("/:id",isAdmin, userApiController.update);
+router.put("/:id",isAuthenticated, userApiController.update);
 router.delete("/:id",isAdmin, userApiController.remove);
 
 export default router;

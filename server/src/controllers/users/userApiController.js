@@ -51,8 +51,14 @@ const create = async(req,res)=>{
 
 const update = async(req,res)=>{
     const id =req.params.id;
-    const user = await userController.update(id,req.body);
-    res.json({data:user})
+    const userId = req.user._id
+    const userRole = req.user.role;
+    console.log("user data",req.body)
+    if(userRole==='Admin' || id.toString()===userId.toString()){
+        const user = await userController.update(id,req.body);
+        return res.json({data:user})
+    }
+    res.status(401).json({error:'You are not authorized to change the user'})
 }
 
 const remove = async(req,res)=>{
