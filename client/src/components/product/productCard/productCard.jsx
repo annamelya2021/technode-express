@@ -103,23 +103,20 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
 
   return (
     <>
-      <div className="product-card">
-        <img src={product.product_image} alt={product.product_name} className="product-image" />
-        <div className="product-details">
-          <h2 className="product-name">{product.product_name}</h2>
-          <p>{product.product_description}</p>
-          <p>{product.product_model}</p>
+      <div className="one-product-card">
+        <img src={product.product_image} alt={product.product_name} className="one-product-image" />
+        <div className="one-product-details">
+          <h2 className="one-product-name">{product.product_name}</h2>
+          <p className="one-product-description" >{product.product_description}</p>
+          <p className="one-product-model">{product.product_model}</p>
 
           { (
             <p onClick={() => handleOpenComments(product._id)} className="comments-link">
               Show comments
             </p>
           )}
-          <p>{product.product_amount > 0 ? 'In Stock' : 'Out of Stock'}</p>
-          <p className="product-price">${product.product_price}</p>
-          {/* <button className="details-button" onClick={handleOpenDetails}>
-            More Info
-          </button> */}
+          <p className="one-product-amount">{product.product_amount > 0 ? 'In Stock' : 'Out of Stock'}</p>
+          <p className="oneproduct-price">${product.product_price}</p>
           <Link to={`/products/${product._id}`} className="details-button">
             More Info   
           </Link>

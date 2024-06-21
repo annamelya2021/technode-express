@@ -1,97 +1,91 @@
-/* Estilos para la tarjeta del producto */
+
 .product-card {
     display: flex;
-    flex-direction: row; /* Disposición en fila */
-    background-color: #fff; /* Fondo blanco */
-    border: 1px solid #ddd; /* Borde ligero */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    padding: 20px; /* Espacio interno */
-    margin: 80px 0; /* Espacio externo para separar de otros elementos */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones para hover */
-    max-width: 1200px; /* Ancho máximo */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    align-items: center; /* Alineación vertical central */
+    flex-direction: row; 
+    background-color: #fff;
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; 
+    margin: 80px 0; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    width: 100%; 
+    align-items: center; 
 }
 
-/* Efecto hover para la tarjeta */
+
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilos para la imagen del producto */
 .product-card img {
-    width: 40%; /* La imagen ocupa el 40% del contenedor */
-    height: auto; /* Mantiene la proporción de la imagen */
-    border-radius: 10px; /* Bordes redondeados */
-    margin-right: 20px; /* Espacio entre la imagen y el texto */
-    object-fit: cover; /* Recorta la imagen para llenar el contenedor */
+    width: 40%;
+    height: auto; 
+    border-radius: 10px;
+    margin-right: 20px; 
+    object-fit: cover; 
 }
 
-/* Contenedor de contenido del producto (texto y botón) */
+
 .product-card-content {
-    flex: 1; /* El contenido de texto ocupa el resto del espacio */
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrar el contenido verticalmente */
+    justify-content: center; 
 }
 
-/* Nombre del producto */
 .product-card h2 {
-    font-size: 2rem; /* Tamaño de fuente grande */
-    color: #333; /* Color de texto oscuro */
-    margin-bottom: 16px; /* Espacio inferior */
-    font-weight: bold; /* Negrita */
+    font-size: 2rem;
+    color: #333; 
+    margin-bottom: 16px; 
+    font-weight: bold; 
 }
 
-/* Descripción del producto */
 .product-card p {
-    font-size: 1rem; /* Tamaño de fuente regular */
-    color: #666; /* Color de texto gris */
-    margin-bottom: 12px; /* Espacio inferior */
+    font-size: 1rem; 
+    color: #666; 
+    margin-bottom: 12px; 
 }
 
-/* Precio del producto */
 .product-card p:nth-of-type(2) {
-    font-size: 1.5rem; /* Tamaño de fuente grande */
-    color: #007BFF; /* Color azul para el precio */
-    font-weight: bold; /* Negrita */
-    margin-bottom: 20px; /* Espacio inferior adicional */
+    font-size: 1.5rem; 
+    color: #007BFF; 
+    font-weight: bold;
+    margin-bottom: 20px; 
 }
 
-/* Botón de agregar al carrito */
+
 .product-card button {
-    background-color: #007BFF; /* Fondo azul */
-    color: #fff; /* Texto blanco */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 12px 20px; /* Espacio interno */
-    font-size: 1rem; /* Tamaño de fuente */
-    cursor: pointer; /* Puntero de mano */
-    transition: background-color 0.3s ease; /* Transición suave para el fondo */
-    align-self: flex-start; /* Alinear el botón al inicio */
+    background-color: #007BFF; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 12px 20px; 
+    font-size: 1rem; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    align-self: flex-start; 
 }
 
 .product-card button:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el cursor */
+    background-color: #0056b3; 
 }
 
-/* Estilos responsivos */
 @media (max-width: 768px) {
     .product-card {
-        flex-direction: column; /* Cambiar a disposición vertical en dispositivos pequeños */
-        align-items: center; /* Centrar elementos en dispositivos pequeños */
+        flex-direction: column; 
+        align-items: center; 
     }
 
     .product-card img {
-        width: 100%; /* Imagen ocupa todo el ancho en dispositivos pequeños */
-        margin-right: 0; /* Eliminar margen derecho */
-        margin-bottom: 16px; /* Espacio inferior para separar del contenido */
+        width: 100%; 
+        margin-right: 0; 
+        margin-bottom: 16px; 
     }
 
     .product-card-content {
-        padding: 0; /* Eliminar padding en dispositivos pequeños */
-        text-align: center; /* Centrar texto en dispositivos pequeños */
+        padding: 0; 
+        text-align: center; 
     }
 }

@@ -28,10 +28,11 @@ const Root = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false); 
     
 
     useEffect(() => {
-        console.log("ejecutamos esto")
+        // console.log("ejecutamos esto")
         if (getToken()) {
             fetchUserData();
             setIsLoggedIn(true);
@@ -39,6 +40,13 @@ const Root = () => {
             setIsLoggedIn(false);
         }
     }, []);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/products");
+        }
+    }, [isLoggedIn, navigate]);
+
 
     async function fetchUserData() {
         const data = await getUserData();
