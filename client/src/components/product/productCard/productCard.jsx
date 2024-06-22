@@ -1,17 +1,19 @@
-// components/ProductCard.jsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
 import './ProductCard.css';
+import '../../modal/ConfirmationModal.css';
+import './CommentsModal.css';
 import { getComments, deleteComment, addComment, updateProduct } from '../../../utils/fetch';
 import EditProductModal from '../../modal/EditProductModal';
-import CommentsModal from '../../modal/commentsModal';
 import { Link } from 'react-router-dom';
+import ConfirmationModal from '../../modal/ConfirmationModal';
 
-const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
+
+const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
-  const [showEditProductModal, setShowEditProductModal] = useState(false);
   const [selectedProductComments, setSelectedProductComments] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [showEditProductModal, setShowEditProductModal] = useState(false);
   const [editFormData, setEditFormData] = useState({
     product_image: '',
     product_name: '',
@@ -21,17 +23,18 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
     product_type: '',
     product_amount: ''
   });
-  const [editingProductId, setEditingProductId] = useState(null); // Додаємо цей рядок
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false); // Стан для показу підтвердження
+  const [commentToDelete, setCommentToDelete] = useState(''); // Стан для зберігання ID коментаря для видалення
 
   const handleOpenDetails = () => {
     onOpenDetails(product);
   };
 
-  
-
   const handleOpenComments = async (productId) => {
     try {
-      console.log('Fetching comments for product:', productId);
       const comments = await getComments(productId);
       setSelectedProductComments(Array.isArray(comments) ? comments : []);
       setSelectedProductId(productId);
@@ -42,7 +45,6 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
   };
 
   const handleEditOpen = () => {
-    console.log('Opening edit modal for product:', product._id);
     setEditFormData({
       product_image: product.product_image,
       product_name: product.product_name,
@@ -52,7 +54,7 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
       product_type: product.product_type,
       product_amount: product.product_amount
     });
-    setEditingProductId(product._id); 
+    setEditingProductId(product._id);
     setShowEditProductModal(true);
   };
 
@@ -61,13 +63,11 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
   };
 
   const handleEditSave = async (newData) => {
-
     try {
-      // Виведення даних з полів у консоль    
       const result = await updateProduct(editingProductId, newData);
       if (result) {
-        alert('Product updated successfully!');
-        setEditFormData({ ...result }); 
+       alert('Product updated successfully!');
+        setEditFormData({ ...result });
         setReFetch(true);
       } else {
         alert('Error updating product.');
@@ -79,25 +79,41 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
   };
 
   const handleDeleteComment = async (commentId) => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) {
-      return;
-    }
+    setCommentToDelete(commentId);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteComment = async () => {
     try {
-      console.log('Deleting comment:', commentId);
-      const updatedComments = await deleteComment(selectedProductId, commentId);
-      setSelectedProductComments(Array.isArray(updatedComments) ? updatedComments : []);
+      await deleteComment(selectedProductId, commentToDelete);
+      setSelectedProductComments(selectedProductComments.filter(comment => comment._id !== commentToDelete));
+      setShowConfirmation(false);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
   };
 
-  const handleAddComment = async (comment) => {
+  const cancelDeleteComment = () => {
+    setShowConfirmation(false);
+  };
+
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return;
     try {
-      console.log('Adding comment:', comment);
-      const updatedComment = await addComment(selectedProductId, comment);
-      return updatedComment.data;
+      const addedComment = await addComment(selectedProductId, { text: newComment });
+      setComments([...comments, addedComment]);
+      setSelectedProductComments([...selectedProductComments, addedComment]);
+      setNewComment('');
+      alert('Comment added successfully!');
+       setSelectedProductComments([...selectedProductComments, addedComment]);
     } catch (error) {
       console.error('Error adding comment:', error);
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    if (e.target.classList.contains('modal-comments')) {
+      setShowCommentsModal(false);
     }
   };
 
@@ -107,18 +123,16 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
         <img src={product.product_image} alt={product.product_name} className="one-product-image" />
         <div className="one-product-details">
           <h2 className="one-product-name">{product.product_name}</h2>
-          <p className="one-product-description" >{product.product_description}</p>
+          <p className="one-product-description">{product.product_description}</p>
           <p className="one-product-model">{product.product_model}</p>
 
-          { (
-            <p onClick={() => handleOpenComments(product._id)} className="comments-link">
-              Show comments
-            </p>
-          )}
+          <p onClick={() => handleOpenComments(product._id)} className="comments-link">
+            Show comments
+          </p>
           <p className="one-product-amount">{product.product_amount > 0 ? 'In Stock' : 'Out of Stock'}</p>
-          <p className="oneproduct-price">${product.product_price}</p>
+          <p className="one-product-price">${product.product_price}</p>
           <Link to={`/products/${product._id}`} className="details-button">
-            More Info   
+            More Info
           </Link>
 
           {user?.data?.role === 'admin' && (
@@ -129,15 +143,36 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
         </div>
       </div>
       {showCommentsModal && (
-        <CommentsModal
-          comments={selectedProductComments}
-          onClose={() => setShowCommentsModal(false)}
-          onDeleteComment={handleDeleteComment}
-          onAddComment={handleAddComment}
-          productId={selectedProductId}
-          productName={product.product_name}
-          user={user}
-        />
+        <div className="modal-comments" onClick={handleClickOutside}>
+          <div className="modal-comments-content">
+            <span className="close" onClick={() => setShowCommentsModal(false)}>&times;</span>
+            <h2>{`Comments for ${product.product_name}`}</h2>
+            <div className="comments-section">
+              {selectedProductComments.map((comment) => (
+                <div className="comment" key={comment._id}>
+                  <p>{comment.text}</p>
+                  <p className="comment-author">Author: {comment.author}</p>
+                  <p className="comment-date">Date: {moment(comment.date).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                  {user?.data?.role === 'admin' && (
+                    <button onClick={(event) => handleDeleteComment(comment._id)}>Delete</button>
+                  )}
+                </div>
+              ))}
+            </div>
+            {(user?.data?.role === 'user' || user?.data?.role === 'admin') ? (
+              <div className="add-comment-section">
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="add comment"
+                ></textarea>
+                <button onClick={handleAddComment}>Add comment</button>
+              </div>
+            ) : (
+              <p>Please register to add a comment.</p>
+            )}
+          </div>
+        </div>
       )}
       {showEditProductModal && (
         <EditProductModal
@@ -146,6 +181,14 @@ const ProductCard = ({ product, onOpenDetails, user , setReFetch}) => {
           onSave={handleEditSave}
         />
       )}
+      {showConfirmation && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this comment?"
+          onConfirm={confirmDeleteComment}
+          onCancel={cancelDeleteComment}
+        />
+      )}
+   
     </>
   );
 };

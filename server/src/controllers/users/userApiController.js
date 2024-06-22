@@ -28,7 +28,7 @@ const register = async(req,res)=>{
     const user = await userController.register(req.body);
     
     if(!user){
-        return res.json({error:"No se ha podido registrar el usuario"});
+        return res.json({error:"User with that email or username already exists"});
     }
 
     if(user.error){
