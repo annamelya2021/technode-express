@@ -7,7 +7,8 @@ import { getComments, deleteComment, addComment, updateProduct } from '../../../
 import EditProductModal from '../../modal/EditProductModal';
 import { Link } from 'react-router-dom';
 import ConfirmationModal from '../../modal/ConfirmationModal';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
@@ -26,8 +27,8 @@ const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
   const [editingProductId, setEditingProductId] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false); // Стан для показу підтвердження
-  const [commentToDelete, setCommentToDelete] = useState(''); // Стан для зберігання ID коментаря для видалення
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState('');
 
   const handleOpenDetails = () => {
     onOpenDetails(product);
@@ -66,11 +67,11 @@ const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
     try {
       const result = await updateProduct(editingProductId, newData);
       if (result) {
-       alert('Product updated successfully!');
+        toast.success('Product updated successfully!');
         setEditFormData({ ...result });
         setReFetch(true);
       } else {
-        alert('Error updating product.');
+        toast.error('Error updating product.');
       }
       handleEditClose();
     } catch (error) {
@@ -104,8 +105,7 @@ const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
       setComments([...comments, addedComment]);
       setSelectedProductComments([...selectedProductComments, addedComment]);
       setNewComment('');
-      alert('Comment added successfully!');
-       setSelectedProductComments([...selectedProductComments, addedComment]);
+      toast.success('Comment added successfully!');
     } catch (error) {
       console.error('Error adding comment:', error);
     }
@@ -188,9 +188,10 @@ const ProductCard = ({ product, onOpenDetails, user, setReFetch }) => {
           onCancel={cancelDeleteComment}
         />
       )}
-   
+    
     </>
   );
 };
 
 export default ProductCard;
+

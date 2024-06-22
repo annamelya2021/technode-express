@@ -3,6 +3,8 @@ import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
 import './Profile.css';
 import UserContext from '../../context/userContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext);
@@ -63,13 +65,13 @@ const Profile = () => {
             const result = await update(userData);
             if (result && result.data) {
                 setUser(result.data);
-                alert('User updated successfully!');
+                toast.success('User updated successfully!');
             } else {
                 alert('Error updating user.');
             }
         } catch (error) {
             console.error('Error updating user:', error);
-            alert('Error updating user.');
+            toast.error('Error updating user.');
         }
     };
 
@@ -85,7 +87,7 @@ const Profile = () => {
         handleUpdateUser(userData);
     };
 
-    if (!user || loading) { // Відображення загрузки, поки не завантажаться дані
+    if (!user || loading) { 
         return <p>Loading...</p>;
     }
 
@@ -165,6 +167,7 @@ const Profile = () => {
                 </div>
             </div>
             </div>
+           
         </>
     );
 };
