@@ -2,6 +2,8 @@ import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { closeCart, removeProductFromCart , addProductToCart} from '../../utils/fetch';
 import "./Cart.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
     const initialCart = useLoaderData();
@@ -20,9 +22,9 @@ const Cart = () => {
     const handleCloseCart = async (cartId) => {
         try {
             const closedCart = await closeCart(cartId);
-            console.log('Cart closed:', closedCart);
+         
             setCart(closedCart);
-            alert('You buy it, thanks for shopping');
+            toast.success('You buy it, thanks for shopping');
         } catch (error) {
             console.error('Error closing cart:', error);
         }
@@ -30,12 +32,12 @@ const Cart = () => {
     const handleRemoveProduct = async (productId) => {
         try {
             const updatedCart = await removeProductFromCart(productId);
-            console.log('Product removed from cart:', updatedCart);
+        
             
             if (!updatedCart) {
                 return navigate('/products');
             } else {
-                alert('Product removed from cart');
+                toast.success('Product removed from cart');
             }
             setCart(updatedCart);
         } catch (error) {
@@ -52,7 +54,7 @@ const Cart = () => {
                     return navigate('/products');
                 
             } else {
-                alert('Product added to cart');
+                toast.success('Product added to cart');
             }
             setCart(updatedCart);
         } catch (error) {
@@ -93,6 +95,7 @@ const Cart = () => {
                 <button onClick={() => handleCloseCart(cart._id)}>Buy</button>
                 </div>
             </section>
+            <ToastContainer position='top-right' autoClose={1000}/>
         </>
     );
 }
