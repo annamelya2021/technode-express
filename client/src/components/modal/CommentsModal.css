@@ -92,3 +92,68 @@
 .comments-section {
     margin-top: 20px;
 }
+/* Media Queries */
+
+/* Ajustes para tablets y pantallas medianas */
+@media (max-width: 1024px) {
+    .modal-comments-content {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .add-comment-section button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .comments-section .comment {
+        padding: 15px 0;
+    }
+}
+
+/* Ajustes para teléfonos y pantallas pequeñas */
+@media (max-width: 768px) {
+    .modal-comments-content {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .modal-edit .close, .modal-comments .close {
+        font-size: 24px;
+        top: 5px;
+        right: 5px;
+    }
+
+    .add-comment-section textarea {
+        padding: 8px;
+    }
+
+    .add-comment-section button {
+        padding: 12px;
+    }
+
+    .comments-section .comment {
+        padding: 8px 0;
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas, como teléfonos en orientación vertical */
+@media (max-width: 480px) {
+    .modal-comments-content {
+        width: 95%;
+        padding: 5px;
+    }
+
+    .add-comment-section textarea {
+        padding: 5px;
+    }
+
+    .add-comment-section button {
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    .modal-edit .close, .modal-comments .close {
+        font-size: 20px;
+    }
+}
