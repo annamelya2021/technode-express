@@ -6,8 +6,6 @@ import UserContext from "../context/userContext";
 import { getUserData } from "../utils/fetch";
 import { FaSignOutAlt, FaSignInAlt } from "react-icons/fa"; 
 
-import Home from "./Home/Home";
-
 import imageAna from '../assets/ana.jpg';
 import imageMikel from '../assets/mikelondrio.png';
 import imageNatxo from '../assets/natxo.png';
@@ -28,11 +26,9 @@ const Root = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-    
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
-        // console.log("ejecutamos esto")
         if (getToken()) {
             fetchUserData();
             setIsLoggedIn(true);
@@ -47,27 +43,30 @@ const Root = () => {
         }
     }, [isLoggedIn, navigate]);
 
-
     async function fetchUserData() {
         const data = await getUserData();
         if (data.error) {
             navigate("/register");
+        } else {
+            setUser(data.data);
+            setRole(data.data.role);
         }
-        setUser(data.data);
-        setRole(data.data.role);
     }
+
     const handleAuthClick = () => {
         if (isLoggedIn) {
-          
             localStorage.removeItem("token");
             setIsLoggedIn(false);
             setUser(null);
             setRole(null);
             navigate("/products"); 
         } else {
-           
             navigate("/register");
         }
+    };
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
     };
 
     return (
@@ -76,27 +75,28 @@ const Root = () => {
                 <div className="navbar-title">
                     <h1>Technode-Express</h1>
                 </div>
-                <div className="navbar-content">
+                <button className="menu-button" onClick={toggleMenu}>☰</button>
+                <div className={`navbar-content ${menuOpen ? 'active' : ''}`}>
                     <ul>
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/" onClick={toggleMenu}>Home</Link>
                         </li>
                         <li>
-                            <Link to="/products">Products</Link>
+                            <Link to="/products" onClick={toggleMenu}>Products</Link>
                         </li>
                         {role === "user" && (
                             <>
                                 <li>
-                                    <Link to="/carts">Cart</Link>
+                                    <Link to="/carts" onClick={toggleMenu}>Cart</Link>
                                 </li>
                                 <li>
-                                    <Link to="/profile">Profile</Link>
+                                    <Link to="/profile" onClick={toggleMenu}>Profile</Link>
                                 </li>
                             </>
                         )}
                         {role === "admin" && (
                             <li>
-                                <Link to="/admin">Admin Panel</Link>
+                                <Link to="/admin" onClick={toggleMenu}>Admin Panel</Link>
                             </li>
                         )}
                     </ul>
@@ -110,7 +110,6 @@ const Root = () => {
             
             <div>
                 <Outlet />
-                
             </div>
 
             <footer className="footer">
@@ -134,3 +133,4 @@ const Root = () => {
 };
 
 export default Root;
+
