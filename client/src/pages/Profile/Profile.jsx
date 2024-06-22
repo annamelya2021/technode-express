@@ -3,8 +3,8 @@ import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
 import './Profile.css';
 import UserContext from '../../context/userContext';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Profile = () => {
@@ -66,9 +66,9 @@ const Profile = () => {
             const result = await update(userData);
             if (result && result.data) {
                 setUser(result.data);
-                alert('User updated successfully!');
+                toast.success('User updated successfully!');
             } else {
-                alert('Error updating user.');
+                toast.error('Error updating user.');
             }
         } catch (error) {
             console.error('Error updating user:', error);
@@ -94,7 +94,7 @@ const Profile = () => {
 
     return (
         <>
-        
+       
         <div className="profile-container">
             {/* User Information */}
             <article className="section-container user-card" key={user._id}>
