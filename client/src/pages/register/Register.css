@@ -1,8 +1,7 @@
-
 .register-login {
   background-color: #f0f4f8;
   border-radius: 8px;
-  padding: 30px;
+  padding: 20px; /* Reducimos el padding general */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 40px auto;
@@ -10,8 +9,8 @@
 }
 
 .register-login h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 24px; /* Reducimos el tamaño de la fuente */
+  margin-bottom: 15px; /* Reducimos el margen inferior */
   color: #355272;
 }
 
@@ -21,29 +20,29 @@
 }
 
 .register-login label {
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Reducimos el margen inferior */
   font-weight: bold;
   color: #555;
   text-align: left;
 }
 
 .register-login input {
-  padding: 12px;
-  margin-bottom: 15px;
+  padding: 10px; /* Reducimos el padding */
+  margin-bottom: 12px; /* Reducimos el margen inferior */
   border-radius: 4px;
   border: 1px solid #ccc;
-  font-size: 16px;
+  font-size: 14px; /* Reducimos el tamaño de la fuente */
 }
 
 .register-login button {
-  margin: 15px 0;
+  margin: 12px 0; /* Reducimos el margen */
   background-color: #355272;
   color: #fff;
   border: none;
-  padding: 12px;
+  padding: 10px; /* Reducimos el padding */
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px; /* Reducimos el tamaño de la fuente */
   transition: background-color 0.3s;
 }
 
@@ -53,7 +52,7 @@
 
 .register-login .error {
   color: #e74c3c;
-  margin-bottom: 15px;
+  margin-bottom: 12px; /* Reducimos el margen inferior */
   font-weight: bold;
 }
 
@@ -63,10 +62,33 @@
   border: none;
   cursor: pointer;
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 8px; /* Reducimos el margen superior */
   text-decoration: underline;
 }
 
 .register-login button.toggle:hover {
   color: #2c4160;
 }
+
+@media (max-width: 480px) {
+  .register-login {
+      padding: 15px; /* Reducimos más el padding general */
+  }
+
+  .register-login h2 {
+      font-size: 20px; /* Reducimos más el tamaño de la fuente */
+      margin-bottom: 10px; /* Reducimos más el margen inferior */
+  }
+
+  .register-login input,
+  .register-login button {
+      padding: 8px; /* Reducimos más el padding */
+      margin-bottom: 10px; /* Reducimos más el margen inferior */
+      font-size: 12px; /* Reducimos más el tamaño de la fuente */
+  }
+
+  .register-login .error {
+      margin-bottom: 10px; /* Reducimos más el margen inferior */
+  }
+}
+
