@@ -3,12 +3,15 @@ import Popup from 'reactjs-popup';
 import { getCarts, update, getProduct } from '../../utils/fetch';
 import './Profile.css';
 import UserContext from '../../context/userContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Profile = () => {
     const { user, setUser } = useContext(UserContext);
     const [carts, setCarts] = useState([]);
     const [favoriteProducts, setFavoriteProducts] = useState([]);
-    const [loading, setLoading] = useState(true); // Доданий стейт для відображення загрузки
+    const [loading, setLoading] = useState(true); 
 
     // Fetch bought carts history
     useEffect(() => {
@@ -42,10 +45,10 @@ const Profile = () => {
                     })
                 );
                 setFavoriteProducts(products);
-                setLoading(false); // Відключаємо загрузку після завершення запиту
+                setLoading(false); 
             } catch (error) {
                 console.error('Failed to load favorite products:', error);
-                setLoading(false); // Обробка помилок загрузки
+                setLoading(false); 
             }
         };
 
@@ -63,9 +66,9 @@ const Profile = () => {
             const result = await update(userData);
             if (result && result.data) {
                 setUser(result.data);
-                alert('User updated successfully!');
+                toast.success('User updated successfully!');
             } else {
-                alert('Error updating user.');
+                toast.error('Error updating user.');
             }
         } catch (error) {
             console.error('Error updating user:', error);
@@ -85,12 +88,13 @@ const Profile = () => {
         handleUpdateUser(userData);
     };
 
-    if (!user || loading) { // Відображення загрузки, поки не завантажаться дані
+    if (!user || loading) { 
         return <p>Loading...</p>;
     }
 
     return (
         <>
+       
         <div className="profile-container">
             {/* User Information */}
             <article className="section-container user-card" key={user._id}>
@@ -165,6 +169,7 @@ const Profile = () => {
                 </div>
             </div>
             </div>
+           
         </>
     );
 };

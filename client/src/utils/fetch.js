@@ -21,12 +21,9 @@ const fetchData = async (route, method, inputData = null) => {
         fetchOptions.body = JSON.stringify(inputData);
       }
     }
-    console.log('Fetching:', url.toString(), fetchOptions);
     try {
         
       const result = await fetch(url.toString(), fetchOptions);
-      console.log("result", result);
-
       if (!result.ok) {
         throw new Error(`HTTP error! status: ${result.status}`);
       }
@@ -47,7 +44,7 @@ const register = async(userData)=>{
 const login = async(userData)=>{
     try {
         const result = await fetchData("/login","post",userData);
-        console.log("login",result);
+  
         return result;
     } catch (error) {
         console.error("Error during login:",error);
