@@ -6,6 +6,13 @@ import './Home.css';
 const Home = () => {
     return (
         <div className="home">
+            {/* Contenedor para el texto de bienvenida */}
+            <div className="welcome-text">
+                <h1>Welcome to TechNode</h1>
+                <p>Explore the latest in smartphones and laptops</p>
+            </div>
+
+            {/* Contenedor del carrusel */}
             <div className="carousel-wrapper">
                 <Carousel
                     additionalTransfrom={0}
@@ -51,12 +58,33 @@ const Home = () => {
                     slidesToSlide={1}
                     swipeable
                 >
-                    <div className="carousel-item"><img src="https://m.media-amazon.com/images/I/716n8eAia+L._AC_UF894,1000_QL80_.jpg?1" alt="1" /></div>
-                    <div className="carousel-item"><img src="https://m.media-amazon.com/images/I/81biZOciQ3L._AC_UF894,1000_QL80_.jpg?2" alt="2" /></div>
-                    <div className="carousel-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy8u5ZbHrEpPqs2kZGDbbXJ15gMlhs1x07dA&s?3" alt="3" /></div>
-                    <div className="carousel-item"><img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4R213?ver=4eb0&q=90&m=6&h=705&w=1253&b=%23FFFFFFFF&f=jpg&o=f&p=140&aim=true?4" alt="4" /></div>
-                    <div className="carousel-item"><img src="https://ae01.alicdn.com/kf/Sd30858232f4d476eb52392dd06ef8232F.png?5" alt="5" /></div>
-                    <div className="carousel-item"><img src="https://thumb.pccomponentes.com/w-530-530/articles/1066/10660888/5869-lenovo-thinkpad-x1-carbon-gen-10-intel-core-i7-1260p-16gb-512gb-ssd-14-caracteristicas.jpg?6" alt="6" /></div>
+                    {/* Imágenes de Smartphones */}
+                    <div className="carousel-item">
+                        <img src="https://m.media-amazon.com/images/I/716n8eAia+L._AC_UF894,1000_QL80_.jpg?1" alt="1" />
+                        <div className="offer-text">Sale -20%</div>
+                    </div>
+                    <div className="carousel-item">
+                        <img src="https://m.media-amazon.com/images/I/81biZOciQ3L._AC_UF894,1000_QL80_.jpg?2" alt="2" />
+                        <div className="offer-text">Sale -15%</div>
+                    </div>    
+                        <div className="carousel-item">
+                            <img src="https://tiendamexpress.com/images/thumbs/0052702_celular-honor-magic-6-lite-verde-256gb_600.jpeg" alt="3" />
+                            <div className="offer-text">Sale -10%</div>
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4R213?ver=4eb0&q=90&m=6&h=705&w=1253&b=%23FFFFFFFF&f=jpg&o=f&p=140&aim=true?4" alt="4" />
+                            <div className="offer-text">Sale -25%</div>
+                        </div>
+
+                        <div className="carousel-item">
+                            <img src="https://ae01.alicdn.com/kf/Sd30858232f4d476eb52392dd06ef8232F.png?5" alt="5" />
+                            <div className="offer-text">Special Offer</div>
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://thumb.pccomponentes.com/w-530-530/articles/1066/10660888/5869-lenovo-thinkpad-x1-carbon-gen-10-intel-core-i7-1260p-16gb-512gb-ssd-14-caracteristicas.jpg?6" alt="6" />
+                            <div className="offer-text">Hot Deal</div>
+                        </div>
+                    
                 </Carousel>
             </div>
         </div>
