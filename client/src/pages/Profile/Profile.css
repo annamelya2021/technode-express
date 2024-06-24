@@ -1,16 +1,17 @@
 .profile-container {
     text-align: center;
-    margin-top: 70px ;
+    margin-top: 50px; /* Reducimos el margen superior en pantallas más pequeñas */
     flex-direction: column;
     align-items: center;
     padding: 20px;
     background-color: #f5f5f5;
-    margin-bottom: 70px ;
+    margin-bottom: 50px; /* Reducimos el margen inferior en pantallas más pequeñas */
 }
 
 ul {
     list-style-type: none;
 }
+
 .section-container {
     width: 100%;
     margin-bottom: 20px;
@@ -22,10 +23,11 @@ ul {
     margin-bottom: 20px;
 }
 
-
 .cart-history {
     width: 100%;
     max-width: 600px;
+    margin: 0 auto; /* Centramos el elemento en pantallas grandes */
+    text-align: left; /* Alineamos el texto a la izquierda */
 }
 
 .cart-history h4 {
@@ -49,14 +51,15 @@ ul {
 .favorite-products {
     width: 100%;
     text-align: center;
- 
 }
 
 .favorite-product-list {
-    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 20px; /* Añadimos espacio entre las tarjetas */
+    margin: 0 auto;
+    max-width: 1200px; /* Limitamos el ancho máximo del contenedor */
 }
 
 .favorite-product-card {
@@ -66,62 +69,38 @@ ul {
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
-    width: calc(20% - 20px);
+    width: calc(33.33% - 20px); /* Ajustamos el ancho de las tarjetas para 3 por fila */
     max-width: 300px;
     box-sizing: border-box;
-    margin-right: 20px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .favorite-product-card img {
     width: 100%;
     height: 200px;
-    object-fit: fill;
+    object-fit: cover;
     border-bottom: 1px solid #ccc;
 }
 
 .favorite-product-card p {
-    font-size: 1.2em;
+    font-size: 1em; /* Reducimos el tamaño de la fuente */
     color: #555;
     margin-bottom: 10px;
     padding: 10px;
+    line-height: 1.4; /* Espaciado entre líneas mejorado */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Recorta el texto largo con puntos suspensivos */
+    white-space: nowrap; /* Evita el desbordamiento de texto */
 }
-
-
-
-.favorite-product-card {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.favorite-product-card {
-    font-size: 1em;
-    color: #777;
-    margin-bottom: 10px;
-}
-
-.favorite-product-card {
-    font-size: 1em;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-.favorite-product-card  {
-    font-size: 1.2em;
-    color: #000;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
 
 .updateUser-modal {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    width: 100%;  /* Займає всю ширину контейнера */
-    max-width: 600px;  /* Збільшено максимальну ширину */
+    width: 100%;
+    max-width: 600px;
     position: relative;
     margin: auto;
 }
@@ -148,7 +127,6 @@ ul {
 
 .updateUser-modal button {
     background-color: #007BFF;
- 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -158,5 +136,31 @@ ul {
     cursor: pointer;
     margin-top: 10px;
 }
+
+@media (max-width: 768px) {
+    .profile-container {
+        margin-top: 30px; /* Reducimos más el margen superior en pantallas pequeñas */
+        margin-bottom: 30px; /* Reducimos más el margen inferior en pantallas pequeñas */
+        padding: 15px; /* Reducimos el padding general */
+    }
+
+    .cart-history {
+        max-width: 100%; /* Ajustamos el ancho máximo para pantallas pequeñas */
+    }
+
+    .favorite-product-card {
+        width: calc(50% - 20px); /* Ajustamos el ancho para 2 por fila en pantallas pequeñas */
+    }
+
+    .updateUser-modal {
+        padding: 15px; /* Reducimos el padding del modal en pantallas pequeñas */
+    }
+
+    .updateUser-modal button {
+        font-size: 0.9em; /* Reducimos el tamaño de la fuente del botón en pantallas pequeñas */
+        padding: 8px 16px; /* Reducimos el padding del botón en pantallas pequeñas */
+    }
+}
+
 
 

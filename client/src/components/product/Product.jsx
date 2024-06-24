@@ -4,6 +4,8 @@ import { addProductToCart } from '../../utils/fetch';
 import { addToFavorites, removeFromFavorites } from '../../utils/local';
 import './Product.css';
 import UserContext from '../../context/userContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Product = ({ onRemove,product}) => {
     //const product = useLoaderData();
@@ -21,10 +23,10 @@ const Product = ({ onRemove,product}) => {
         try {
             if (user) {
                 const updatedCart = await addProductToCart(product._id);
-                console.log('Product added to cart:', updatedCart);
-                alert('Product added to cart');
+            
+                toast.success('Product added to cart');
             } else {
-                alert('Please register or log in to add to cart.');
+                toast.error('Please register or log in to add to cart.');
             }
         } catch (error) {
             console.error('Error adding product to cart:', error);
@@ -32,7 +34,7 @@ const Product = ({ onRemove,product}) => {
     };
 
     const handleAddToFavorites = () => {
-        alert('Product added to favorites');
+        toast.success('Product added to favorites');
     };
 
     const handleToggleFavorite = () => {
@@ -79,6 +81,7 @@ const Product = ({ onRemove,product}) => {
                     )}
                 </div>
             </div>
+            <ToastContainer position='top-right' autoClose={1000}/>
         </article>
     );
 };

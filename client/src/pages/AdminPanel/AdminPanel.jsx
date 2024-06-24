@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { createProduct, allUsers } from "../../utils/fetch";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 import "./AdminPanel.css";
 
 const initialState = {
@@ -17,6 +22,7 @@ const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [adminCount, setAdminCount] = useState(0);
     const [userCount, setUserCount] = useState(0);
+    
 
     useEffect(() => {
         const getUsers = async () => {
@@ -34,12 +40,12 @@ const AdminPanel = () => {
         event.preventDefault();
         const result = await createProduct(data);
         if (result) {
-            alert("Product added successfully!");
-            setData(initialState); // Clear form fields
+            toast.success("Product added successfully!");
+            setData(initialState);
+            // navigate("/products");
         } else {
-            alert("Error adding product.");
+            toast.error('Error adding product.');
         }
-        console.log(result);
     };
 
     return (
@@ -77,6 +83,7 @@ const AdminPanel = () => {
                 <p>We have {userCount} users registered.</p>
                 <p>We have {adminCount} admins registered.</p>
             </div>
+            <ToastContainer position='top-right' autoClose={1000}/>
         </div>
     );
 };

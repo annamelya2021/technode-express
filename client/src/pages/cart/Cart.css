@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px; /* Añadido para separación del borde del viewport */
 }
 
 .cart-card {
@@ -33,11 +34,13 @@
 }
 
 .button-quantity {
-    background-color: #ddd;
+    background-color: #007BFF; /* Color de fondo para resaltar */
+    color: white; /* Color de texto */
     border: none;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
+    border-radius: 50%; /* Hace que los botones sean completamente redondos */
 }
 
 .button-number {
@@ -46,4 +49,24 @@
 
 .cart-total {
     margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .cart-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-img {
+        margin-right: 0;
+        margin-bottom: 10px; /* Espacio entre la imagen y la información en dispositivos móviles */
+    }
+
+    .cart-info {
+        width: 100%; /* Asegura que la información ocupe todo el ancho disponible */
+    }
+
+    .button-quantity {
+        margin: 5px 0; /* Espacio entre los botones de cantidad */
+    }
 }

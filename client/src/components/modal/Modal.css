@@ -24,7 +24,44 @@
 
 .close {
     float: right;
-    /* font-size: 1.5rem; */
-    /* font-weight: bold; */
     cursor: pointer;
+}
+
+/* Media Queries */
+
+/* Ajustes para pantallas medianas (tablets y dispositivos de ancho intermedio) */
+@media (max-width: 1024px) {
+    .modal-body {
+        width: 60%;
+        padding: 0.8rem;
+        min-height: 45%; /* Ajuste de la altura mínima */
+    }
+}
+
+/* Ajustes para pantallas pequeñas (teléfonos en orientación horizontal) */
+@media (max-width: 768px) {
+    .modal-body {
+        width: 70%;
+        padding: 0.5rem;
+        min-height: 40%; /* Ajuste de la altura mínima */
+        border-radius: 10px; /* Reducción del radio de borde para pantallas pequeñas */
+    }
+
+    .close {
+        font-size: 1.5rem; /* Ajuste del tamaño del botón de cierre */
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas (teléfonos en orientación vertical) */
+@media (max-width: 480px) {
+    .modal-body {
+        width: 90%;
+        padding: 0.3rem;
+        min-height: 35%; /* Ajuste de la altura mínima */
+        border-radius: 5px; /* Aún más pequeña curva para pantallas muy pequeñas */
+    }
+
+    .close {
+        font-size: 1.2rem; /* Ajuste del tamaño del botón de cierre */
+    }
 }

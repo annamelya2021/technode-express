@@ -86,16 +86,20 @@ const ProductList = () => {
       </div>
 
       <div className="cards-container">
-        {filteredAndSearchedProducts.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            onOpenDetails={handleOpenDetails}
-            user={user}
-            setProducts={setProducts}
-            setReFetch={setReFetch}
-          />
-        ))}
+        {filteredAndSearchedProducts.length > 0 ? (
+          filteredAndSearchedProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              onOpenDetails={handleOpenDetails}
+              user={user}
+              setProducts={setProducts}
+              setReFetch={setReFetch}
+            />
+          ))
+        ) : (
+          <p>Unfortunately, nothing was found</p>
+        )}
       </div>
     </div>
   );
